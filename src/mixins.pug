@@ -1,3 +1,5 @@
+- var username = "Максим Стогний"
+- var desc = "Личный сайт <br/> веб-разработчика"
 mixin icon(name, className)
   - var icon = require(`images/icons/${name}.svg`);
   svg(class=className viewBox=icon.viewBox preserveAspectRatio="none")
@@ -5,3 +7,20 @@ mixin icon(name, className)
 
 mixin image(path, className)
   img(src=require(`images/${path}`) class=className)
+
+mixin menu
+  nav.nav
+    - var menu = ['Главная', 'Обо мне', 'Навыки', 'Работы', 'Отзывы', 'Связаться'];
+    ul.nav__list
+      each item in menu
+        li.nav__item
+          a(href="#").nav__link #{item}
+
+mixin socials(modifyClass)
+  - var icons = ['inst', 'vk', 'github'];
+    div(class=modifyClass).social
+      ul.social__list
+        each item in icons
+          li.social__item
+            a(href="#").social__link
+              +icon(item, 'social__icon')
