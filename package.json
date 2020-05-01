@@ -1,7 +1,7 @@
 {
-  "name": "ls-advanced-boilerplate",
+  "name": "portfolio",
   "version": "1.0.0",
-  "description": "",
+  "description": "My graduation work in Loftschool",
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --mode=development --hot",
@@ -9,7 +9,7 @@
     "reg": "node reg-util.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Maxim Stogniy <i.dual.ce@gmail.com>",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.2.2",
