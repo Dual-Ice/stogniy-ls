@@ -9,7 +9,29 @@ html(lang="en")
     title Portfolio | main page
   body
     .wrapper
-      .maincontent
-        +image('content/user.jpg', 'user-pic')
-        +icon('link', 'link-class')
-        .icon-bg
+      .welcome-section
+        section.hero
+          .container
+            header.header
+              .header__logo
+                .logo MC
+              .header__menu
+                nav.nav
+                  - var menu = ['Главная', 'Обо мне', 'Навыки', 'Работы', 'Отзывы', 'Связаться'];
+                  ul.nav__list
+                    each item in menu
+                      li.nav__item
+                        a(href="#").nav__link #{item}
+
+              .header__links
+                - var icons = ['inst', 'vk', 'github'];
+                ul.socials__list
+                  each item in icons
+                    li.socials__item
+                      a(href="").socials__link
+                        +icon(item, 'socials__icon')
+        section.about
+          //- +icon('inst', 'socials__icon')
+      //- .maincontent
+      //-   +image('content/user.jpg', 'user-pic')
+      //-   .icon-bg
