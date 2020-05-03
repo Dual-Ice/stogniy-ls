@@ -1,12 +1,21 @@
 .triangles {
+  position: relative;
   display: flex;
   margin-top: -120px;
   color: #fff;
+
+  &--bottom {
+    margin-top: -90px;
+
+    .triangles__item {
+      height: 90px;
+    }
+  }
 }
 
 .triangles__item {
   width: 50%;
   display: block;
   height: 120px;
-  fill: currentColor;
+  fill: $white;
 }
