@@ -1,38 +1,37 @@
 .skills {
-  margin-bottom: 150px;
+  margin-bottom: 90px;
 }
 
 .skills__container {
   position: relative;
-  
-  &:before {
-    content: "";
-    position: absolute;
-    background: url("../images/decor/bag.jpg") left bottom / contain no-repeat;
-    display: block;
-    bottom: 5%;
-    height: 79%;
-    width: 69%;
-    left: -20%;
-  }
+  display: flex;
+  justify-content: flex-end;
+}
+
+.skills__image {
+  position: absolute;
+  top: 14%;
+  left: -9%;
+}
+
+.skills__content {
+  position: relative;
+  width: 66%;
 }
 
 .skills__title {
   margin-bottom: 90px;
-  display: flex;
-  justify-content: center;
 }
 
 .skills__title-container {
-  width: 38%;
-  margin-left: 6%;
+  width: 60%;
 }
 
 .skills__title-text {
   font-size: 30px;
   font-weight: 700;
-  line-height: 36px;
-  margin-bottom: 60px;
+  line-height: 1;
+  margin-bottom: 50px;
 }
 
 .skills__title-content {
@@ -43,20 +42,26 @@
 
 .skills__values {
   display: flex;
-  justify-content: flex-end;
 }
 
 .skills__values-container {
-  width: 66%;
+  flex: 1;
+  margin-left: 125px;
 }
 
 .skills__row {
-  margin-bottom: 30px;
+  margin-bottom: 40px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
+
 .skills__row-title {
   font-size: 24px;
   font-weight: 700;
   margin-bottom: 30px;
+  line-height: 1;
 }
 
 .skills_row-list {
