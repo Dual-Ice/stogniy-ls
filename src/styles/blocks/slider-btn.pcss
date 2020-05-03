@@ -1,0 +1,27 @@
+.slider-btn {
+  width: 50px;
+  height: 50px;
+  background: #353e4e;
+  padding: 0;
+  outline: none;
+  border: none;
+
+  &--prev {
+    .slider-btn__icon {
+      transform: rotate(90deg);
+    }
+  }
+
+  &--next {
+    .slider-btn__icon {
+      transform: rotate(-90deg);
+    }
+  }
+}
+
+.slider-btn__icon {
+  width: 10px;
+  height: 8px;
+  opacity: .3;
+  fill: $white;
+}
