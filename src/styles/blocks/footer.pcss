@@ -1,5 +1,6 @@
 .footer {
-  padding: 99px 206px 100px 161px;
+  position: relative;
+  padding: 110px 145px 100px 150px;
   background: $footer;
   color: #fff;
   display: flex;
@@ -7,27 +8,21 @@
   align-items: flex-start;
 }
 
+.footer__right {
+  flex: 4;
+}
+
+.footer__left{
+  flex: 2;
+  margin-left: 15px;
+  display: flex;
+}
+
 .footer__copyright {
   opacity: .1;
   font-size: 48px;
   line-height: 40px;
-}
-
-.footer__quote-text{
-  opacity: .3;
-  line-height: 30px;
-  margin-bottom: 35px;
-}
-
-.footer__quote-author{
-  font-style: italic;
-}
-
-.footer__desc {
-  opacity: 0.3;
-  line-height: 30px;
-  margin-bottom: 26px;
-  padding-right: 100px;
+  margin-right: 60px;
 }
 
 .footer__info-name {
@@ -43,23 +38,33 @@
   line-height: 30px;
 }
 
-.footer__menu {
-  margin-bottom: 70px;
-}
-
 .footer__row {
   display: flex;
+  margin-bottom: 50px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .footer__col {
-  width: 45%
+  width: 50%
 }
 
-.footer__right {
-  flex: 4;
+.footer__desc {
+  opacity: 0.3;
+  line-height: 30px;
+  margin-bottom: 20px;
+  padding-right: 135px;
 }
 
-.footer__left,
-.footer__mid {
-  flex: 1;
+.footer__quote-text{
+  opacity: .3;
+  line-height: 30px;
+  margin-bottom: 20px;
+  padding-right: 50px;
+}
+
+.footer__quote-author{
+  font-style: italic;
 }

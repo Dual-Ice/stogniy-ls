@@ -18,7 +18,7 @@ mixin menu
 
 mixin socials(modifyClass)
   - var icons = ['inst', 'vk', 'github'];
-    div(class=modifyClass).social
+    .social(class=modifyClass)
       ul.social__list
         each item in icons
           li.social__item
@@ -26,7 +26,7 @@ mixin socials(modifyClass)
               +icon(item, 'social__icon')
 
 mixin triangles(direction, className)
-  div(class=className).triangles
+  .triangles(class=className)
     svg(viewBox="0 0 1000 100" preserveAspectRatio="none").triangles__item
       if direction == 'bottom'
         polygon(points="0,0 0,100 1000,100")
@@ -38,8 +38,8 @@ mixin triangles(direction, className)
       else
         polygon(points="0,0 0,100 1000,0")
 
-mixin paralax(image)
-  .paralax
+mixin paralax(image, className)
+  .paralax(class=className)
     .paralax__container
       .paralax__image
         +image(`bg/${image}.jpg`, 'paralax__image-pic')
