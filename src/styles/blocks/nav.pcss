@@ -5,6 +5,16 @@
 .nav__item {
   margin-right: 50px;
 
+  &:hover,
+  &:active {
+    font-weight: 600;
+  }
+
+  &:active {
+    border-bottom: 3px solid $main;
+    color: $main;
+  }
+
   &:last-child {
     margin-right: 0;
   }

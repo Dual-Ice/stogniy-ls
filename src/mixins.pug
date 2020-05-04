@@ -10,11 +10,19 @@ mixin image(path, className)
 
 mixin menu
   nav.nav
-    - var menu = ['Главная', 'Обо мне', 'Навыки', 'Работы', 'Отзывы', 'Связаться'];
+    - 
+      var menu = [
+        ['Главная', 'hero'],
+        ['Обо мне', 'about'],
+        ['Навыки', 'skills'],
+        ['Работы', 'works'],
+        ['Отзывы', 'reviews'],
+        ['Связаться', 'contacts']
+      ];
     ul.nav__list
       each item in menu
         li.nav__item
-          a(href="#").nav__link #{item}
+          a(href=`#${item[1]}`).nav__link #{item[0]}
 
 mixin socials(modifyClass)
   - var icons = ['inst', 'vk', 'github'];
@@ -38,8 +46,8 @@ mixin triangles(direction, className)
       else
         polygon(points="0,0 0,100 1000,0")
 
-mixin paralax(image, className)
-  .paralax(class=className)
+mixin paralax(image)
+  .paralax
     .paralax__container
       .paralax__image
         +image(`bg/${image}.jpg`, 'paralax__image-pic')
