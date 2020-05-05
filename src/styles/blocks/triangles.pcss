@@ -1,0 +1,23 @@
+.triangles {
+  position: relative;
+  display: flex;
+  margin-top: -120px;
+  color: #fff;
+
+  &--bottom {
+    margin-top: 0;
+    margin-bottom: -89px;
+
+    .triangles__item {
+      height: 90px;
+      z-index: 10;
+    }
+  }
+}
+
+.triangles__item {
+  width: 50%;
+  display: block;
+  height: 120px;
+  fill: $white;
+}

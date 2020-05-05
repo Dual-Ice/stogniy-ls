@@ -9,7 +9,19 @@ html(lang="en")
     title Portfolio | main page
   body
     .wrapper
-      .maincontent
-        +image('content/user.jpg', 'user-pic')
-        +icon('link', 'link-class')
-        .icon-bg
+      .welcome
+        +paralax('mountain-baloon')
+        include ./components/hero
+        include ./components/about
+      +triangles('bottom')
+      .features
+        include ./components/skills
+        include ./components/works
+      +triangles('top', 'triangles--bottom')
+      .feedback
+        +paralax('budda')
+        include ./components/reviews
+        include ./components/contacts
+        
+      include ./components/footer
+      

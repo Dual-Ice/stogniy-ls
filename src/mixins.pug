@@ -1,3 +1,5 @@
+- var username = "Максим Стогний"
+- var desc = "Личный сайт <br/> веб-разработчика"
 mixin icon(name, className)
   - var icon = require(`images/icons/${name}.svg`);
   svg(class=className viewBox=icon.viewBox preserveAspectRatio="none")
@@ -5,3 +7,47 @@ mixin icon(name, className)
 
 mixin image(path, className)
   img(src=require(`images/${path}`) class=className)
+
+mixin menu
+  nav.nav
+    - 
+      var menu = [
+        ['Главная', 'hero'],
+        ['Обо мне', 'about'],
+        ['Навыки', 'skills'],
+        ['Работы', 'works'],
+        ['Отзывы', 'reviews'],
+        ['Связаться', 'contacts']
+      ];
+    ul.nav__list
+      each item in menu
+        li.nav__item
+          a(href=`#${item[1]}`).nav__link #{item[0]}
+
+mixin socials(modifyClass)
+  - var icons = ['inst', 'vk', 'github'];
+    .social(class=modifyClass)
+      ul.social__list
+        each item in icons
+          li.social__item
+            a(href="#" target="_blank").social__link
+              +icon(item, 'social__icon')
+
+mixin triangles(direction, className)
+  .triangles(class=className)
+    svg(viewBox="0 0 1000 100" preserveAspectRatio="none").triangles__item
+      if direction == 'bottom'
+        polygon(points="0,0 0,100 1000,100")
+      else
+        polygon(points="0,0 1000,0 1000,100")
+    svg(viewBox="0 0 1000 100" preserveAspectRatio="none").triangles__item
+      if direction == 'bottom'
+        polygon(points="0,100 1000,100 1000,0")
+      else
+        polygon(points="0,0 0,100 1000,0")
+
+mixin paralax(image)
+  .paralax
+    .paralax__container
+      .paralax__image
+        +image(`bg/${image}.jpg`, 'paralax__image-pic')

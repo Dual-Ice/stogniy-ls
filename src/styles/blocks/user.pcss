@@ -1,0 +1,51 @@
+.user {
+  &--horizontal {
+
+    display: flex;
+    align-items: center;
+
+    .user__avatar {
+      margin-bottom: 0;
+      margin-right: 30px;
+    }
+
+     .user__name {
+       margin-bottom: 10px;
+     }
+  }
+}
+
+.user__avatar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 80px;
+}
+
+.user__data {
+  width: 100%;
+
+  .user__data-row {
+    td {
+      padding-bottom: 15px;
+    }
+    &:last-child td {
+        padding-bottom: 0;
+      }
+    }
+}
+
+.user__data-field {
+  opacity: .3;
+}
+
+.user__name {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.user__desc {
+  opacity: 0.3;
+  font-weight: 600;
+}
+
+

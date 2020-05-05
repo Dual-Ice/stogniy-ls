@@ -1,0 +1,28 @@
+.slider-btns {
+
+  &--rounded {
+
+    .slider-btn {
+      border-radius: 50%;
+      background: transparent;
+      border: 1px solid #353e4e;
+
+      &--prev {
+        .slider-btn__icon {
+          transform: rotate(-180deg);
+        }
+      }
+
+      &--next {
+        .slider-btn__icon {
+          transform: rotate(0deg);
+        }
+      }
+    }
+
+    .slider-btn__icon {
+      fill: currentColor;
+      opacity: 1;
+    }
+  }
+}
