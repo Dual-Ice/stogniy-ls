@@ -8,8 +8,8 @@ mixin icon(name, className)
 mixin image(path, className)
   img(src=require(`images/${path}`) class=className)
 
-mixin menu
-  nav.nav
+mixin menu(className)
+  nav.nav(class=className)
     - 
       var menu = [
         ['Главная', 'hero'],
