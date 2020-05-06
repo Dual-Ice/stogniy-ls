@@ -4,6 +4,7 @@
   "bp-desktop-hd": "1800px",
   "bp-desktop": "1200px",
   "bp-tablets": "768px",
+  "bp-bphones": "576px",
   "bp-phones": "480px",
   "main": "#5500f2",
   "font": "#464d62",
