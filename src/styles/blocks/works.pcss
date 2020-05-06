@@ -1,3 +1,30 @@
+.works {
+  padding-bottom: 50px;
+
+  @include tablets {
+    padding-bottom: 0;
+  }
+}
+
 .works__title {
   margin-bottom: 90px;
+
+  @include desktop {
+    margin-bottom: 60px;
+  }
+
+  @include tablets {
+    margin-bottom: 50px;
+  }
+
+  @include phones {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+}
+
+.works__container {
+  @include bPhones {
+    width: 100%;
+  }
 }

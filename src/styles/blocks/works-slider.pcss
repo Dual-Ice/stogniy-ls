@@ -1,16 +1,32 @@
 .works-slider {
   display: flex;
   justify-content: space-between;
-  padding-bottom: 50px;
+
+  @include tablets {
+    flex-direction: column;
+  }
 }
 
 .works-slider__images {
   width: 66%;
-  height: 550px;
   position: relative;
+  max-width: 978px;
+
+  @include desktop {
+    max-width: 625px;
+  }
+
+  @include tablets {
+    width: 100%;
+    margin-bottom: 100px;
+  }
+
+  @include bPhones {
+    margin-bottom: 60px;
+  }
 
   &:before {
-    content: '4';
+    content: '2';
     position: absolute;
     color: #e6e6e6;
     top: 40%;
@@ -19,29 +35,70 @@
     left: 93%;
     font-size: 400px;
     font-weight: 800;
+
+    @include desktop {
+      font-size: 300px;
+      top: -12%;
+      transform: none;
+    }
+
+    @include bPhones {
+      display: none;
+    }
   }
 }
 
 .works-slider__images-wrap {
   width: 100%;
-  height: 100%;
+  position: relative;
 }
 
 .works-slider__image {
-  height: 100%;
+  height: auto;
   width: 100%;
   object-fit: cover;
+  max-width: 978px;
+
+  @include desktop {
+    max-width: 625px;
+  }
 }
 
 .works-slider__data {
   width: 23%;
-  position: relative;
+  z-index: 10;
+
+  @include desktop {
+    width: 32%;
+  }
+  
+  @include tablets {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 14px;
+  }
+
+  @include phones {
+    align-items: flex-start;
+    width: 85%;
+    margin: 0 auto;
+  }
 }
 
 .works-slider__tags {
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 40px;
+
+  @include tablets {
+    margin-bottom: 30px;
+  }
+
+  @include phones {
+    align-self: center;
+  }
 }
 
 .works-slider__tags-item {
@@ -51,12 +108,29 @@
   &:last-child{
     margin-right: 0;
   }
+
+  @include tablets {
+    margin-bottom: 0;
+  }
+
+  @include phones {
+    margin-right: 10px;
+  }
 }
 
 .works-slider__title {
   font-size: 30px;
   font-weight: 700;
   margin-bottom: 35px;
+
+  @include tablets {
+    margin-bottom: 30px;
+  }
+
+  @include phones {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
 }
 
 .works-slider__desc {
@@ -64,6 +138,21 @@
   font-weight: 600;
   margin-bottom: 35px;
   line-height: 30px;
+
+  @include tablets {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 0 120px;
+  }
+
+  @include bPhones {
+    padding: 0 90px;
+  }
+
+  @include phones {
+    text-align: left;
+    padding: 0;
+  }
 }
 
 .works-slider__previews {
@@ -71,11 +160,24 @@
   position: absolute;
   right: 0;
   bottom: 0;
+
+  @include desktop {
+    height: 294px;
+    overflow: hidden;
+  }
+
+  @include bPhones {
+    display: none;
+  }
 }
 
 .works-slider__preview-item {
   height: 100px;
   position: relative;
+
+  @include desktop {
+    height: 98px;
+  }
 
   &:after {
     content: "";
@@ -91,6 +193,11 @@
   &.active {
     &:after {
       outline: 3px solid #dc9322;
+
+      @include desktop {
+        outline: none;
+        border: 3px solid #dc9322;
+      }
     }
   }
 
@@ -99,6 +206,11 @@
     &::after {
       outline: 3px solid #dc9322;
       background-color: rgba(85, 0, 242, 0.3);
+
+      @include desktop {
+        outline: none;
+        border: 3px solid #dc9322;
+      }
     }
   }
 }
@@ -121,6 +233,11 @@
   position: absolute;
   top: 100%;
   right: 0;
+
+  @include bPhones {
+    top: initial;
+    bottom: 0;
+  }
 }
 
 .works-slider__link {
