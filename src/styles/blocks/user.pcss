@@ -9,9 +9,19 @@
       margin-right: 30px;
     }
 
-     .user__name {
-       margin-bottom: 10px;
-     }
+    .user__name {
+      margin-bottom: 10px;
+    }
+
+    @include tablets {
+      .user__name {
+        font-size: 16px;
+      }
+
+      .user__avatar {
+        margin-right: 20px;
+      }
+    }
   }
 }
 
@@ -19,6 +29,10 @@
   display: flex;
   justify-content: center;
   margin-bottom: 80px;
+
+  @include phones {
+    margin-bottom: 30px;
+  }
 }
 
 .user__data {
@@ -36,6 +50,14 @@
 
 .user__data-field {
   opacity: .3;
+}
+
+.user__data-value {
+  padding-left: 5%;
+
+  @include phones {
+    padding-left: 6%;
+  }
 }
 
 .user__name {

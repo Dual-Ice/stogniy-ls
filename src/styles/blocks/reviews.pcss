@@ -2,14 +2,34 @@
   position: relative;
   margin-bottom: 155px;
   padding-top: 230px;
+
+  @include desktop {
+    padding-top: 200px;
+  }
 }
 
 .reviews__title {
   display: flex;
   align-items: center;
   margin-bottom: 90px;
+
+  @include phones {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+  }
 }
 
 .reviews__title-text {
   margin-right: 120px;
+
+  @include desktop {
+    margin-right: 75px;
+  }
+
+  @include phones {
+    margin-right: 0;
+    margin-bottom: 25px;
+  }
 }
