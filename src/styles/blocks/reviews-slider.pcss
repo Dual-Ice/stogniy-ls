@@ -1,8 +1,12 @@
 .reviews-slider {
   max-width: 1008px;
 
-  @include phones {
+  @include phonesLg {
     overflow: hidden;
+    max-width: 531px;
+  }
+
+  @include phones {
     max-width: 400px;
   }
 }
@@ -21,7 +25,7 @@
   display: flex;
   justify-content: space-between;
 
-  @include phones {
+  @include phonesLg {
     overflow: hidden;
     justify-content: flex-start;
   }
@@ -31,7 +35,7 @@
   width: 45%;
   flex-shrink: 0;
   
-  @include phones {
+  @include phonesLg {
     width: 100%;
   }
 }
