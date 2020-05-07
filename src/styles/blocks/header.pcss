@@ -7,4 +7,26 @@
 
 .header__menu {
   margin: 0 10px;
+  
+  @include tablets {
+    display: none
+  }
+}
+
+.header__gam-menu {
+  display: none;
+  
+  @include tablets {
+    display: block;
+  }
+}
+
+.header__links {
+
+  @include tablets {
+    display: flex;
+    .social {
+      margin-right: 90px;
+    }
+  }
 }

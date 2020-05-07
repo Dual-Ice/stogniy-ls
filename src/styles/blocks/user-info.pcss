@@ -1,12 +1,41 @@
 .user-info {
   text-align: center;
   max-width: 505px;
+
+  @include desktop {
+    max-width: 734px;
+    display: flex;
+  }
+
+  @include tablets {
+    max-width: 430px;
+    display: initial;
+  }
+
+  @include phones {
+    max-width: 260px;
+  }
 }
 
 .user-info__username {
   font-size: 72px;
   line-height: 60px;
   font-weight: 800;
+
+  @include desktop {
+    flex: 2;
+    text-align: left;
+  }
+
+  @include tablets {
+    font-size: 48px;
+    text-align: inherit;
+    line-height: 1;
+  }
+
+  @include phones {
+    font-size: 36px;
+  }
 }
 
 .user-info__desc {
@@ -14,4 +43,22 @@
   font-weight: 600;
   margin-bottom: 30px;
   opacity: .4;
+
+  @include desktop {
+    margin-bottom: 0;
+    flex: 1;
+    text-align: right;
+    margin-right: 60px;
+  }
+
+  @include tablets {
+    font-size: 16px;
+    text-align: inherit;
+    margin-bottom: 30px;
+    margin-right: 0;
+  }
+
+  @include phones {
+    font-size: 14px;
+  }
 }

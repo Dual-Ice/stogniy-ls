@@ -4,13 +4,49 @@
   margin-top: -120px;
   color: #fff;
 
+  @include desktop {
+    margin-top: -80px;
+  }
+
+  @include tablets {
+    margin-top: -50px;
+  }
+
+  @include phones {
+    margin-top: -20px;
+  }
+
   &--bottom {
     margin-top: 0;
     margin-bottom: -89px;
 
+      @include desktop {
+        margin-bottom: -59px;
+      }
+
+      @include tablets {
+        margin-bottom: -39px;
+      }
+
+      @include phones {
+        margin-bottom: -19px;
+      }
+
     .triangles__item {
       height: 90px;
       z-index: 10;
+
+      @include desktop {
+        height: 60px;
+      }
+
+      @include tablets {
+        height: 40px;
+      }
+
+      @include phones {
+        height: 20px;
+      }
     }
   }
 }
@@ -20,4 +56,16 @@
   display: block;
   height: 120px;
   fill: $white;
+
+  @include desktop {
+    height: 80px;
+  }
+
+  @include tablets {
+    height: 50px;
+  }
+
+  @include phones {
+    height: 20px;
+  }
 }
