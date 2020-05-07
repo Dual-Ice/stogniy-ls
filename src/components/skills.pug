@@ -17,18 +17,18 @@ section.skills(id="skills")
                 ['Workflow', ['GIT', 'Terminal', 'Gulp', 'Webpack']],
               ]
             each item in skills 
-              li.skills__row
-                .skills__row-items
-                  h3.skills__row-title #{item[0]}
-                  ul.skills_row-list
+              li.skills__item
+                .skills-row
+                  h3.skills-row__title #{item[0]}
+                  ul.skills-row__list
                     each skill in item[1]
-                      li.skills__row-item
+                      li.skills-row__item
                         .skill
                           svg(viewBox="0 0 100 100").skill__shape
                             circle(r="40" cx="50" cy="50").skill__circle.skill__circle--under
                             circle(r="40" cx="50" cy="50" stroke="url(#gradient)").skill__circle.skill__circle--above
                           .skill__title #{skill}
-            svg(style="width: 0;height: 0;")
-              lineargradient(id="gradient" x1="0%" y1="0%" x2="100%" y2="0")
-                stop(offset="0%" stop-color="#9300e8")
-                stop(offset="100%" stop-color="#4a00ed")
+          svg(style="width: 0;height: 0;")
+            lineargradient(id="gradient" x1="0%" y1="0%" x2="100%" y2="0")
+              stop(offset="0%" stop-color="#9300e8")
+              stop(offset="100%" stop-color="#4a00ed")
