@@ -10,7 +10,7 @@ html(lang="en")
   body
     .wrapper
       .welcome
-        +paralax('mountain-baloon')
+        +paralax('mountain', 7)
         include ./components/hero
         include ./components/about
       +triangles('bottom')
@@ -19,7 +19,7 @@ html(lang="en")
         include ./components/works
       +triangles('top', 'triangles--bottom')
       .feedback
-        +paralax('budda')
+        +paralax('budda', 6, 'parallax--feedback')
         include ./components/reviews
         include ./components/contacts
         
