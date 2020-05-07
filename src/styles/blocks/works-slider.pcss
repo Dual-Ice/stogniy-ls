@@ -2,8 +2,9 @@
   display: flex;
   justify-content: space-between;
 
-  @include tablets {
+  @include tabletsLg {
     flex-direction: column;
+    justify-content: initial
   }
 }
 
@@ -11,14 +12,17 @@
   width: 66%;
   position: relative;
   max-width: 978px;
+  padding-right: 3%;
 
   @include desktop {
-    max-width: 625px;
+    padding-right: 30px;
   }
 
-  @include tablets {
+  @include tabletsLg {
     width: 100%;
     margin-bottom: 100px;
+    padding-right: 0;
+    max-width: 840px;
   }
 
   @include phonesLg {
@@ -32,14 +36,19 @@
     top: 40%;
     transform: translateY(-50%);
     line-height: 1;
-    left: 93%;
+    left: 85%;
     font-size: 400px;
     font-weight: 800;
 
     @include desktop {
       font-size: 300px;
-      top: -12%;
+      top: -10%;
       transform: none;
+      left: 86%;
+    }
+
+    @include tabletsLg {
+      left: 93%;
     }
 
     @include phonesLg {
@@ -59,8 +68,8 @@
   object-fit: cover;
   max-width: 978px;
 
-  @include desktop {
-    max-width: 625px;
+  @include tabletsLg {
+    max-width: 840px;
   }
 }
 
@@ -69,10 +78,10 @@
   z-index: 10;
 
   @include desktop {
-    width: 32%;
+    width: 25%;
   }
   
-  @include tablets {
+  @include tabletsLg {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -92,7 +101,7 @@
   flex-wrap: wrap;
   margin-bottom: 40px;
 
-  @include tablets {
+  @include tabletsLg {
     margin-bottom: 30px;
   }
 
@@ -109,7 +118,7 @@
     margin-right: 0;
   }
 
-  @include tablets {
+  @include tabletsLg {
     margin-bottom: 0;
   }
 
@@ -123,7 +132,7 @@
   font-weight: 700;
   margin-bottom: 35px;
 
-  @include tablets {
+  @include tabletsLg {
     margin-bottom: 30px;
   }
 
@@ -139,7 +148,7 @@
   margin-bottom: 35px;
   line-height: 30px;
 
-  @include tablets {
+  @include tabletsLg {
     text-align: center;
     margin-bottom: 30px;
     padding: 0 120px;
@@ -162,6 +171,16 @@
   bottom: 0;
 
   @include desktop {
+    height: 294px;
+    overflow: hidden;
+  }
+
+  @include tabletsLg {
+    overflow: none;
+    height: initial;
+  }
+
+  @include tablets {
     height: 294px;
     overflow: hidden;
   }
