@@ -2,13 +2,13 @@ include ./skill
 
 script(type="text/x-template" id="skills-row")
   .skills-row
-    h3.skills-row__title {{skills.title}}
+    h3.skills-row__title {{skillGroup.title}}
     ul.skills-row__list
       li.skills-row__item(
-        v-for="(skillPercent, skillName) in skills.skillGroup"
-        :key="skillName"
+        v-for="skill in skillGroup.skills"
+        :key="skill.id"
       )
         skill(
-          :name="skillName"
-          :percent="skillPercent"
+          :title="skill.title"
+          :percent="skill.percent"
         )

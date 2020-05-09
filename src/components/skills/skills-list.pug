@@ -4,10 +4,10 @@ script(type="text/x-template" id="skills-list")
   .skills__values-container
     ul.skills__list
       li.skills__item(
-        v-for="skillGroup in skills"
-        :key="skillGroup.title"
+        v-for="skillGroup in skillGroups"
+        :key="skillGroup.id"
       )
-        skills-row(:skills="skillGroup")
+        skills-row(:skill-group="skillGroup")
     svg(style="width: 0;height: 0;")
       linearGradient(id="gradient" x1="0%" y1="0%" x2="100%" y2="0")
         stop(offset="0%" stop-color="#9300e8")

@@ -3,7 +3,7 @@ import Vue from "vue";
 const skill = {
   template: "#skill",
   props: {
-    name: String,
+    title: String,
     percent: Number
   },
 
@@ -30,7 +30,7 @@ const skillsRow = {
     skill
   },
   props: {
-    skills: Object
+    skillGroup: Object
   }
 };
 
@@ -43,24 +43,58 @@ new Vue({
   
   data() {
     return {
-      skills: [
+      skillGroups: [
         {
+          "id": 1,
           "title": "Frontend",
-          "skillGroup": {
-            "HTML5": 30,
-            "CSS3": 50,
-            "JavaScript": 25,
-            "VueJs": 30
-          }
+          "skills": [
+            {
+              "id": 1,
+              "title": "HTML5",
+              "percent": 30
+            },
+            {
+              "id": 2,
+              "title": "CSS3",
+              "percent": 50
+            },
+            {
+              "id": 3,
+              "title": "JavaScript",
+              "percent": 25
+            },
+            {
+              "id": 4,
+              "title": "VueJs",
+              "percent": 30
+            }
+          ]
         },
         {
+          "id": 2,
           "title": "Workflow",
-          "skillGroup": {
-            "GIT": 30,
-            "Terminal": 60,
-            "Gulp": 30,
-            "Webpack": 75
-          }
+          "skills": [
+            {
+              "id": 1,
+              "title": "GIT",
+              "percent": 45
+            },
+            {
+              "id": 2,
+              "title": "Terminal",
+              "percent": 60
+            },
+            {
+              "id": 3,
+              "title": "Gulp",
+              "percent": 30
+            },
+            {
+              "id": 4,
+              "title": "Webpack",
+              "percent": 75
+            }
+          ]
         }
       ]
     }
