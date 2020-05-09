@@ -30,13 +30,13 @@
   }
 
   &:before {
-    content: '2';
+    content: attr(data-slide);
     position: absolute;
     color: #e6e6e6;
     top: 40%;
     transform: translateY(-50%);
     line-height: 1;
-    left: 85%;
+    left: 86%;
     font-size: 400px;
     font-weight: 800;
 
@@ -165,24 +165,28 @@
 }
 
 .works-slider__previews {
-  width: 178px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  width: 184px;
+  height: 406px;
   position: absolute;
-  right: 0;
-  bottom: 0;
+  right: -3px;
+  bottom: -3px;
+  overflow: hidden;
+  z-index: 5;
 
   @include desktop {
-    height: 294px;
-    overflow: hidden;
+    height: 306px;
   }
 
   @include tabletsLg {
     overflow: none;
-    height: initial;
+    height: 406px;
   }
 
   @include tablets {
-    height: 294px;
-    overflow: hidden;
+    height: 306px;
   }
 
   @include phonesLg {
@@ -190,14 +194,16 @@
   }
 }
 
+.works-slider__previews-list {
+  width: 178px;
+  transform: translateY(-3px);
+}
+
 .works-slider__preview-item {
   height: 100px;
   position: relative;
-
-  @include desktop {
-    height: 98px;
-  }
-
+  cursor: pointer;
+  
   &:after {
     content: "";
     position: absolute;
@@ -213,23 +219,23 @@
     &:after {
       outline: 3px solid #dc9322;
 
-      @include desktop {
+      /* @include desktop {
         outline: none;
         border: 3px solid #dc9322;
-      }
+      } */
     }
   }
 
 
   &:hover {
-    &::after {
+    &:after {
       outline: 3px solid #dc9322;
       background-color: rgba(85, 0, 242, 0.3);
 
-      @include desktop {
+      /* @include desktop {
         outline: none;
         border: 3px solid #dc9322;
-      }
+      } */
     }
   }
 }

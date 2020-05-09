@@ -7,10 +7,14 @@
       background: transparent;
       border: 1px solid #353e4e;
 
-      &:hover {
-        border-color: #5500f2;
-        .slider-btn__icon {
-          fill: #5500f2;
+      &:enabled {
+        &:hover {
+          border-color: #5500f2;
+          background: transparent;
+          
+          .slider-btn__icon {
+            fill: #5500f2;
+          }
         }
       }
 

@@ -1,0 +1,12 @@
+include ./works-slider-tags
+
+script(type="text/x-template" id="slider-data")
+  .works-slider__data
+    sliderTags(
+      :tags="tagsArray"
+    )
+    .works-slider__title {{currentWork.title}}
+    .works-slider__desc
+      p {{currentWork.desc}}
+    .works-slider__link
+      a.custom-link(:href="currentWork.link") Посмотреть сайт

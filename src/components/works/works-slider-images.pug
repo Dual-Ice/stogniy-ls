@@ -1,0 +1,18 @@
+include ./works-slider-previews
+include ./works-slider-btns
+
+script(type="text/x-template" id="slider-images")
+  .works-slider__images(:data-slide="currentImageIndex")
+    .works-slider__images-wrap
+      img(:src="currentWork.image").works-slider__image
+      div
+        sliderPreviews(
+          :works="reversedWorks"
+          :current-work="currentWork"
+          @slide="$emit('goToSlide', $event)"
+        )
+      sliderBtns(
+        :current-index="currentIndex"
+        :works-count="works.length"
+        @slide="$emit('slide', $event)"
+      )
