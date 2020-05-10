@@ -19,7 +19,8 @@ new Vue({
   
   data() {
     return {
-      test: "sdfsdfsdf",
+      prevBtnDisable: true,
+      nextBtnDisable: false,
       reviews: [
         {
           id: 1,
@@ -60,23 +61,6 @@ new Vue({
     }
   },
 
-  computed: {
-    prevBtnDisable () {
-      if (!this.$refs.carousel) {
-        return false
-      }
-
-      return this.$refs.carousel.curentPage === 0
-    },
-    nextBtnDisable() {
-      if (!this.$refs.carousel) {
-        return false
-      }
-
-      return this.$refs.carousel.canAdvanceForward
-    }
-  },
-
   created() {
     this.reviews = this.makeArrWithRequireImages(this.reviews)
   },
@@ -88,6 +72,9 @@ new Vue({
       } else {
         this.$refs.carousel.goToPage(this.$refs.carousel.getPreviousPage());
       }
+      
+      this.nextBtnDisable = !this.$refs.carousel.canAdvanceForward
+      this.prevBtnDisable = !this.$refs.carousel.canAdvanceBackward
     },
     
     makeArrWithRequireImages(array) {
