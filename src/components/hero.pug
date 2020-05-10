@@ -7,9 +7,14 @@ section.hero.fullscreen-section(id="hero")
         +menu
       .header__links
         +socials
-        .header__gam-menu
-          button(type="button").nav__btn
-            +icon('menu', 'nav__icon')
+        button(type="button").ham-menu__btn
+          +icon('menu', 'ham-menu__btn-icon')
+      .header__ham-menu
+        button(type="button").ham-menu__close
+          +icon('cross', 'ham-menu__close-icon')
+        .ham-menu
+          +menu('nav--ham')
+          +socials('social--ham')
     .hero__content
       .user-info
         h1.user-info__desc !{desc}

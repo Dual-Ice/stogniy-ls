@@ -13,13 +13,26 @@
   }
 }
 
-.header__gam-menu {
+.header__ham-menu {
   display: none;
-  
-  @include tablets {
-    display: flex;
-    align-items: center;
+  position: absolute;
+  right: -325px;
+  top: 0;
+  z-index: 5;
+  width: 325px;
+  transition: .5s right;
 
+  @include tablets {
+    display: block;
+  }
+
+  @include phones {
+    right: -500px;
+    width: 100%;
+  }
+
+  &--openned {
+    right: 0;
   }
 }
 
