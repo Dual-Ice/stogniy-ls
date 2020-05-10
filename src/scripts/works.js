@@ -80,7 +80,6 @@ new Vue({
   data() {
     return {
       currentIndex: 0,
-      test: [1,2,3,4,5],
       works: [
         {
           "id": 1,
@@ -135,7 +134,6 @@ new Vue({
 
   created() {
     this.works = this.makeArrWithRequireImages(this.works)
-    console.l
   },
 
   methods: {

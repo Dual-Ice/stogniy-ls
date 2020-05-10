@@ -1,0 +1,28 @@
+script(type="text/x-template" id="reviews-content")
+  .container
+    .reviews__title
+      h2.section__title.reviews__title-text Что обо мне говорят
+      .reviews-slider__buttons.slider-btns.slider-btns--rounded
+        button(
+          type="button"
+          :disabled="prevBtnDisable"
+          @click.prevent="slide('prev')"
+        ).slider-btn.slider-btn--prev
+          +icon('short-arrow', 'slider-btn__icon')
+        button(
+          type="button"
+          :disabled="nextBtnDisable"
+          @click.prevent="slide('next')"
+        ).slider-btn.slider-btn--next
+          +icon('short-arrow', 'slider-btn__icon')
+    .reviews-slider
+      carousel(
+        ref="carousel"
+        :pagination-enabled="false"
+        :per-page-custom="[[320, 1], [577, 2]]"
+      ).revies-slider__list
+        slide(
+          v-for="review in reviews"
+          :key="review.id"
+        ).reviews__slider-item
+          review(:review="review")
