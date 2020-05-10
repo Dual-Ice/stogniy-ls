@@ -1,0 +1,32 @@
+- var path = "parallax/budda"
+.parallax.parallax--feedback
+  picture(data-speed="0.1").parallax__layer
+    source(media="(min-width: 1801px)" type="image/jpg" srcset=require(`images/${path}/2560/1.jpg`))
+    source(media="(min-width: 1201px)" type="image/jpg" srcset=require(`images/${path}/1800/1.jpg`))
+    source(media="(min-width: 769px)" type="image/jpg" srcset=require(`images/${path}/1200/1.jpg`))
+    source(media="(min-width: 481px)" type="image/jpg" srcset=require(`images/${path}/768.jpg`))
+    source(media="(max-width: 480px)" type="image/jpg" srcset=require(`images/${path}/320.jpg`))
+    img(src=require(`images/${path}/768.jpg`) alt="").parallax__image
+  picture(data-speed="0.18").parallax__layer
+    source(media="(min-width: 1801px)" type="image/png" srcset=require(`images/${path}/2560/2.png`))
+    source(media="(min-width: 1201px)" type="image/png" srcset=require(`images/${path}/1800/2.png`))
+    source(media="(min-width: 769px)" type="image/png" srcset=require(`images/${path}/1200/2.png`))
+    img(src="" alt="").parallax__image
+  picture(data-speed="0.4").parallax__layer
+    source(media="(min-width: 769px)" type="image/png" srcset=require(`images/${path}/budda.png`))
+    img(src="" alt="").parallax__image
+  picture(data-speed="0.6").parallax__layer
+    source(media="(min-width: 1801px)" type="image/png" srcset=require(`images/${path}/2560/4.png`))
+    source(media="(min-width: 1201px)" type="image/png" srcset=require(`images/${path}/1800/4.png`))
+    source(media="(min-width: 769px)" type="image/png" srcset=require(`images/${path}/1200/4.png`))
+    img(src="" alt="").parallax__image
+  picture(data-speed="0.65").parallax__layer
+    source(media="(min-width: 1801px)" type="image/png" srcset=require(`images/${path}/2560/5.png`))
+    source(media="(min-width: 1201px)" type="image/png" srcset=require(`images/${path}/1800/5.png`))
+    source(media="(min-width: 769px)" type="image/png" srcset=require(`images/${path}/1200/5.png`))
+    img(src="" alt="").parallax__image
+  picture(data-speed="0.8").parallax__layer
+    source(media="(min-width: 1801px)" type="image/png" srcset=require(`images/${path}/2560/6.png`))
+    source(media="(min-width: 1201px)" type="image/png" srcset=require(`images/${path}/1800/6.png`))
+    source(media="(min-width: 769px)" type="image/png" srcset=require(`images/${path}/1200/6.png`))
+    img(src="" alt="").parallax__image

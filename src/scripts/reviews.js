@@ -83,7 +83,7 @@ new Vue({
         item.photo = requirePic;
         return item;
       });
-    },
+    }
   }
 
 })

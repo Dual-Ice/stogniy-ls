@@ -33,3 +33,27 @@
     @content;
   }
 }
+
+@mixin nextTablets() {
+  @media screen and (min-width: $bp-nextTablets) {
+    @content;
+  }
+}
+
+@mixin nextDesktops() {
+  @media screen and (min-width: $bp-nextDesktops) {
+    @content;
+  }
+}
+
+@mixin nextDesktopsHd() {
+  @media screen and (min-width: $bp-nextDesktopsHd) {
+    @content;
+  }
+}
+
+@mixin nextDesktopsQhd() {
+  @media screen and (min-width: $bp-nextDesktopsQhd) {
+    @content;
+  }
+}

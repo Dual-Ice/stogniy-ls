@@ -46,20 +46,3 @@ mixin triangles(direction, className)
         polygon(points="0,100 1000,100 1000,0")
       else
         polygon(points="0,0 0,100 1000,0")
-
-mixin paralax(image, layers, className)
-  .parallax(class=className)
-    - 
-      var speeds = [
-        ['0.1','0.25','0.35','0.38','0.45','0.48','0.5'],
-        ['0.01','0.1','0.25','0.28','0.35','0.38']
-        ]
-    - for (var i = 1; i <= layers; i++)
-      .parallax__layer(data-speed=`${image == 'mountain' ? speeds[0][i-1] : speeds[1][i-1]}`)
-        picture
-          source(srcset=require(`images/parallax/${image}/fhd/${i}.${i === 1 ? 'jpg' : 'png'}`) media="(min-width: 1200px)").parallax__image
-          source(srcset=require(`images/parallax/${image}/qhd/${i}.${i === 1 ? 'jpg' : 'png'}`) media="(min-width: 1800px)").parallax__image
-          if i == 1
-            img(srcset=require(`images/bg/${image}.jpg`)).parallax__image
-          else 
-            img(srcset="").parallax__image
