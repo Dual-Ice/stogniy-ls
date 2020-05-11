@@ -1,11 +1,11 @@
 - var path = "parallax/mountain"
 .parallax
   picture(data-speed="0.1").parallax__layer
-    source(media="(min-width: 1801px)" type="image/jpg" srcset=require(`images/${path}/2560/1.jpg`))
-    source(media="(min-width: 1201px)" type="image/jpg" srcset=require(`images/${path}/1800/1.jpg`))
-    source(media="(min-width: 769px)" type="image/jpg" srcset=require(`images/${path}/1200/1.jpg`))
-    source(media="(min-width: 481px)" type="image/jpg" srcset=require(`images/${path}/768.jpg`))
-    source(media="(max-width: 480px)" type="image/jpg" srcset=require(`images/${path}/320.jpg`))
+    source(media="(min-width: 1801px)" type="image/jpeg" srcset=require(`images/${path}/2560/1.jpg`))
+    source(media="(min-width: 1201px)" type="image/jpeg" srcset=require(`images/${path}/1800/1.jpg`))
+    source(media="(min-width: 769px)" type="image/jpeg" srcset=require(`images/${path}/1200/1.jpg`))
+    source(media="(min-width: 481px)" type="image/jpeg" srcset=require(`images/${path}/768.jpg`))
+    source(media="(max-width: 480px)" type="image/jpeg" srcset=require(`images/${path}/320.jpg`))
     img(src=require(`images/${path}/768.jpg`) alt="").parallax__image
   picture(data-speed="0.25").parallax__layer
     source(media="(min-width: 1801px)" type="image/png" srcset=require(`images/${path}/2560/2.png`))
