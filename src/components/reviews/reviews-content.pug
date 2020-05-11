@@ -20,6 +20,7 @@ script(type="text/x-template" id="reviews-content")
         ref="carousel"
         :pagination-enabled="false"
         :per-page-custom="[[320, 1], [577, 2]]"
+        @page-change="updateBtns"
       ).revies-slider__list
         slide(
           v-for="review in reviews"

@@ -72,9 +72,7 @@ new Vue({
       } else {
         this.$refs.carousel.goToPage(this.$refs.carousel.getPreviousPage());
       }
-      
-      this.nextBtnDisable = !this.$refs.carousel.canAdvanceForward
-      this.prevBtnDisable = !this.$refs.carousel.canAdvanceBackward
+      this.updateBtns()
     },
     
     makeArrWithRequireImages(array) {
@@ -83,6 +81,11 @@ new Vue({
         item.photo = requirePic;
         return item;
       });
+    },
+
+    updateBtns () {
+      this.nextBtnDisable = !this.$refs.carousel.canAdvanceForward
+      this.prevBtnDisable = !this.$refs.carousel.canAdvanceBackward
     }
   }
 
