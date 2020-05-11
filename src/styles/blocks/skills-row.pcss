@@ -1,0 +1,41 @@
+.skills-row {
+  display: flex;
+  flex-direction: column;
+
+  @include tabletsLg {
+    align-items: center;
+  }
+}
+
+.skills-row__title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  line-height: 1;
+
+  @include tabletsLg {
+    margin-bottom: 25px;
+  }
+}
+
+.skills-row__list {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+
+  @include tabletsLg {
+    justify-content: center;
+  }
+}
+
+.skills-row__item {
+  margin-right: 4%;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  @include tabletsLg {
+    margin-right: 2%;
+  }
+}

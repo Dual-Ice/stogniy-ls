@@ -1,6 +1,15 @@
 .review {
   display: flex;
   height: 100%;
+  padding-right: 50px;
+
+  @include tablets {
+    font-size: 14px;
+  }
+
+  @include phonesLg {
+    padding-right: 0;
+  }
 
   &:before {
     width: 75px;
@@ -10,6 +19,16 @@
     margin-right: 20px;
     opacity: 0.05;
     flex-shrink: 0;
+
+    @include desktop {
+      width: 70px;
+      height: 70px;
+    }
+
+    @include tablets {
+      width: 30px;
+      height: 30px;
+    }
   }
 }
 
@@ -22,8 +41,12 @@
   opacity: .5;
   font-weight: 600;
   line-height: 30px;
-  padding-bottom: 10px; // временное решение
-  padding-right: 60px;
+  padding-bottom: 20px;
+  padding-right: 10px;
+
+  @include phonesLg {
+    padding-bottom: 20px;
+  }
 }
 
 .review__author {

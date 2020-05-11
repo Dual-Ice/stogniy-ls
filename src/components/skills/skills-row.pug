@@ -1,0 +1,14 @@
+include ./skill
+
+script(type="text/x-template" id="skills-row")
+  .skills-row
+    h3.skills-row__title {{skillGroup.title}}
+    ul.skills-row__list
+      li.skills-row__item(
+        v-for="skill in skillGroup.skills"
+        :key="skill.id"
+      )
+        skill(
+          :title="skill.title"
+          :percent="skill.percent"
+        )

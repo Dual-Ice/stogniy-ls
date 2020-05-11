@@ -1,0 +1,15 @@
+include ./works-slider-images
+include ./works-slider-data
+
+script(type="text/x-template" id="works-slider")
+  .works-slider
+    sliderImages(
+      :works="works"
+      :current-work="currentWork"
+      :current-index="currentIndex"
+      @slide="changeSlide"
+      @goToSlide="goToSlide"
+    )
+    sliderData(
+      :current-work="currentWork"
+    )

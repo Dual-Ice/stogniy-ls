@@ -1,0 +1,246 @@
+.parallax {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  min-height: 1440px;
+  overflow: hidden;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+
+  @include nextTablets {
+    min-width: 1200px;
+  }
+  @include nextDesktops {
+    min-width: 1800px;
+  }
+  @include nextDesktopsHd {
+    min-width: 2560px;
+  }
+  @include nextDesktopsQhd {
+    min-height: 56.25vw
+  }
+}
+
+.parallax__layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.parallax__image {
+  position: absolute;
+  will-change: transform;
+  transition: transform .4s;
+}
+
+.parallax__layer {
+  &:nth-child(1) {
+    .parallax__image {
+      object-fit: cover;
+      min-width: 100%;
+      max-width: initial;
+      height: 100%;
+    }
+  }
+
+  &:nth-child(2) {
+    .parallax__image {
+      top: 300px;
+      right: 0;
+      width: 100%;
+
+      @include nextDesktops {
+        top: 310px;
+      }
+      @include nextDesktopsHd {
+        top: 440px;
+      }
+      @include nextDesktopsQhd {
+        top: 17.1875vw;
+      }
+    }
+  }
+
+  &:nth-child(3) {
+    .parallax__image {
+      width: 185px;
+      height: 241px;
+      left: 80%;
+      top: 500px;
+
+      @include tablets {
+        display: none;
+      }
+
+      @include nextDesktops {
+        top: 480px;
+      }
+      @include nextDesktopsHd {
+        top: 685px;
+        left: 65%;
+      }
+    }
+  }
+
+  &:nth-child(4) {
+    .parallax__image {
+      width: 100%;
+      top: 540px;
+
+      @include nextDesktopsHd {
+        top: 775px;
+      }
+      @include nextDesktopsQhd {
+        top: 30.2734375vw
+      }
+    }
+  }
+
+  &:nth-child(5) {
+    .parallax__image {
+      top: 645px;
+
+      @include nextDesktops {
+        top: 664px;
+      }
+      @include nextDesktopsHd {
+        top: 945px;
+      }
+      @include nextDesktopsQhd {
+        top: 36.9140625vw
+      }
+    }
+  }
+
+  &:nth-child(6) {
+    .parallax__image {
+      right: 0;
+      top: 850px;
+      @include nextDesktops {
+        top: 705px;
+      }
+      @include nextDesktopsHd {
+        top: 997px;
+      }
+      @include nextDesktopsQhd {
+        top: 38.9453125vw
+      }
+    }
+  }
+
+  &:nth-child(7) {
+    .parallax__image {
+      width: 100%;
+      right: 0;
+      top: 990px;
+      @include nextDesktops {
+        top: 1024px;
+      }
+      @include nextDesktopsHd {
+        top: 1444px;
+      }
+      @include nextDesktopsQhd {
+        top: 56.40625vw
+      }
+    }
+  }
+}
+
+.parallax--feedback {
+  .parallax__layer {
+    &:nth-child(1) {
+      .parallax__image {
+        height: 100%;
+      }
+    }
+
+    &:nth-child(2) {
+      .parallax__image {
+        top: initial;
+        bottom: -90px;
+        right: 0;
+        width: 100%;
+
+        @include nextDesktops {
+          bottom: -70px;
+        }
+        @include nextDesktopsQhd {
+          bottom: -11vw;
+        }
+      }
+    }
+    &:nth-child(3) {
+      .parallax__image {
+        left: 62%;
+        top: 750px;
+        width: 602px;
+        height: 741px;
+
+        @include nextDesktops {
+          left: 61%;
+          top: 650px;
+        }
+      }
+    }
+    &:nth-child(4) {
+      .parallax__image {
+        top: 80%;
+        left: -55px;
+        transform: scaleX(-1);
+        
+        @include nextDesktops {
+          top: 70%;
+          left: -60px;
+        }
+        @include nextDesktopsHd {
+          top: 50%;
+          left: -150px;
+        }
+        @include nextDesktopsQhd {
+          top: 55%;
+          left: 0;
+        }
+      }
+    }
+    &:nth-child(5) {
+      .parallax__image {
+        left: 0;
+        top: 80%;
+        width: 100%;
+        height: auto;
+
+        @include nextDesktops {
+          left: 100px;
+          top: 50%;
+        }
+        @include nextDesktopsHd {
+          left: 0;
+        }
+        @include nextDesktopsQhd {
+          left: -500px;
+        }
+      }
+    }
+    &:nth-child(6) {
+      .parallax__image {
+        right: 0;
+        top: 80%;
+
+        @include nextDesktops {
+          right: -300px;
+          top: 70%;
+        }
+        @include nextDesktopsHd {
+          right: -200px;
+        }
+        @include nextDesktopsQhd {
+          top: 50%;
+          right: -300px;
+        }
+      }
+    }
+  }
+}

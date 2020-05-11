@@ -10,14 +10,50 @@
   }
 }
 
+@mixin tabletsLg() {
+  @media screen and (max-width: $bp-tablets-lg) {
+    @content;
+  }
+}
+
 @mixin tablets() {
   @media screen and (max-width: $bp-tablets) {
     @content;
   }
 }
 
+@mixin phonesLg() {
+  @media screen and (max-width: $bp-phones-lg) {
+    @content;
+  }
+}
+
 @mixin phones() {
   @media screen and (max-width: $bp-phones) {
+    @content;
+  }
+}
+
+@mixin nextTablets() {
+  @media screen and (min-width: $bp-nextTablets) {
+    @content;
+  }
+}
+
+@mixin nextDesktops() {
+  @media screen and (min-width: $bp-nextDesktops) {
+    @content;
+  }
+}
+
+@mixin nextDesktopsHd() {
+  @media screen and (min-width: $bp-nextDesktopsHd) {
+    @content;
+  }
+}
+
+@mixin nextDesktopsQhd() {
+  @media screen and (min-width: $bp-nextDesktopsQhd) {
     @content;
   }
 }

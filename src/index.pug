@@ -10,18 +10,17 @@ html(lang="en")
   body
     .wrapper
       .welcome
-        +paralax('mountain-baloon')
+        include ./components/parallax/mountain-parallax
         include ./components/hero
         include ./components/about
       +triangles('bottom')
       .features
-        include ./components/skills
-        include ./components/works
+        include ./components/skills/skills
+        include ./components/works/works
       +triangles('top', 'triangles--bottom')
       .feedback
-        +paralax('budda')
-        include ./components/reviews
+        include ./components/parallax/budda-parallax
+        include ./components/reviews/reviews
         include ./components/contacts
         
       include ./components/footer
-      

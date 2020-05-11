@@ -1,5 +1,11 @@
 .social {
+  @include phones {
+    display: none;
+  }
+
   &--footer {
+    display: block;
+    
     .social__icon {
       width: 25px;
       height: 25px;
@@ -24,6 +30,10 @@
         margin-right: 0;
       }
     }
+  }
+
+  &--ham {
+    display: block;
   }
 }
 .social__list {

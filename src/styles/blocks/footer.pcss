@@ -1,28 +1,80 @@
 .footer {
   position: relative;
-  padding: 110px 145px 100px 150px;
+  padding-top: 110px;
+  padding-bottom: 100px;
   background: $footer;
   color: #fff;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+
+  @include desktop {
+    padding-top: 80px;
+    padding-bottom: 60px;
+  }
+
+  @include tablets {
+    font-size: 14px;
+  }
+}
+
+.footer__container {
+  display: flex;
+  justify-content: space-between;
+
+  @include phones {
+    flex-direction: column;
+    justify-content: initial;
+  }
 }
 
 .footer__right {
-  flex: 4;
+  width: 65%;
+
+  @include desktop {
+    width: 75%;
+  }
+
+  @include tablets {
+    width: 60%;
+  }
+
+  @include phones {
+    width: initial;
+  }
 }
 
 .footer__left{
-  flex: 2;
-  margin-left: 15px;
+  width: 25%;
   display: flex;
+
+  @include desktop {
+    width: 20%;
+    flex-direction: column
+  }
+
+  @include tablets {
+    width: 20%;
+  }
+
+  @include phones {
+    width: initial;
+    margin-bottom: 50px;
+  }
 }
 
 .footer__copyright {
   opacity: .1;
   font-size: 48px;
   line-height: 40px;
-  margin-right: 60px;
+  margin-right: 12%;
+  white-space: nowrap;
+  font-weight: 600;
+
+  @include desktop {
+    margin-right: 0;
+    margin-bottom: 30px;
+  }
 }
 
 .footer__info-name {
@@ -31,6 +83,17 @@
   font-weight: 700;
   width: 150px;
   margin-bottom: 34px;
+  font-size: 18px;
+
+  @include desktop {
+    line-height: 25px;
+    display: inline-block;
+  }
+
+  @include phones {
+    margin-bottom: 15px;
+    display: initial;
+  }
 }
 
 .footer__info-desc{
@@ -45,26 +108,45 @@
   &:last-child {
     margin-bottom: 0;
   }
+
+  @include tablets {
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+  }
 }
 
 .footer__col {
-  width: 50%
+  width: 48%;
+  
+  @include tablets {
+    width: initial;
+    margin-bottom: 50px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
 }
 
 .footer__desc {
   opacity: 0.3;
   line-height: 30px;
   margin-bottom: 20px;
-  padding-right: 135px;
+  padding-right: 14%;
 }
 
 .footer__quote-text{
   opacity: .3;
   line-height: 30px;
   margin-bottom: 20px;
-  padding-right: 50px;
 }
 
 .footer__quote-author{
   font-style: italic;
+}
+
+.footer__menu {
+  @include tablets {
+    flex: 1;
+  }
 }

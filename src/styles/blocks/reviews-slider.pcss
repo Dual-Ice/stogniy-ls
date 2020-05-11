@@ -1,5 +1,14 @@
 .reviews-slider {
   max-width: 1008px;
+
+  @include phonesLg {
+    overflow: hidden;
+    max-width: 531px;
+  }
+
+  @include phones {
+    max-width: 400px;
+  }
 }
 
 .reviews-slider__buttons {
@@ -15,8 +24,18 @@
 .revies-slider__list {
   display: flex;
   justify-content: space-between;
+
+  @include phonesLg {
+    overflow: hidden;
+    justify-content: flex-start;
+  }
 }
 
 .reviews__slider-item {
-  width: 50%;
+  width: 45%;
+  flex-shrink: 0;
+  
+  @include phonesLg {
+    width: 100%;
+  }
 }

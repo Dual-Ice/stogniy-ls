@@ -1,5 +1,6 @@
 - var username = "Максим Стогний"
 - var desc = "Личный сайт <br/> веб-разработчика"
+
 mixin icon(name, className)
   - var icon = require(`images/icons/${name}.svg`);
   svg(class=className viewBox=icon.viewBox preserveAspectRatio="none")
@@ -8,8 +9,8 @@ mixin icon(name, className)
 mixin image(path, className)
   img(src=require(`images/${path}`) class=className)
 
-mixin menu
-  nav.nav
+mixin menu(className)
+  nav.nav(class=className)
     - 
       var menu = [
         ['Главная', 'hero'],
@@ -45,9 +46,3 @@ mixin triangles(direction, className)
         polygon(points="0,100 1000,100 1000,0")
       else
         polygon(points="0,0 0,100 1000,0")
-
-mixin paralax(image)
-  .paralax
-    .paralax__container
-      .paralax__image
-        +image(`bg/${image}.jpg`, 'paralax__image-pic')

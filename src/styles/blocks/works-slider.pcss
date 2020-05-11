@@ -1,47 +1,113 @@
 .works-slider {
   display: flex;
   justify-content: space-between;
-  padding-bottom: 50px;
+
+  @include tabletsLg {
+    flex-direction: column;
+    justify-content: initial
+  }
 }
 
 .works-slider__images {
   width: 66%;
-  height: 550px;
   position: relative;
+  max-width: 978px;
+  padding-right: 3%;
+
+  @include desktop {
+    padding-right: 30px;
+  }
+
+  @include tabletsLg {
+    width: 100%;
+    margin-bottom: 100px;
+    padding-right: 0;
+    max-width: 840px;
+  }
+
+  @include phonesLg {
+    margin-bottom: 60px;
+  }
 
   &:before {
-    content: '4';
+    content: attr(data-slide);
     position: absolute;
     color: #e6e6e6;
     top: 40%;
     transform: translateY(-50%);
     line-height: 1;
-    left: 93%;
+    left: 86%;
     font-size: 400px;
     font-weight: 800;
+
+    @include desktop {
+      font-size: 300px;
+      top: -10%;
+      transform: none;
+      left: 86%;
+    }
+
+    @include tabletsLg {
+      left: 93%;
+    }
+
+    @include phonesLg {
+      display: none;
+    }
   }
 }
 
 .works-slider__images-wrap {
   width: 100%;
-  height: 100%;
+  position: relative;
 }
 
 .works-slider__image {
-  height: 100%;
+  height: auto;
   width: 100%;
   object-fit: cover;
+  max-width: 978px;
+
+  @include tabletsLg {
+    max-width: 840px;
+  }
 }
 
 .works-slider__data {
   width: 23%;
-  position: relative;
+  z-index: 10;
+
+  @include desktop {
+    width: 25%;
+  }
+  
+  @include tabletsLg {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 14px;
+  }
+
+  @include phones {
+    align-items: flex-start;
+    width: 85%;
+    margin: 0 auto;
+  }
 }
 
 .works-slider__tags {
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 40px;
+
+  @include tabletsLg {
+    margin-bottom: 30px;
+  }
+
+  @include phones {
+    align-self: center;
+  }
 }
 
 .works-slider__tags-item {
@@ -51,12 +117,29 @@
   &:last-child{
     margin-right: 0;
   }
+
+  @include tabletsLg {
+    margin-bottom: 0;
+  }
+
+  @include phones {
+    margin-right: 10px;
+  }
 }
 
 .works-slider__title {
   font-size: 30px;
   font-weight: 700;
   margin-bottom: 35px;
+
+  @include tabletsLg {
+    margin-bottom: 30px;
+  }
+
+  @include phones {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
 }
 
 .works-slider__desc {
@@ -64,19 +147,63 @@
   font-weight: 600;
   margin-bottom: 35px;
   line-height: 30px;
+
+  @include tabletsLg {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 0 120px;
+  }
+
+  @include phonesLg {
+    padding: 0 90px;
+  }
+
+  @include phones {
+    text-align: left;
+    padding: 0;
+  }
 }
 
 .works-slider__previews {
-  width: 178px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  width: 184px;
+  height: 406px;
   position: absolute;
-  right: 0;
-  bottom: 0;
+  right: -3px;
+  bottom: -3px;
+  overflow: hidden;
+  z-index: 5;
+
+  @include desktop {
+    height: 306px;
+  }
+
+  @include tabletsLg {
+    overflow: none;
+    height: 406px;
+  }
+
+  @include tablets {
+    height: 306px;
+  }
+
+  @include phonesLg {
+    display: none;
+  }
+}
+
+.works-slider__previews-list {
+  width: 178px;
+  transform: translateY(-3px);
 }
 
 .works-slider__preview-item {
   height: 100px;
   position: relative;
-
+  cursor: pointer;
+  
   &:after {
     content: "";
     position: absolute;
@@ -91,14 +218,24 @@
   &.active {
     &:after {
       outline: 3px solid #dc9322;
+
+      /* @include desktop {
+        outline: none;
+        border: 3px solid #dc9322;
+      } */
     }
   }
 
 
   &:hover {
-    &::after {
+    &:after {
       outline: 3px solid #dc9322;
       background-color: rgba(85, 0, 242, 0.3);
+
+      /* @include desktop {
+        outline: none;
+        border: 3px solid #dc9322;
+      } */
     }
   }
 }
@@ -107,7 +244,6 @@
   display: block;
   height: 100%;
   width: 100%;
-  outline: none;
   border: none;
   padding: 0;
 }
@@ -121,6 +257,11 @@
   position: absolute;
   top: 100%;
   right: 0;
+
+  @include phonesLg {
+    top: initial;
+    bottom: 0;
+  }
 }
 
 .works-slider__link {

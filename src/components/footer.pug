@@ -1,20 +1,21 @@
 footer.footer
-  .footer__left
-    .footer__copyright &copy; 2020
-    .footer__info
-      .footer__info-name #{username}
-      .footer__info-desc !{desc}
-  .footer__right
-    .footer__row
-      .footer__menu
-        +menu
-    .footer__row
-      .footer__col
-        .footer__desc Этот сайт я сделал в рамках обучения в Школе онлайн образования Loftschool
-        .footer__socials
-          +socials('social--footer')
-      .footer__col
-        .footer__quote
-          .footer__quote-text
-            p Всегда пишите код так, будто сопровождать его будет склонный к насилию психопат, который знает где вы живете
-          .footer__quote-author Martin Golding
+  .container.footer__container
+    .footer__left
+      .footer__copyright &copy; 2020
+      .footer__info
+        .footer__info-name #{username}
+        .footer__info-desc !{desc}
+    .footer__right
+      .footer__row
+        .footer__menu
+          +menu('nav--footer')
+      .footer__row
+        .footer__col
+          .footer__desc Этот сайт я сделал в рамках обучения в Школе онлайн образования Loftschool
+          .footer__socials
+            +socials('social--footer')
+        .footer__col
+          .footer__quote
+            .footer__quote-text
+              p Всегда пишите код так, будто сопровождать его будет склонный к насилию психопат, который знает где вы живете
+            .footer__quote-author Martin Golding

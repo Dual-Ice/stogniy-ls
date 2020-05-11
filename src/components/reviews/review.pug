@@ -1,0 +1,13 @@
+script(type="text/x-template" id="review")
+  .review
+    .review__content
+      .review__text
+        p {{review.text}}
+      .review__author
+        .user.user--horizontal
+          .user__avatar
+            .avatar.avatar--small
+              img(:src="review.photo").avatar__img
+          .user__data
+            .user__name {{review["author"]}}
+            .user__desc {{review["occ"]}}

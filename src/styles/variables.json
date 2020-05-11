@@ -1,10 +1,19 @@
 {
-  "text-color": "#464d62",
-  "links-color": "#4b6fd7",
   "bp-desktop-hd": "1800px",
   "bp-desktop": "1200px",
+  "bp-tablets-lg": "992px",
   "bp-tablets": "768px",
+  "bp-phones-lg": "576px",
   "bp-phones": "480px",
+
+  "bp-nextDesktopsQhd": "2560px",
+  "bp-nextDesktopsHd": "1801px",
+  "bp-nextDesktops": "1201px",
+  "bp-nextTablets": "769px",
+
+
+  "text-color": "#464d62",
+  "links-color": "#4b6fd7",
   "main": "#5500f2",
   "font": "#464d62",
   "footer": "#252830",
