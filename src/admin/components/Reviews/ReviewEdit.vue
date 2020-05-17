@@ -1,0 +1,252 @@
+<template lang="pug">
+  .review-edit.card
+    form
+      .form__container
+        .form__header {{formTitle}}
+        hr.divider
+        .form__content
+          .form__content-wrap
+            .form__avatar
+              label.form__avatar-upload
+                input(
+                  type="file"
+                  @change="appendFileAndRenderPhoto"
+                ).form__avatar-file
+                .form__avatar-wrap
+                  img(
+                    v-if="photo"
+                    :src="photo"
+                  ).form__avatar-img
+                  Icon(
+                    v-else
+                    iconName="user"
+                    className="form__avatar-empty-icon"
+                  )
+                .form__load-text {{`${photo ? 'Изменить' : 'Добавить'} фото`}}
+            .form__review
+              .form__row
+                .form__block
+                  CustomInput(title="Имя автора")
+                .form__block  
+                  CustomInput(title="Титул автора")
+              .form__row    
+                .form__block
+                  CustomInput(
+                    title="Отзыв"
+                    field-type="textarea"
+                  )
+        .form__btns
+          button.form__btn.form__btn--plain Отмена          
+          button.form__btn.form__btn--big Загрузить          
+</template>
+<script>
+import Icon from "../Icon"
+import CustomInput from "../CustomInput"
+export default {
+  props: {
+    review: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    }
+  },
+
+  components: {
+    Icon,
+    CustomInput
+  },
+
+  data () {
+    return {
+      photo: ''
+    }
+  },
+  
+  computed: {
+    formTitle() {
+      return `${this.review.id ? 'Редактировать' : 'Добавить'} отзыв`
+    },
+
+    btnTitle() {
+      return this.review.id ? 'Сохранить' : 'Загрузить'
+    }
+  },
+
+  methods: {
+    appendFileAndRenderPhoto (e) {
+
+     const test = e.target.files[0];
+      const reader = new FileReader();
+
+      try {
+        reader.readAsDataURL(test);
+        reader.onload = () => {
+          this.photo = reader.result;
+        };
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
+}
+</script>
+<style lang="postcss" scoped>
+  @import url("../../../styles/mixins.pcss");
+
+  .review-edit {
+    width: 100%;
+    margin-bottom: 30px;
+
+    @include phones {
+      margin-bottom: 10px;
+    }
+  }
+
+  .form__container {
+    width: 78%;
+    padding: 30px 0 50px 20px;
+
+    @include tabletsLg {
+      width: 100%;
+      padding: 30px 20px 50px 20px;
+    }
+
+    @include phonesLg {
+      padding: 30px 0 30px 0;
+    }
+  }
+
+  .form__header {
+    margin-bottom: 25px;
+    font-size: 18px;
+    font-weight: 700;
+    padding-left: 10px;
+
+    @include phonesLg {
+      padding-left: 20px;
+    }
+  }
+
+  .form__content {
+    padding: 50px 0 30px 10px;
+    
+    @include tabletsLg {
+      padding: 50px 10px 30px 10px;
+    }
+
+    @include phonesLg {
+      padding: 30px 20px;
+    }
+  }
+
+  .form__content-wrap {
+    display: flex;
+
+    @include tablets {
+      flex-direction: column;
+    }
+  }
+
+  .form__avatar {
+    margin-right: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    @include tablets {
+      margin-right: 0;
+      margin-bottom: 45px;
+    }
+  }
+
+  .form__avatar-upload {
+    cursor: pointer;
+
+    &:hover {
+      .form__load-text {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .form__avatar-file {
+    display: none;
+  }
+
+  .form__avatar-wrap {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background-color: #dee4ed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    margin-bottom: 30px;
+    overflow: hidden;
+  }
+
+  .form__avatar-img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .form__avatar-empty-icon {
+    height: 113px;
+    width: 113px;
+    fill: $white;
+  }
+
+  .form__load-text {
+    color: #383bcf;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .form__review {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .form__btns {
+    display: flex;
+    justify-content: flex-end;
+
+    @include phonesLg {
+      padding-right: 20px;
+    }
+  }
+
+  .form__row {
+    display: flex;
+    margin-bottom: 40px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    @include tablets {
+      flex-direction: column;
+    }
+  }
+
+  .form__block {
+    flex: 1;
+    margin-right: 30px;
+    
+    &:last-child {
+      margin-right: 0;
+    }
+
+    @include tablets {
+      margin-right: 0;
+
+      &:not(:last-child) {
+        margin-bottom: 40px;
+      }
+    }
+  }
+</style>

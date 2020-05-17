@@ -5,12 +5,13 @@
         h1.page-title.reviews__title Блок «Отзывы»
     .reviews__content
       .container.reviews__container
-        ReviewAddEdit()
+        ReviewEdit()
 
         ul.reviews__list
           li.reviews__item
-            button.add-new-btn-plain
-              .btn-text Добавить <br/> отзыв
+            AddBtn(
+              text="Добавить отзыв"
+              type="plain")
           li.reviews__item(
             v-for="review in reviews"
             :key="review.id"
@@ -20,11 +21,13 @@
 </template>
 <script>
 import Review from "./Review"
-import ReviewAddEdit from "./ReviewAddEdit"
+import AddBtn from "../AddBtn"
+import ReviewEdit from "./ReviewEdit"
 export default {
   components: {
+    AddBtn,
     Review,
-    ReviewAddEdit
+    ReviewEdit
   },
 
   created() {
@@ -71,10 +74,16 @@ export default {
   
 }
 </script>
-<style lang="postcss" scoped>
+<style lang="postcss" scoped>  
+  @import "../../../styles/mixins.pcss";
+
   .reviews__container {
     display: flex;
     flex-direction: column;
+
+    @include phonesLg {
+      width: 100%;
+    }
   }
 
   .reviews__list {
@@ -88,5 +97,21 @@ export default {
     margin-left: 30px;
     margin-bottom: 30px;
     display: flex;
+
+    @include tablets {
+      width: calc(100% / 2 - 30px);
+    }
+
+    @include phonesLg {
+      width: 100%;
+    }
+
+    @include phones {
+      margin-bottom: 10px;
+      
+      &:last-child {
+        margin-bottom: 25px;
+      }
+    }
   }
 </style>

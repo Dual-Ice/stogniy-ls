@@ -13,7 +13,7 @@
         p {{value.text}}
     .review__btns
       CardBtn(title="Править" icon="edit")
-      CardBtn(title="Удалить" icon="remove")
+      CardBtn(title="Удалить" icon="delete")
 </template>
 <script>
 import CardBtn from "../CardBtn"
@@ -28,17 +28,28 @@ export default {
 }
 </script>
 <style lang="postcss" scoped>
+  @import "../../../styles/mixins.pcss";
+
   .review {
     display: flex;
     flex-direction: column;
     padding: 20px;
     min-height: 380px;
+
+    @include phones {
+      padding: 30px 0;
+    }
   }
 
   .author {
     padding: 10px 10px 0 10px;
     margin-bottom: 30px;
     display: flex;
+    align-items: center;
+
+    @include phones {
+      padding: 0 20px;
+    }
   }
 
   .author__avatar {
@@ -54,17 +65,29 @@ export default {
     font-size: 18px;
     font-weight: 700;
 
+    @include phones {
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+
   }
 
   .author__desc {
     font-weight: 600;
     opacity: .5;
+
+    @include phones {
+      font-size: 14px;
+    }
   }
 
   .review__content {
-    padding: 30px 10px 0 10px;
-    margin-bottom: 20px;
+    padding: 30px 10px 20px 10px;
     font-weight: 600;
+
+    @include phones {
+      padding: 30px 20px 20px 20px;
+    }
   }
 
   .review__text {
@@ -79,5 +102,9 @@ export default {
     margin-top: auto;
     font-weight: 600;
     margin-bottom: 10px;
+
+    @include phones {
+      padding: 0 20px;
+    }
   }
 </style>

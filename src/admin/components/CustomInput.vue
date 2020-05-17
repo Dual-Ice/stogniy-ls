@@ -1,7 +1,7 @@
 <template lang="pug">
   label.input(
     v-if="fieldType === 'input'" 
-    :class="[{'input_labeled' : !!title, 'no-side-paddings' : noSidePaddings},iconClass]"
+    :class="[{'input_labeled' : !!title, 'no-side-paddings' : noSidePaddings}, iconClass]"
   )
     .input__title(v-if="title") {{title}}
     .input__wrap
@@ -56,10 +56,15 @@ export default {
 </script>
 
 <style lang="postcss" scoped>
+  @import url("../../styles/mixins.pcss");
 
   .input {
     display: block;
     position: relative;
+
+    @include phonesLg {
+      font-size: 14px; 
+    }
 
     &.no-side-paddings {
       .input__elem {
@@ -83,7 +88,7 @@ export default {
       .input__elem {
         padding-left: 20px;
         font-size: 18px;
-        font-weight: bold;
+        font-weight: 700;
         padding-top: 17px;
         padding-bottom: 17px;
       }
@@ -101,23 +106,31 @@ export default {
     padding: 10px 8%;
     border: none;
     outline: none;
+    font-weight: 600;
+    color: $admin-font;
+
     &::placeholder {
       color: rgba(55, 62, 66, 0.25);
     }
   }
 
   .textarea__elem {
-    height: 150px;
+    height: 115px;
     padding: 20px;
     border: 1px solid rgba($text-color, 0.2);
     resize: none;
     font-weight: 600;
     margin-top: 10px;
     width: 100%;
+    line-height: 30px;
   }
   
   .textarea {
     position: relative;
+
+    @include phonesLg {
+      font-size: 14px;
+    }
   }
 
   .input__icon {
