@@ -5,7 +5,9 @@
         .user
           .user__avatar
               img(src="../../images/userfiles/admin.jpg").user__avatar-img
-          .user__name Максим Стогний
+          .user__name
+            span Максим Стогний
+            a.exit-btn(href="#") Выйти
       .header__title Панель Администрирования
       .header__btn
         a.exit-btn(href="#") Выйти
@@ -16,6 +18,8 @@ export default {
 }
 </script>
 <style lang="postcss" scooped>
+  @import url("../../styles/mixins.pcss");
+
   .header {
     color: $white;
   }
@@ -32,6 +36,10 @@ export default {
   .header__title {
     opacity: .5;
     font-size: 14px;
+
+    @include phones {
+      display: none;
+    }
   }
 
   .user {
@@ -59,10 +67,28 @@ export default {
   .user__name {
     font-size: 18px;
     font-weight: 600;
+
+    @include phones {
+      font-size: 16px;
+    }
+
+    .exit-btn {
+      display: none;
+      font-size: 14px;
+      @include phones {
+        display: block;
+      }
+    }
   }
 
   .exit-btn {
     opacity: .7;
     text-decoration: underline;
+    font-size: 16px;
+    font-weight: 400;
+
+    @include phones {
+      display: none;
+    }
   }
 </style>

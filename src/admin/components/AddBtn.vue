@@ -44,6 +44,10 @@ export default {
     border: none;
     font-size: 16px;
 
+    @include tablets {
+      font-size: 14px;
+    }
+
     &:before {
       content: "";
       display: block;

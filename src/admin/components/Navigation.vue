@@ -32,10 +32,16 @@ export default {
 }
 </script>
 <style lang="postcss" scooped>
+  @import url("../../styles/mixins.pcss");
+  
   .nav__list {
     display: flex;
     align-items: center;
     height: 77px;
+
+    @include phones {
+      justify-content: center;
+    }
   }
 
   .nav__item {
@@ -44,6 +50,10 @@ export default {
 
     &:last-child {
       margin-right: 0;
+    }
+
+    @include phones {
+      flex: 1;
     }
   }
 
@@ -61,6 +71,10 @@ export default {
       color: #383bcf;
       border-color: currentColor;
       font-weight: 600;
+    }
+
+    @include phones {
+      padding: 0;
     }
   }
 
