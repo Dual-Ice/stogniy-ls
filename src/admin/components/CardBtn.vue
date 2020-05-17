@@ -2,6 +2,7 @@
   button(
     :class="[className, noMargin]"
     v-on="$listeners"
+    v-bind="$attrs"
   ).btn {{title}}
 </template>
 <script>

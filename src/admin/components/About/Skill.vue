@@ -5,24 +5,50 @@
       .skill__percent
         .skill__percent-value {{skill.percent}}
       .skill__btns
-        CardBtn(icon="edit" @click="switchEdit").skill__btn
-        CardBtn(icon="trash").skill__btn
-    .skill__data.skill__data--underline(v-else)
-      .skill__title
+        CardBtn(
+          icon="edit"
+          type="button"
+          @click="switchEdit"
+        ).skill__btn
+        CardBtn(
+          icon="trash"
+          type="button"
+          @click="delSkill"
+        ).skill__btn
+    form(@submit.prevent="saveSkill")(v-else)
+      .skill__data
         .skill__field 
-          input(type="text" v-model="skill.title").skill__field-input
-      .skill__percent
+          CustomInput(
+            v-model="tmpSkill.title"
+            :errorText="validationMessage('title')"
+            :noSidePaddings="true"
+          )
         .skill__field 
-          input(type="text" v-model="skill.percent").skill__field-input
-      .skill__btns.skill__btns--colored
-        CardBtn(icon="confirm").skill__btn
-        CardBtn(icon="delete" @click="switchEdit").skill__btn
+          CustomInput(
+            v-model="tmpSkill.percent"
+            :errorText="validationMessage('percent')"
+            :noSidePaddings="true"
+          )
+        .skill__btns.skill__btns--colored
+          CardBtn(
+            type="submit"
+            icon="confirm"
+          ).skill__btn
+          CardBtn(
+            icon="delete" 
+            type="button"
+            @click="switchEdit"
+          ).skill__btn
 </template>
 <script>
 import CardBtn from "../CardBtn"
+import CustomInput from "../CustomInput"
+import { required, minLength, numeric, maxValue } from 'vuelidate/lib/validators'
+
 export default {
   components: {
-    CardBtn
+    CardBtn,
+    CustomInput
   },
   
   props: {
@@ -31,13 +57,71 @@ export default {
 
   data () {
     return {
-      editMode: false
+      editMode: false,
+      tmpSkill: {...this.skill}
+    }
+  },
+
+  validations: {
+    tmpSkill: {
+      title: {
+        required,
+        minLength: minLength(2)
+      },
+      percent: {
+        required,
+        numeric,
+        maxValue: maxValue(100)
+      }
     }
   },
 
   methods: {
     switchEdit () {
+      if (this.editMode) {
+        this.tmpSkill = {...this.skill}
+      }
       this.editMode = !this.editMode
+      this.$v.tmpSkill.$reset()
+    },
+
+    validationMessage (field) {
+      if (!this.$v.tmpSkill) return ''
+
+      const obj = this.$v.tmpSkill[field]
+
+      if (!this.$v.tmpSkill.$error) return ''
+
+      if (!obj.required) {
+        return "Поле обязательно" 
+      }
+
+      if (field !== 'percent' && !obj.minLength) {
+        return `Введите не меньше ${obj.$params.minLength.min} символов`
+      }
+
+      if (field === 'percent') {
+
+        if (!obj.numeric) {
+          return `Введите только цифры`
+        }
+        
+        if (!obj.maxValue) {
+          return  `Значение не должно быть больше ${obj.$params.maxValue.max}`
+        }
+      }
+    },
+
+    saveSkill () {
+      this.$v.tmpSkill.$touch()
+      if (!this.$v.tmpSkill.$error) {
+        this.switchEdit()
+        console.log("All is ok: ", this.tmpSkill)
+      }
+    },
+
+    delSkill () {
+
     }
   }
 }
@@ -52,6 +136,25 @@ export default {
   .skill__data {
     display: flex;
     justify-content: space-between;
+
+    .skill__field {
+      &:nth-child(1) {
+        flex-basis: 56%;
+        margin-right: 10%;
+      }
+      &:nth-child(2) {
+        flex-basis: 60px;
+        margin-right: 30px;
+        display: flex;
+        align-items: center;
+    
+        &:after {
+          content: "%";
+          display: inline-block;
+          opacity: .7;
+        }
+      }
+    }
 
     &--underline {
       .skill__title,
@@ -68,18 +171,6 @@ export default {
   .skill__title {
     width: 56%;
     margin-right: 10%;
-
-    /* @include tablets {
-      width: 40%;
-    }
-
-    @include phonesLg {
-      width: 60%;
-    }
-
-    @include phones {
-      width: 40%;
-    } */
   }
   
   .skill__percent {
@@ -91,10 +182,6 @@ export default {
       content: "%";
       display: inline-block;
       opacity: .7;
-    }
-
-    .skill__field-input {
-      margin-left: 10px;
     }
   }
 
@@ -124,29 +211,6 @@ export default {
 
     &:first-child {
       margin-right: 25%;
-    }
-  }
-
-  .skill__field {
-    display: flex;
-
-    &:focus-within {
-      outline: rgb(77, 144, 254) auto 0.0625em;
-    }
-  }
-
-  .skill__field-input {
-    background: transparent;
-    border: none;
-    outline: none;
-    width: 100%;
-    font-size: 16px;
-    font-weight: 600;
-    padding-bottom: 10px;
-    line-height: 1.2;
-
-    @include phones {
-      font-size: 14px;
     }
   }
 </style>

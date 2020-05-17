@@ -4,10 +4,16 @@
       .container.about__header-container
         h1.page-title.about__title Блок «Обо мне»
         .about__header-btn
-          AddBtn(text="Добавить группу" type="small")
+          AddBtn(
+            text="Добавить группу"
+            size="small"
+            type='button'
+            @click="showAddSkillGroup = true")
     .about__content
       .container.about__content-container
         ul.skill-group__list
+          li.skill-group__item(v-if="showAddSkillGroup")
+            SkillGroup(:value="emptySkillGroup")
           li(
             v-for="skillGroup in skillGroups"
             :key="skillGroup.id"
@@ -52,16 +58,6 @@ export default {
               "title": "VueJs",
               "percent": 30
             }
-            // {
-            //   "id": 5,
-            //   "title": "jQuery",
-            //   "percent": 50
-            // },
-            // {
-            //   "id": 6,
-            //   "title": "jQuery",
-            //   "percent": 50
-            // }
           ]
         },
         {
@@ -90,7 +86,13 @@ export default {
             }
           ]
         }
-      ]
+      ],
+      emptySkillGroup: {
+        id: '',
+        title: '',
+        skills: []
+      },
+      showAddSkillGroup: false
     }
   }
   

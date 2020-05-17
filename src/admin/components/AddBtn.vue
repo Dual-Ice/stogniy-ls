@@ -1,13 +1,15 @@
 <template lang="pug">
   button(
-    v-if="type === 'plain'"
+    v-if="size === 'plain'"
+    v-on="$listeners"
     type="button"
   ).add-new-btn.add-new-btn--plain
     .add-new-btn__text {{text.split(' ').join('\n') }}
   button(
     v-else
+    v-on="$listeners"
     :class="smallClass"
-    type="button"
+    v-bind="$attrs"
   ).add-new-btn {{text ? text : ''}}
 </template>
 <script>
@@ -17,7 +19,7 @@ export default {
       type: String,
       default: ''
     },
-    type: {
+    size: {
       type: String,
       default: ''
     }
@@ -25,7 +27,7 @@ export default {
 
   computed: {
     smallClass () {
-       return this.type ? 'add-new-btn--small' : "";
+       return this.size ? 'add-new-btn--small' : "";
     }
   }
 }
