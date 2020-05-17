@@ -5,18 +5,18 @@
       .skill__percent
         .skill__percent-value {{skill.percent}}
       .skill__btns
-        CardBtn(icon="edit").skill__btn
+        CardBtn(icon="edit" @click="switchEdit").skill__btn
         CardBtn(icon="trash").skill__btn
     .skill__data.skill__data--underline(v-else)
       .skill__title
-        .form__block-field 
-          input(type="text" v-model="skill.title").form__block-input
+        .skill__field 
+          input(type="text" v-model="skill.title").skill__field-input
       .skill__percent
-        .form__block-field 
-          input(type="text" v-model="skill.percent").form__block-input
-      .skill__btns
-        CardBtn(icon="confirm").skill__btn.skill__btn--colored
-        CardBtn(icon="delete").skill__btn.skill__btn--colored
+        .skill__field 
+          input(type="text" v-model="skill.percent").skill__field-input
+      .skill__btns.skill__btns--colored
+        CardBtn(icon="confirm").skill__btn
+        CardBtn(icon="delete" @click="switchEdit").skill__btn
 </template>
 <script>
 import CardBtn from "../CardBtn"
@@ -33,10 +33,18 @@ export default {
     return {
       editMode: false
     }
+  },
+
+  methods: {
+    switchEdit () {
+      this.editMode = !this.editMode
+    }
   }
 }
 </script>
 <style lang="postcss" scoped>
+  @import "../../../styles/mixins.pcss";
+
   .skill {
     width: 100%;
   }
@@ -51,16 +59,33 @@ export default {
         border-bottom: 1px solid currentColor;
       }
     }
+
+    @include phones {
+      font-size: 14px;
+    }
   }
 
   .skill__title {
     width: 56%;
-    margin-right: 30px;
+    margin-right: 10%;
+
+    /* @include tablets {
+      width: 40%;
+    }
+
+    @include phonesLg {
+      width: 60%;
+    }
+
+    @include phones {
+      width: 40%;
+    } */
   }
   
   .skill__percent {
-    width: 15%;
     display: flex;
+    width: 60px;
+    margin-right: 30px;
     
     &:after {
       content: "%";
@@ -68,7 +93,7 @@ export default {
       opacity: .7;
     }
 
-    .form__block-input {
+    .skill__field-input {
       margin-left: 10px;
     }
   }
@@ -82,6 +107,12 @@ export default {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+
+    &--colored {
+      .skill__btn {
+        filter: none;
+      }
+    }
   }
 
   .skill__btn {
@@ -91,32 +122,31 @@ export default {
       filter: none;
     }
 
-    &--colored {
-      filter: none;
-    }
-
     &:first-child {
-      margin-right: 20px;
+      margin-right: 25%;
     }
   }
 
-  .form__block-field {
+  .skill__field {
     display: flex;
-    /* border-bottom: 1px solid currentColor; */
 
     &:focus-within {
       outline: rgb(77, 144, 254) auto 0.0625em;
     }
   }
 
-  .form__block-input {
+  .skill__field-input {
     background: transparent;
     border: none;
     outline: none;
     width: 100%;
     font-size: 16px;
     font-weight: 600;
-    margin-bottom: 10px;
+    padding-bottom: 10px;
     line-height: 1.2;
+
+    @include phones {
+      font-size: 14px;
+    }
   }
 </style>

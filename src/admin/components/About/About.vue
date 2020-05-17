@@ -1,14 +1,13 @@
 <template lang="pug">
   .about
     .about__header
-      .container
+      .container.about__header-container
         h1.page-title.about__title Блок «Обо мне»
-        button.add-new-btn.add-new-btn--small Добавить группу 
+        .about__header-btn
+          AddBtn(text="Добавить группу" type="small")
     .about__content
-      .container
+      .container.about__content-container
         ul.skill-group__list
-          //- li.skiil-group__item
-          //-   SkillGroupAddEdit()
           li(
             v-for="skillGroup in skillGroups"
             :key="skillGroup.id"
@@ -18,12 +17,12 @@
             )
 </template>
 <script>
+import AddBtn from "../AddBtn"
 import SkillGroup from "./SkillGroup"
-import SkillGroupAddEdit from "./SkillGroupAddEdit"
 export default {
   components: {
-    SkillGroup,
-    SkillGroupAddEdit
+    AddBtn,
+    SkillGroup
   },
 
   data () {
@@ -53,6 +52,16 @@ export default {
               "title": "VueJs",
               "percent": 30
             }
+            // {
+            //   "id": 5,
+            //   "title": "jQuery",
+            //   "percent": 50
+            // },
+            // {
+            //   "id": 6,
+            //   "title": "jQuery",
+            //   "percent": 50
+            // }
           ]
         },
         {
@@ -88,24 +97,44 @@ export default {
 }
 </script>
 <style lang="postcss" scoped>
+  @import "../../../styles/mixins.pcss";
 
   .about__header {
     margin-bottom: 60px;
-    
-    .page-title {
-      margin-bottom: 0;
-    }
 
-    .container {
-      display: flex;
+    @include phonesLg {
+      margin-bottom: 40px;
+    }
+  }
+
+  .about__header-container {
+    display: flex;
+
+    @include phonesLg {
+      flex-direction: column;
     }
   }
 
   .about__title {
     margin-right: 60px;
+    margin-bottom: 0;
+
+    @include phonesLg {
+      margin-right: 0;
+      margin-bottom: 30px;
+    }
   }
 
-  
+  .about__header-btn {
+    display: flex;
+  }
+
+  .about__content-container {
+    @include phonesLg {
+      width: 100%;
+    }
+  }
+
   .skill-group__list {
     display: flex;
     margin-left: -30px;
@@ -117,6 +146,14 @@ export default {
     margin-left: 30px;
     margin-bottom: 30px;
     display: flex;
-  }
 
+    @include phonesLg {
+      width: 100%;
+      margin-bottom: 10px;
+            
+      &:last-child {
+        margin-bottom: 25px;
+      }
+    }
+  }
 </style>
