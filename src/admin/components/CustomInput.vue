@@ -1,7 +1,7 @@
 <template lang="pug">
   label.input(
     v-if="fieldType === 'input'" 
-    :class="[{'input_labeled' : !!title, 'no-side-paddings' : noSidePaddings}, iconClass]"
+    :class="[{'input_labeled' : !!title, 'no-side-paddings' : noSidePaddings}, iconClass, {'error' : !!errorText}]"
   )
     .input__title(v-if="title") {{title}}
     .input__wrap
@@ -12,20 +12,33 @@
       input(
         v-bind="$attrs"
         :value="value" 
+        @input="$emit('input', $event.target.value)"
       ).input__elem.field__elem
+    .input__error-tooltip
+      InputTooltip(
+        :errorText="errorText"
+      )
 
   label.textarea(
     v-else-if="fieldType === 'textarea'"
+      :class="{'error' : !!errorText}"
   )
     .input__title(v-if="title") {{title}} 
     textarea.textarea__elem.field__elem(
       v-bind="$attrs"
       :value="value"
+      @input="$emit('input', $event.target.value)"
     )
+    .input__error-tooltip
+      InputTooltip(
+        :errorText="errorText"
+      )
 </template>
 
 <script>
 import Icon from "./Icon"
+import InputTooltip  from "./InputTooltip"
+
 export default {
   inheritAttrs: false,
   props: {
@@ -39,11 +52,16 @@ export default {
     icon: {
       type: String,
       default: ""
-    }
+    },
+    errorText: {
+      type: String,
+      default: ""
+    },
   },
 
   components: {
-    Icon
+    Icon,
+    InputTooltip
   },
 
   computed: {
@@ -93,6 +111,15 @@ export default {
         padding-bottom: 17px;
       }
     }
+  }
+
+  .input__error-tooltip {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 45%;
+    transform: translateX(-50%);
+    z-index: 100;
   }
 
   .input__title {
@@ -148,6 +175,25 @@ export default {
     
     &:focus-within {
       outline: rgb(77, 144, 254) auto 0.0625em;
+    }
+  }
+
+  .error {
+    .input__wrap {
+      border-bottom: 2px solid $errors-color;
+    }
+
+    .input__icon {
+      fill: $errors-color;
+      opacity: 1;
+    }
+
+    .textarea__elem {
+      border: 2px solid $errors-color;
+    }
+
+    .input__error-tooltip {
+      display: block;
     }
   }
 </style>

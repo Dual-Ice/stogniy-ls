@@ -21,5 +21,6 @@
   "white": "#fff",
   "tag": "#859ec2",
   "admin-font": "#414c63",
-  "errors-color": "#cd1515"
+  "errors-color": "#fb0000",
+  "errors-color-message": "#cd1515"
 }
