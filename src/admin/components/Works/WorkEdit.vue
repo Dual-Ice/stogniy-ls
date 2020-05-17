@@ -1,54 +1,85 @@
 <template lang="pug">
   .work-edit.card
-    form
+    form(@submit.prevent="saveWork")
       .form__container
         .form__header {{formTitle}}
         hr.divider
         .form__content
           .form__content-wrap
             .form__col
-              .form__image(v-if="image")
-                img(:src="image").form__image-pic
+              .form__image(v-if="tmpWork.photo")
+                img(:src="tmpWork.photo").form__image-pic
                 .form__image-btn-wrap
-                  button(@click="showInputFile").form__image-btn Изменить превью
-              .form__load-area(v-else)
+                  button(
+                    type="button"
+                    @click="showInputFile"
+                  ).form__image-btn Изменить превью
+              .form__load-area(v-else)(:class="photoError")
                 .form__load-text Перетащите либо загрузите изображение
                 .form__load-btn
-                  button(@click="showInputFile").form__btn Загрузить
+                  button(
+                    type="button"
+                    @click="showInputFile"
+                  ).form__btn Загрузить
+                .form__error-tooltip
+                  InputTooltip(
+                    :errorText="validationMessage('photo')"
+                  )  
               input(
                 type="file"
                 @change="appendFileAndRenderPhoto"
               )#upload-pic.form__load-file    
             .form__col
               .form__block
-                CustomInput(title="Название")
+                CustomInput(
+                  title="Название"
+                  v-model="tmpWork.title"
+                  :errorText="validationMessage('title')"
+                )
               .form__block
-                CustomInput(title="Ссылка")
+                CustomInput(
+                  title="Ссылка"
+                  v-model="tmpWork.link"
+                  :errorText="validationMessage('link')"
+                )
               .form__block
                 CustomInput(
                   title="Описание"
                   field-type="textarea"
+                  v-model="tmpWork.description"
+                  :errorText="validationMessage('description')"
                 )
               .form__block
-                CustomInput(title="Добавление тэга")
+                CustomInput(
+                  title="Добавление тэга"
+                  v-model="tmpWork.techs"
+                  :errorText="validationMessage('techs')"
+                )
               ul.tags__list
                 li.tags__item(
                   v-for="(tag, ndx) in tags"
                   :key="ndx")
                   .tag
                     span {{ tag }}
-                    button(type="button" ).tag__remove-btn
+                    button(
+                      type="button"
+                      @click="delTag(ndx)").tag__remove-btn
                       Icon(
                         iconName="cross"
                         className="tag__remove-icon"
                       )
         .form__btns
-          button.form__btn.form__btn--plain Отмена          
-          button.form__btn.form__btn--big Загрузить          
+          button(
+            type="button"
+            @click="cancelAndHide"
+          ).form__btn.form__btn--plain Отмена          
+          button(type="submit").form__btn.form__btn--big Загрузить          
 </template>
 <script>
 import Icon from "../Icon"
 import CustomInput from "../CustomInput"
+import InputTooltip  from "../InputTooltip"
+import { required, minLength, url } from 'vuelidate/lib/validators'
 export default {
   props: {
     work: {
@@ -61,13 +92,44 @@ export default {
 
   components: {
     Icon,
-    CustomInput
+    CustomInput,
+    InputTooltip
   },
 
   data() {
     return {
-      tags: ['html', 'css', 'vuejs'],
-      image: ''
+      tags: [],
+      tmpWork: {
+        link: "",
+        title: "",
+        techs: "",
+        photo: "",
+        description: ""
+      }
+    }
+  },
+
+  validations: {
+    tmpWork:{
+      title: {
+        required,
+        minLength: minLength(6)
+      },
+      link: {
+        required,
+        url
+      },
+      techs: {
+        required,
+        minLength: minLength(2)
+      },
+      photo: {
+        required
+      },
+      description: {
+        required,
+        minLength: minLength(15)
+      }
     }
   },
 
@@ -78,6 +140,22 @@ export default {
 
     btnTitle() {
       return this.work.id ? 'Сохранить' : 'Загрузить'
+    },
+
+    photoError() {
+      return !this.tmpWork.photo && this.validationMessage('photo') ? 'error' : ''
+    }
+  },
+  
+  watch: {
+    'tmpWork.techs'() {
+      this.tags = this.tmpWork.techs.split(',');
+    }
+  },
+  
+  created () {
+    if (this.tmpWork.techs.length > 0) {
+      this.tags =  this.tmpWork.techs.split(',');
     }
   },
 
@@ -86,18 +164,50 @@ export default {
       document.querySelector("#upload-pic").click()
     },
 
-    appendFileAndRenderPhoto (e) {
+    delTag(index) {
+      this.tags.splice(index, 1);
+      this.tmpWork.techs = this.tags.join(',')
+    },
 
+    appendFileAndRenderPhoto (e) {
      const test = e.target.files[0];
       const reader = new FileReader();
 
       try {
         reader.readAsDataURL(test);
         reader.onload = () => {
-          this.image = reader.result;
+          this.tmpWork.photo = reader.result;
         };
       } catch (error) {
         console.log(error)
+      }
+    },
+
+    saveWork () {
+      this.$v.$touch()
+      if (!this.$v.$error) {
+        console.log("All is ok: ", this.tmpWork)
+      }
+    },
+
+    cancelAndHide () {
+    },
+    
+    validationMessage (field) {
+      const obj = this.$v.tmpWork[field]
+
+      if (!this.$v.$error) return ''
+
+      if (!obj.required) {
+        return "Поле обязательно" 
+      }
+      
+      if (field === 'link' && !obj.url) {
+        return "Введите корректный url" 
+      }
+
+      if (field !== 'photo' && field !== 'link' && !obj.minLength) {
+        return `Введите не меньше ${obj.$params.minLength.min} символов`
       }
     }
   }
@@ -199,9 +309,14 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-content: center;
+    position: relative;
 
     @include tablets {
       margin-bottom: 55px;
+    }
+
+    &.error {
+      border: 2px solid $errors-color;
     }
   }
 
@@ -277,6 +392,7 @@ export default {
 
   .tags__item {
     margin-right: 10px;
+    margin-bottom: 5px;
   }
 
   .tag {
@@ -288,6 +404,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+    min-height: 34px;
   }
   .tag__remove-btn {
     border: none;
@@ -301,5 +418,20 @@ export default {
     height: 11px;
     width: 11px;
     fill: #414c63;
+  }
+
+  .form__error-tooltip {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+  }
+
+  .error {
+    .form__error-tooltip {
+      display: block;
+    }
   }
 </style>

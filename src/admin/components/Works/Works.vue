@@ -5,13 +5,14 @@
         h1.page-title.works__title Блок «Работы»
     .works__content
       .container.works__container
-        WorkEdit()
+        WorkEdit(v-if="showAddWork")
         
         ul.works__list
           li.works__item
             AddBtn(
               text="Добавить работу"
-              type="plain")
+              size="plain"
+              @click="showAddWork = true")
           li.works__item(
             v-for="work in works"
             :key="work.id"
@@ -61,7 +62,8 @@ export default {
           "link": "//rambler.ru",
           "desc": "Дорогие друзья, повышение уровня гражданского сознания играет важную роль в формировании существующих финансовых и административных условий."
         }
-      ]
+      ],
+      showAddWork: false
     }
   },
 
