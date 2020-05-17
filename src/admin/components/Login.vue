@@ -1,23 +1,24 @@
 <template lang="pug">
   .login
     .login__content
-      button(type="button").login__close
-        Icon(
-          iconName="cross"
-          className="login__close-icon"
-        )
-      form.login__form
+      form(
+        @submit.prevent="login"
+      ).login__form
         .login__form-title Авторизация
         .login__row
           CustomInput(
             title="Логин"
             icon="user-empty"
+            v-model="user.login"
+            :errorText="validationMessage('login')"
           )
         .login__row
           CustomInput(
             title="Пароль"
             icon="key"
             type="password"
+            v-model="user.password"
+            :errorText="validationMessage('password')"
           )
         .login__btn
           button(
@@ -27,10 +28,61 @@
 <script>
 import Icon from "./Icon"
 import CustomInput from "./CustomInput"
+import { required, minLength } from 'vuelidate/lib/validators'
+
 export default {
   components: {
     Icon,
     CustomInput
+  },
+
+  data () {
+    return {
+      user: {
+        login: '',
+        password: ''
+      }
+    }
+  },
+
+  validations: {
+    user:{
+      login: {
+        required,
+        minLength: minLength(4)
+      },
+      password: {
+        required,
+        minLength: minLength(6)
+      }
+    }
+  },
+
+  methods: {
+    login() {
+      this.$v.$touch()
+      if (!this.$v.$error) {
+        try {
+          console.log("All is ok: ", this.user)
+          this.$router.replace("/");
+        } catch (error) {
+          //error handling
+        }
+      }
+    },
+
+    validationMessage (field) {
+      const obj = this.$v.user[field]
+
+      if (!this.$v.$error) return ''
+
+      if (!obj.required) {
+        return "Поле обязательно" 
+      }
+      if (!obj.minLength) {
+        return `Введите не меньше ${obj.$params.minLength.min} символов`
+      }
+    }
   }
 }
 </script>
@@ -117,30 +169,5 @@ export default {
     text-transform: uppercase;
     font-weight: 700;
     font-size: 18px;
-  }
-
-  .login__close {
-    position: absolute;
-    right: 30px;
-    top: 30px;
-    background: transparent;
-    padding: 0;
-    border: none;
-    display: flex;
-
-    @include phonesLg {
-      margin-right: 10px;
-    }
-
-    @include phones {
-      right: 30px;
-      margin-right: 0;
-    }
-  }
-
-  .login__close-icon {
-    width: 20px;
-    height: 20px;
-    fill: $font;
   }
 </style>
