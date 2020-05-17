@@ -1,12 +1,12 @@
 <template lang="pug">
   .review-edit.card
-    form
+    form(@submit.prevent="saveReview")
       .form__container
         .form__header {{formTitle}}
         hr.divider
         .form__content
           .form__content-wrap
-            .form__avatar
+            .form__avatar(:class="photoError")
               label.form__avatar-upload
                 input(
                   type="file"
@@ -14,8 +14,8 @@
                 ).form__avatar-file
                 .form__avatar-wrap
                   img(
-                    v-if="photo"
-                    :src="photo"
+                    v-if="tmpReview.photo"
+                    :src="tmpReview.photo"
                   ).form__avatar-img
                   Icon(
                     v-else
@@ -23,25 +23,45 @@
                     className="form__avatar-empty-icon"
                   )
                 .form__load-text {{`${photo ? 'Изменить' : 'Добавить'} фото`}}
+                .form__error-tooltip
+                  InputTooltip(
+                    :errorText="validationMessage('photo')"
+                  )
             .form__review
               .form__row
                 .form__block
-                  CustomInput(title="Имя автора")
+                  CustomInput(
+                    title="Имя автора"
+                    v-model="tmpReview.author"
+                    :errorText="validationMessage('author')"
+                  )
                 .form__block  
-                  CustomInput(title="Титул автора")
+                  CustomInput(
+                    title="Титул автора"
+                    v-model="tmpReview.occ"
+                    :errorText="validationMessage('occ')"
+                  )
               .form__row    
                 .form__block
                   CustomInput(
                     title="Отзыв"
                     field-type="textarea"
+                    v-model="tmpReview.text"
+                    :errorText="validationMessage('text')"
                   )
         .form__btns
-          button.form__btn.form__btn--plain Отмена          
-          button.form__btn.form__btn--big Загрузить          
+          button(
+            type="button"
+            @click="cancelAndHide"
+          ).form__btn.form__btn--plain Отмена          
+          button(type="submit").form__btn.form__btn--big Загрузить          
 </template>
 <script>
 import Icon from "../Icon"
 import CustomInput from "../CustomInput"
+import InputTooltip  from "../InputTooltip"
+import { required, minLength } from 'vuelidate/lib/validators'
+
 export default {
   props: {
     review: {
@@ -54,12 +74,39 @@ export default {
 
   components: {
     Icon,
-    CustomInput
+    CustomInput,
+    InputTooltip
   },
 
   data () {
     return {
-      photo: ''
+      photo: '',
+      tmpReview: {
+        author: "",
+        occ: "",
+        photo: "",
+        text: ""
+      }
+    }
+  },
+
+  validations: {
+    tmpReview:{
+      author: {
+        required,
+        minLength: minLength(4)
+      },
+      occ: {
+        required,
+        minLength: minLength(6)
+      },
+      photo: {
+        required
+      },
+      text: {
+        required,
+        minLength: minLength(6)
+      }
     }
   },
   
@@ -70,22 +117,48 @@ export default {
 
     btnTitle() {
       return this.review.id ? 'Сохранить' : 'Загрузить'
+    },
+
+    photoError() {
+      return !this.tmpReview.photo && this.validationMessage('photo') ? 'error' : ''
     }
   },
 
   methods: {
     appendFileAndRenderPhoto (e) {
-
      const test = e.target.files[0];
       const reader = new FileReader();
 
       try {
         reader.readAsDataURL(test);
         reader.onload = () => {
-          this.photo = reader.result;
+          this.tmpReview.photo = reader.result;
         };
       } catch (error) {
         console.log(error)
+      }
+    },
+
+    cancelAndHide () {
+    },
+
+    saveReview () {
+      this.$v.$touch()
+      if (!this.$v.$error) {
+        console.log("All is ok: ", this.tmpReview)
+      }
+    },
+
+    validationMessage (field) {
+      const obj = this.$v.tmpReview[field]
+
+      if (!this.$v.$error) return ''
+
+      if (!obj.required) {
+        return "Поле обязательно" 
+      }
+      if (field !== 'photo' && !obj.minLength) {
+        return `Введите не меньше ${obj.$params.minLength.min} символов`
       }
     }
   }
@@ -153,6 +226,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
 
     @include tablets {
       margin-right: 0;
@@ -247,6 +321,25 @@ export default {
       &:not(:last-child) {
         margin-bottom: 40px;
       }
+    }
+  }
+
+  .form__error-tooltip {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+  }
+
+  .error {
+    .form__avatar-wrap {
+      border: 2px solid $errors-color;
+    }
+    
+    .form__error-tooltip {
+      display: block;
     }
   }
 </style>

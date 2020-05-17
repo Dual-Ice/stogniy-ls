@@ -5,13 +5,14 @@
         h1.page-title.reviews__title Блок «Отзывы»
     .reviews__content
       .container.reviews__container
-        ReviewEdit()
+        ReviewEdit(v-if="showAddReview")
 
         ul.reviews__list
           li.reviews__item
             AddBtn(
               text="Добавить отзыв"
-              type="plain")
+              size="plain"
+              @click="showAddReview = true")
           li.reviews__item(
             v-for="review in reviews"
             :key="review.id"
@@ -58,7 +59,8 @@ export default {
           occ: "Заказчик сайта",
           photo: "user.jpg"
         }
-      ]
+      ],
+      showAddReview: false
     }
   },
 
