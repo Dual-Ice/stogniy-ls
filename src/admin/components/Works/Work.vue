@@ -17,7 +17,7 @@
       a(:href="value.link").work__link http:{{value.link}}
     .work__btns
       CardBtn(title="Править" icon="edit")
-      CardBtn(title="Удалить" icon="remove")
+      CardBtn(title="Удалить" icon="delete")
 </template>
 <script>
 import CardBtn from "../CardBtn"
@@ -39,6 +39,8 @@ export default {
 }
 </script>
 <style lang="postcss" scoped>
+  @import "../../../styles/mixins.pcss";
+
   .work {
     display: flex;
     flex-direction: column;
@@ -66,6 +68,7 @@ export default {
 
   .work__tags-list {
     display: flex;
+    flex-wrap: wrap;
   }
 
   .work__tag {
@@ -73,6 +76,7 @@ export default {
     color: #283340;
     margin-left: 8px;
     font-weight: 600;
+    margin-top: 5px;
   }
 
   .tag {
@@ -85,6 +89,10 @@ export default {
     padding: 40px 30px 0 30px;
     margin-bottom: 20px;
     font-weight: 600;
+
+    @include phonesLg {
+      padding: 30px 20px 0 20px;
+    }
   }
 
   .work__title {
@@ -110,5 +118,10 @@ export default {
     margin-top: auto;
     font-weight: 600;
     margin-bottom: 40px;
+
+    @include phonesLg {
+      padding: 0 20px;
+      margin-bottom: 30px;
+    }
   }
 </style>
