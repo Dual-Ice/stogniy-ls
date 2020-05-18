@@ -2,13 +2,13 @@ section.contacts(id="contacts")
   .container.contacts__container
     h2.section__title.contacts__title Связаться со мной
     .contacts__form
-      form
+      form(novalidate)#contacts__form
         .form__container
           .form__row
             - 
               var fields = [
-                ["Введите ваше имя", "Иванов Иван", "user"],
-                ["Введите ваш email", "example@mail.com", "envelope"]
+                ["Введите ваше имя", "Иванов Иван", "user-empty", "text"],
+                ["Введите ваш email", "example@mail.com", "envelope", "email"]
               ]
             each field in fields
               label.form__block
@@ -16,14 +16,23 @@ section.contacts(id="contacts")
                 .form__block-wrap
                   +icon(field[2],'form__block-icon')
                   .form__block-field
-                    input(placeholder=field[1]).form__block-input
+                    input(type=field[3] placeholder=field[1] required).form__block-input
+                .error-tooltip    
           .form__row.form__row--more-margin
             label.form__block
               .form__block-label Сообщение к письму
               .form__block-wrap.form__block-wrap--align-top
                 +icon('message','form__block-icon')
                 .form__block-field
-                  textarea(placeholder="Требуется ваша помощь в создании сайта. \nИнтересуют сроки и цена вопроса" rows="3").form__block-input.form__block-textarea
+                  textarea(required minlength="15" placeholder="Требуется ваша помощь в создании сайта. \nИнтересуют сроки и цена вопроса" rows="3").form__block-input.form__block-textarea
+              .error-tooltip
           .form__row
             .form__buttons
-              button(type="submit").custom-btn Отправить
+              button(type="submit" id="contacts__form-submit").custom-btn Отправить
+
+  script(type="template" id="modalTemplate")
+    .modal
+      .modal__container
+        .modal__content
+          .modal__content-text Письмо отправлено
+          button(type=button)#modal__close.custom-btn Закрыть

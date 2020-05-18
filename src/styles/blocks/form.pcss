@@ -27,10 +27,12 @@
 .form__block {
   flex: 1;
   margin-right: 90px;
-  border-bottom: 1px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  position: relative;
 
   &:hover,
-  &:focus {
+  &:focus,
+  &:focus-within {
     border-color: $main;
 
     .form__block-icon {
@@ -43,6 +45,14 @@
     margin-right: 0;
   }
 
+  &.error {
+    border-color: #fb0000;
+
+    .form__block-icon {
+      fill: #fb0000;
+      opacity: 1;
+    }
+  }
   
   @include tablets {
     margin-right: 20px;
