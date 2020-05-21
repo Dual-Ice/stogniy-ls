@@ -5,7 +5,10 @@
         h1.page-title.works__title Блок «Работы»
     .works__content
       .container.works__container
-        WorkEdit(v-if="showAddWork")
+        WorkEdit(
+          v-if="showAddWork"
+          :work="work"
+          @hide="hideAddWork")
         
         ul.works__list
           li.works__item
@@ -18,12 +21,14 @@
             :key="work.id"
           )
             work(
-            :value="work")
+            :value="work"
+            @edit="editWork")
 </template>
 <script>
-import Work from "./Work"
-import AddBtn from "../AddBtn"
-import WorkEdit from "./WorkEdit"
+import Work from './Work'
+import AddBtn from '../AddBtn'
+import WorkEdit from './WorkEdit'
+import { mapState, mapActions } from 'vuex'
 export default {
   components: {
     Work,
@@ -32,49 +37,81 @@ export default {
   },
 
   created() {
-    this.works = this.makeArrWithRequireImages(this.works)
+    this.loadWorks(this.user.id)
+    // this.works = this.makeArrWithRequireImages(this.works)
   },
 
   data () {
     return {
-      works: [
-        {
-          "id": 1,
-          "title": "Сайт об экстримальном отдыхе",
-          "skills": "Html, Css, JavaScript",
-          "image": "1.jpg",
-          "link": "//google.com",
-          "desc": "Этот парень проходил обучение веб-разработке не где-то, а в LoftSchool! 2 месяца только самых тяжелых испытаний и бессонных ночей!"
-        },
-        {
-          "id": 2,
-          "title": "Сайт небольшого города",
-          "skills": "Pug, PostCss, VueJS",
-          "image": "2.jpg",
-          "link": "//yandex.ru",
-          "desc": "Повседневная практика показывает, что постоянный количественный рост и сфера нашей активности требует от нас анализа форм воздействия. "
-        },
-        {
-          "id": 3,
-          "title": "Сайт автомобильного журнала",
-          "skills": "Laravel, Saas, React",
-          "image": "3.jpg",
-          "link": "//rambler.ru",
-          "desc": "Дорогие друзья, повышение уровня гражданского сознания играет важную роль в формировании существующих финансовых и административных условий."
-        }
-      ],
-      showAddWork: false
+      showAddWork: false,
+      work: {
+        title: '',
+        link: '',
+        description: '',
+        techs: '',
+        photo: null
+      }
+      // works: [
+      //   {
+      //     "id": 1,
+      //     "title": "Сайт об экстримальном отдыхе",
+      //     "skills": "Html, Css, JavaScript",
+      //     "image": "1.jpg",
+      //     "link": "//google.com",
+      //     "desc": "Этот парень проходил обучение веб-разработке не где-то, а в LoftSchool! 2 месяца только самых тяжелых испытаний и бессонных ночей!"
+      //   },
+      //   {
+      //     "id": 2,
+      //     "title": "Сайт небольшого города",
+      //     "skills": "Pug, PostCss, VueJS",
+      //     "image": "2.jpg",
+      //     "link": "//yandex.ru",
+      //     "desc": "Повседневная практика показывает, что постоянный количественный рост и сфера нашей активности требует от нас анализа форм воздействия. "
+      //   },
+      //   {
+      //     "id": 3,
+      //     "title": "Сайт автомобильного журнала",
+      //     "skills": "Laravel, Saas, React",
+      //     "image": "3.jpg",
+      //     "link": "//rambler.ru",
+      //     "desc": "Дорогие друзья, повышение уровня гражданского сознания играет важную роль в формировании существующих финансовых и административных условий."
+      //   }
+      // ],
     }
   },
 
+  computed: {
+    ...mapState('works', ['works']),
+    ...mapState('auth', ['user'])
+  },
+
    methods: {
-    makeArrWithRequireImages(array) {
-      return array.map((item) => {
-        const requirePic = require(`../../../images/content/works/${item.image}`);
-        item.image = requirePic;
-        return item;
-      });
+    ...mapActions('works', ['loadWorks']),
+
+    hideAddWork() {
+      this.showAddWork = false
+      Object.assign(
+        this.work,
+        {
+          title: '',
+          link: '',
+          description: '',
+          techs: '',
+          photo: null
+        }
+      )
+    },
+
+    editWork(){
+
     }
+    // makeArrWithRequireImages(array) {
+    //   return array.map((item) => {
+    //     const requirePic = require(`../../../images/content/works/${item.image}`);
+    //     item.image = requirePic;
+    //     return item;
+    //   });
+    // }
   }
   
 }

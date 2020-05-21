@@ -1,6 +1,8 @@
 <template lang="pug">
   .work-edit.card
-    form(@submit.prevent="saveWork")
+    form(
+      @submit.prevent="submit"
+      @reset.prevent="hide")
       .form__container
         .form__header {{formTitle}}
         hr.divider
@@ -14,7 +16,7 @@
                     type="button"
                     @click="showInputFile"
                   ).form__image-btn Изменить превью
-              .form__load-area(v-else)(:class="photoError")
+              .form__load-area(v-else :class="photoError")
                 .form__load-text Перетащите либо загрузите изображение
                 .form__load-btn
                   button(
@@ -27,6 +29,7 @@
                   )  
               input(
                 type="file"
+                accept=".png, .jpg, .jpeg"
                 @change="appendFileAndRenderPhoto"
               )#upload-pic.form__load-file    
             .form__col
@@ -63,20 +66,23 @@
                     span {{ tag }}
                     button(
                       type="button"
-                      @click="delTag(ndx)").tag__remove-btn
+                      @click="delTag(ndx)"
+                    ).tag__remove-btn
                       Icon(
                         iconName="cross"
                         className="tag__remove-icon"
                       )
         .form__btns
+          button(type="reset").form__btn.form__btn--plain Отмена          
           button(
-            type="button"
-            @click="cancelAndHide"
-          ).form__btn.form__btn--plain Отмена          
-          button(type="submit").form__btn.form__btn--big Загрузить          
+            type="submit"
+            :disabled="isBlocked"
+            :class="{ 'blocked': isBlocked }"
+          ).form__btn.form__btn--big Загрузить          
 </template>
 <script>
 import Icon from "../Icon"
+import { mapActions } from 'vuex'
 import CustomInput from "../CustomInput"
 import InputTooltip  from "../InputTooltip"
 import { required, minLength, url } from 'vuelidate/lib/validators'
@@ -105,7 +111,8 @@ export default {
         techs: "",
         photo: "",
         description: ""
-      }
+      },
+      isBlocked: false
     }
   },
 
@@ -149,48 +156,75 @@ export default {
   
   watch: {
     'tmpWork.techs'() {
-      this.tags = this.tmpWork.techs.split(',');
+      this.tags = this.tmpWork.techs.split(',')
     }
   },
   
   created () {
+    Object.assign(this.tmpWork, this.work)
+
+    if (this.tmpWork.photo) {
+      this.tmpWork.photo = `https://webdev-api.loftschool.com/${this.tmpWork.photo}`
+    }
+
     if (this.tmpWork.techs.length > 0) {
-      this.tags =  this.tmpWork.techs.split(',');
+      this.tags =  this.tmpWork.techs.split(',')
     }
   },
 
   methods: {
+    ...mapActions('works', ['saveWork', 'updateWork']),
+    
     showInputFile () {
       document.querySelector("#upload-pic").click()
     },
 
     delTag(index) {
-      this.tags.splice(index, 1);
+      this.tags.splice(index, 1)
       this.tmpWork.techs = this.tags.join(',')
     },
 
     appendFileAndRenderPhoto (e) {
-     const test = e.target.files[0];
-      const reader = new FileReader();
+      const test = e.target.files[0]
+      const reader = new FileReader()
 
       try {
-        reader.readAsDataURL(test);
+        reader.readAsDataURL(test)
         reader.onload = () => {
-          this.tmpWork.photo = reader.result;
-        };
+          this.tmpWork.photo = reader.result
+        }
       } catch (error) {
         console.log(error)
       }
     },
 
-    saveWork () {
+    async submit () {
       this.$v.$touch()
       if (!this.$v.$error) {
+        try {
+          this.isBlocked = true
+
+          const isWorkChanged = Object.keys(this.tmpWork).some((key, value) => this.work[key] !== value);
+
+          if (isWorkChanged) {
+            this.tmpWork.id
+              ? await this.updateWork(this.tmpWork)
+              : await this.saveWork(this.tmpWork)
+          }
+
+          this.hide()
+        } catch (error) {
+          console.log(error)
+        } finally {
+          this.isBlocked = false
+        }
+
         console.log("All is ok: ", this.tmpWork)
       }
     },
 
-    cancelAndHide () {
+    hide () {
+      this.$emit('hide')
     },
     
     validationMessage (field) {
