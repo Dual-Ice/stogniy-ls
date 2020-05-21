@@ -10,7 +10,7 @@
           .form__content-wrap
             .form__col
               .form__image(v-if="tmpWork.photo")
-                img(:src="tmpWork.photo").form__image-pic
+                img(:src="image").form__image-pic
                 .form__image-btn-wrap
                   button(
                     type="button"
@@ -72,19 +72,21 @@
                         iconName="cross"
                         className="tag__remove-icon"
                       )
-        .form__btns
-          button(type="reset").form__btn.form__btn--plain Отмена          
+        .form__btns(:class="{ 'blocked': isBlocked }")
+          button(
+            type="reset"
+            :disabled="isBlocked"
+          ).form__btn.form__btn--plain Отмена          
           button(
             type="submit"
-            :disabled="isBlocked"
-            :class="{ 'blocked': isBlocked }"
-          ).form__btn.form__btn--big Загрузить          
+            :disabled="isBlocked"            
+          ).form__btn.form__btn--big {{btnTitle}}          
 </template>
 <script>
-import Icon from "../Icon"
+import Icon from '../Icon'
 import { mapActions } from 'vuex'
-import CustomInput from "../CustomInput"
-import InputTooltip  from "../InputTooltip"
+import CustomInput from '../CustomInput'
+import InputTooltip  from '../InputTooltip'
 import { required, minLength, url } from 'vuelidate/lib/validators'
 export default {
   props: {
@@ -105,6 +107,7 @@ export default {
   data() {
     return {
       tags: [],
+      image: null,
       tmpWork: {
         link: "",
         title: "",
@@ -164,7 +167,7 @@ export default {
     Object.assign(this.tmpWork, this.work)
 
     if (this.tmpWork.photo) {
-      this.tmpWork.photo = `https://webdev-api.loftschool.com/${this.tmpWork.photo}`
+      this.image = `https://webdev-api.loftschool.com/${this.tmpWork.photo}`
     }
 
     if (this.tmpWork.techs.length > 0) {
@@ -179,19 +182,19 @@ export default {
       document.querySelector("#upload-pic").click()
     },
 
-    delTag(index) {
+    delTag (index) {
       this.tags.splice(index, 1)
       this.tmpWork.techs = this.tags.join(',')
     },
 
     appendFileAndRenderPhoto (e) {
-      const test = e.target.files[0]
+      this.tmpWork.photo = e.target.files[0]
       const reader = new FileReader()
 
       try {
-        reader.readAsDataURL(test)
+        reader.readAsDataURL(this.tmpWork.photo)
         reader.onload = () => {
-          this.tmpWork.photo = reader.result
+          this.image = reader.result
         }
       } catch (error) {
         console.log(error)
@@ -218,8 +221,6 @@ export default {
         } finally {
           this.isBlocked = false
         }
-
-        console.log("All is ok: ", this.tmpWork)
       }
     },
 

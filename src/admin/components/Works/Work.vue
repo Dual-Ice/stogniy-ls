@@ -2,7 +2,7 @@
   .work.card
     .work__preview
       .work__image-wrap
-        img(:src="value.image").work__image
+        img(:src="workImage").work__image
       .work__tags
         ul.work__tags-list
           li.work__tag(
@@ -11,19 +11,33 @@
           )
             .tag {{tag}}
     .work__info
-      .work__title {{value.title}}
+      .work__title {{work.title}}
       .work__decs
-        p {{value.desc}}
-      a(:href="value.link").work__link http:{{value.link}}
+        p {{work.description}}
+      a(:href="work.link").work__link {{work.link}}
     .work__btns
-      CardBtn(title="Править" icon="edit")
-      CardBtn(title="Удалить" icon="delete")
+      CardBtn(
+        title="Править"
+        icon="edit"
+        @click="editWork"
+      )
+      CardBtn(
+        title="Удалить"
+        icon="delete"
+        @click="deleteWork(work.id)"
+      )
 </template>
 <script>
-import CardBtn from "../CardBtn"
+import CardBtn from '../CardBtn'
+import { mapActions } from 'vuex'
 export default {
   props: {
-    value: Object
+    work: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    }
   },
 
   components: {
@@ -32,8 +46,24 @@ export default {
 
   computed: {
     tags () {
-      if (!this.value) return []
-      return this.value.skills.split(", ");
+      if (!this.work) return []
+      return this.work.techs.split(",").map(tag =>tag.trim());
+    },
+
+    workImage () {
+      if (this.work) {
+        return  `https://webdev-api.loftschool.com/${this.work.photo}`;
+      }
+
+      return null
+    }
+  },
+
+  methods: {
+    ...mapActions('works', ['deleteWork']),
+
+    editWork () {
+      this.$emit('edit', this.work)
     }
   }
 }
@@ -58,6 +88,7 @@ export default {
     height: 100%;
     width: 100%;
     object-fit: cover;
+    object-position: center
   }
 
   .work__tags {

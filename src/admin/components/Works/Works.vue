@@ -21,8 +21,8 @@
             :key="work.id"
           )
             work(
-            :value="work"
-            @edit="editWork")
+              :work="work"
+              @edit="editWork")
 </template>
 <script>
 import Work from './Work'
@@ -38,7 +38,6 @@ export default {
 
   created() {
     this.loadWorks(this.user.id)
-    // this.works = this.makeArrWithRequireImages(this.works)
   },
 
   data () {
@@ -51,32 +50,6 @@ export default {
         techs: '',
         photo: null
       }
-      // works: [
-      //   {
-      //     "id": 1,
-      //     "title": "Сайт об экстримальном отдыхе",
-      //     "skills": "Html, Css, JavaScript",
-      //     "image": "1.jpg",
-      //     "link": "//google.com",
-      //     "desc": "Этот парень проходил обучение веб-разработке не где-то, а в LoftSchool! 2 месяца только самых тяжелых испытаний и бессонных ночей!"
-      //   },
-      //   {
-      //     "id": 2,
-      //     "title": "Сайт небольшого города",
-      //     "skills": "Pug, PostCss, VueJS",
-      //     "image": "2.jpg",
-      //     "link": "//yandex.ru",
-      //     "desc": "Повседневная практика показывает, что постоянный количественный рост и сфера нашей активности требует от нас анализа форм воздействия. "
-      //   },
-      //   {
-      //     "id": 3,
-      //     "title": "Сайт автомобильного журнала",
-      //     "skills": "Laravel, Saas, React",
-      //     "image": "3.jpg",
-      //     "link": "//rambler.ru",
-      //     "desc": "Дорогие друзья, повышение уровня гражданского сознания играет важную роль в формировании существующих финансовых и административных условий."
-      //   }
-      // ],
     }
   },
 
@@ -88,30 +61,21 @@ export default {
    methods: {
     ...mapActions('works', ['loadWorks']),
 
-    hideAddWork() {
+    hideAddWork () {
       this.showAddWork = false
-      Object.assign(
-        this.work,
-        {
-          title: '',
-          link: '',
-          description: '',
-          techs: '',
-          photo: null
-        }
-      )
+      this.work = {
+        title: '',
+        link: '',
+        description: '',
+        techs: '',
+        photo: null
+      }
     },
 
-    editWork(){
-
+    editWork (work) {
+      Object.assign(this.work, work)
+      this.showAddWork = true;
     }
-    // makeArrWithRequireImages(array) {
-    //   return array.map((item) => {
-    //     const requirePic = require(`../../../images/content/works/${item.image}`);
-    //     item.image = requirePic;
-    //     return item;
-    //   });
-    // }
   }
   
 }

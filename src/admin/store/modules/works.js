@@ -14,7 +14,7 @@ export default {
     },
 
     addWork (state, work) {
-      state.works = [...works, work]
+      state.works = [...state.works, work]
     },
 
     setWork (state, work) {
@@ -47,12 +47,13 @@ export default {
         commit('addWork', data)
       } catch (error) {
         throw new Error(error)
+        console.log(error)
       }
     },
     async updateWork ({ commit }, payload) {
       try {
         const { data } = await axios.post(`/works/${payload.id}`, formData(payload), { headers: { 'Content-Type': 'multipart/form-data' } })
-        commit('setWork', data)
+        commit('setWork', data.work)
       } catch (error) {
         console.log(error)
       }
