@@ -1,6 +1,9 @@
 <template lang="pug">
   .review-edit.card
-    form(@submit.prevent="saveReview")
+    form(
+      @submit.prevent="submit"
+      @reset.prevent="hide"
+    )
       .form__container
         .form__header {{formTitle}}
         hr.divider
@@ -15,14 +18,14 @@
                 .form__avatar-wrap
                   img(
                     v-if="tmpReview.photo"
-                    :src="tmpReview.photo"
+                    :src="image"
                   ).form__avatar-img
                   Icon(
                     v-else
                     iconName="user"
                     className="form__avatar-empty-icon"
                   )
-                .form__load-text {{`${photo ? 'Изменить' : 'Добавить'} фото`}}
+                .form__load-text {{`${tmpReview.photo ? 'Изменить' : 'Добавить'} фото`}}
                 .form__error-tooltip
                   InputTooltip(
                     :errorText="validationMessage('photo')"
@@ -49,17 +52,21 @@
                     v-model="tmpReview.text"
                     :errorText="validationMessage('text')"
                   )
-        .form__btns
+        .form__btns(:class="{ 'blocked': isBlocked }")
           button(
-            type="button"
-            @click="cancelAndHide"
+            type="reset"
+            :disabled="isBlocked"
           ).form__btn.form__btn--plain Отмена          
-          button(type="submit").form__btn.form__btn--big Загрузить          
+          button(
+            type="submit"
+            :disabled="isBlocked"
+          ).form__btn.form__btn--big {{btnTitle}}           
 </template>
 <script>
-import Icon from "../Icon"
-import CustomInput from "../CustomInput"
-import InputTooltip  from "../InputTooltip"
+import { mapActions } from 'vuex'
+import Icon from '../partial/Icon'
+import CustomInput from '../partial/CustomInput'
+import InputTooltip  from '../partial/InputTooltip'
 import { required, minLength } from 'vuelidate/lib/validators'
 
 export default {
@@ -80,13 +87,14 @@ export default {
 
   data () {
     return {
-      photo: '',
+      image: null,
       tmpReview: {
         author: "",
         occ: "",
         photo: "",
         text: ""
-      }
+      },
+      isBlocked: false
     }
   },
 
@@ -124,28 +132,55 @@ export default {
     }
   },
 
+  created () {
+    Object.assign(this.tmpReview, this.review)
+
+    if (this.tmpReview.photo) {
+      this.image = `https://webdev-api.loftschool.com/${this.tmpReview.photo}`
+    }
+  },
+
   methods: {
+    ...mapActions('reviews', ['saveReview', 'updateReview']),
+
     appendFileAndRenderPhoto (e) {
-     const test = e.target.files[0];
+     this.tmpReview.photo = e.target.files[0]
       const reader = new FileReader();
 
       try {
-        reader.readAsDataURL(test);
+        reader.readAsDataURL(this.tmpReview.photo)
         reader.onload = () => {
-          this.tmpReview.photo = reader.result;
-        };
+          this.image = reader.result
+        }
       } catch (error) {
         console.log(error)
       }
     },
 
-    cancelAndHide () {
+    hide () {
+      this.$emit('hide')
     },
 
-    saveReview () {
+    async submit () {
       this.$v.$touch()
       if (!this.$v.$error) {
-        console.log("All is ok: ", this.tmpReview)
+        try {
+          this.isBlocked = true
+
+          const isReviewChanged = Object.keys(this.tmpReview).some((key, value) => this.review[key] !== value)
+
+          if (isReviewChanged) {
+            this.tmpReview.id
+              ? await this.updateReview(this.tmpReview)
+              : await this.saveReview(this.tmpReview)
+          }
+
+          this.hide()
+        } catch (error) {
+          console.log(error)
+        } finally {
+          this.isBlocked = false
+        }
       }
     },
 
