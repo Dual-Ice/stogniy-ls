@@ -7,13 +7,22 @@
               img(src="../../images/userfiles/admin.jpg").user__avatar-img
           .user__name
             span Максим Стогний
-            a.exit-btn(href="#") Выйти
+            a.exit-btn(href="#" @click.prevent="logout") Выйти
       .header__title Панель Администрирования
       .header__btn
-        a.exit-btn(href="#") Выйти
+        a.exit-btn(href="#" @click.prevent="logout") Выйти
 </template>
 <script>
+import { mapActions } from 'vuex'
 export default {
+  methods: {
+    ...mapActions('auth', ['logoutUser']),
+
+    async logout() {
+      await this.logoutUser()
+      await this.$router.replace('/login')
+    }
+  }
   
 }
 </script>

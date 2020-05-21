@@ -9,8 +9,8 @@
           CustomInput(
             title="Логин"
             icon="user-empty"
-            v-model="user.login"
-            :errorText="validationMessage('login')"
+            v-model="user.name"
+            :errorText="validationMessage('name')"
           )
         .login__row
           CustomInput(
@@ -26,8 +26,9 @@
           ).login__send-data Отправить
 </template>
 <script>
-import Icon from "./Icon"
-import CustomInput from "./CustomInput"
+import Icon from './Icon'
+import axios from '../customAxios'
+import CustomInput from './CustomInput'
 import { required, minLength } from 'vuelidate/lib/validators'
 
 export default {
@@ -39,7 +40,7 @@ export default {
   data () {
     return {
       user: {
-        login: '',
+        name: '',
         password: ''
       }
     }
@@ -47,7 +48,7 @@ export default {
 
   validations: {
     user:{
-      login: {
+      name: {
         required,
         minLength: minLength(4)
       },
@@ -59,14 +60,16 @@ export default {
   },
 
   methods: {
-    login() {
+    async login() {
       this.$v.$touch()
       if (!this.$v.$error) {
         try {
-          console.log("All is ok: ", this.user)
-          this.$router.replace("/");
+          const response = await axios.post('/login', this.user)
+          const token = response.data.token
+          localStorage.setItem('user-token', token);
+          await this.$router.replace('/');
         } catch (error) {
-          //error handling
+          console.log(error)
         }
       }
     },

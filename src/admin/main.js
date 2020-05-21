@@ -1,15 +1,16 @@
 import Vue from 'vue';
 import App from './App.vue'
-import VueRouter from 'vue-router'
-import router from './routes'
+import router from './router'
 import Vuelidate from 'vuelidate'
+import axios from './customAxios'
+import store from "./store";
 
 Vue.use(Vuelidate)
-Vue.use(VueRouter)
-Vue.router = router
+Vue.axios = axios
 
 new Vue({
   el: "#app-root",
   render: h => h(App),
+  store,
   router
 });
