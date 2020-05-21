@@ -5,7 +5,8 @@
     nav.nav-container
       router-view(name="nav")
     main.content-container
-      router-view
+      keep-alive
+        router-view
 
 </template>
 <script>

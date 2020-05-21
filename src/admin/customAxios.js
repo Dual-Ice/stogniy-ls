@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios from 'axios'
 
-axios.defaults.baseURL = 'https://webdev-api.loftschool.com/';
+axios.defaults.baseURL = 'https://webdev-api.loftschool.com/'
 const token = localStorage.getItem('user-token')
 if (token) {
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
@@ -9,23 +9,23 @@ if (token) {
 axios.interceptors.response.use(
   response => (response),
   error => {
-    const originRequest = error.config;
+    const originRequest = error.config
 
     if (error.response.status === 401) {
       return axios.post("/refreshToken")
         .then(response => {
-          const token = response.data.token;
+          const token = response.data.token
 
-          localStorage.setItem('user-token', token);
-          axios.defaults.headers["Authorization"] = `Bearer ${token}`;
-          originRequest.headers["Authorization"] = `Bearer ${token}`;
+          localStorage.setItem('user-token', token)
+          axios.defaults.headers["Authorization"] = `Bearer ${token}`
+          originRequest.headers["Authorization"] = `Bearer ${token}`
 
-          return axios(originRequest);
+          return axios(originRequest)
         })
     }
 
-    return Promise.reject(error);
+    return Promise.reject(error)
   }
-);
+)
 
-export default axios;
+export default axios

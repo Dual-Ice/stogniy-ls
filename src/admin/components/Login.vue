@@ -26,9 +26,9 @@
           ).login__send-data Отправить
 </template>
 <script>
-import Icon from './Icon'
+import Icon from './partial/Icon'
 import axios from '../customAxios'
-import CustomInput from './CustomInput'
+import CustomInput from './partial/CustomInput'
 import { required, minLength } from 'vuelidate/lib/validators'
 
 export default {
@@ -66,8 +66,8 @@ export default {
         try {
           const response = await axios.post('/login', this.user)
           const token = response.data.token
-          localStorage.setItem('user-token', token);
-          await this.$router.replace('/');
+          localStorage.setItem('user-token', token)
+          await this.$router.replace('/')
         } catch (error) {
           console.log(error)
         }

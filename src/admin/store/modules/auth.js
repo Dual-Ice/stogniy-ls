@@ -20,7 +20,7 @@ export default {
   },
 
   actions: {
-    async logoutUser ({ state, commit }) {
+    async logoutUser ({ commit }) {
       await axios.post('/logout')
       commit('setUser', {})
       localStorage.removeItem('user-token')

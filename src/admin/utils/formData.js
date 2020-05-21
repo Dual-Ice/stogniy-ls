@@ -1,9 +1,9 @@
-export default (payload) => {
+export default (data) => {
   const formData = new FormData()
 
-  Object.keys(payload).forEach(key => {
-    formData.append(key, payload[key])
+  Object.keys(data).forEach(key => {
+    formData.append(key, data[key])
   })
 
-  return formData;
+  return formData
 }

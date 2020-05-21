@@ -4,7 +4,7 @@ import auth from './modules/auth'
 import works from './modules/works'
 import reviews from './modules/reviews'
 import categories from './modules/categories'
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
@@ -13,4 +13,4 @@ export default new Vuex.Store({
     reviews,
     categories
   }
-});
+})
