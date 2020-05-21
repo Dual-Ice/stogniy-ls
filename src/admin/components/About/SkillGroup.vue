@@ -2,20 +2,30 @@
   .skill-group.card
     .skill-group__header
       .skill-group__header-value(v-if="!editMode")
-        .skill-group__header-title {{tmpGroup.title}}
-        CardBtn(
-          icon="edit" 
-          type="button"
-          @click="switchEdit"
-        ).btn
+        .skill-group__header-title {{tmpGroup.category}}
+        .skill-group__header-btns
+          CardBtn(
+            icon="edit" 
+            type="button"
+            @click="switchEdit"
+          ).btn
+          CardBtn(
+            icon="trash" 
+            type="button"
+            @click="deleteCategory(tmpGroup.id)"
+          ).btn
       .skill-group__header-form(v-else)
-        form(@submit.prevent="saveGroup").add__form.add__form--group
+        form(
+          @submit.prevent="saveGroup"
+          @reset.prevent="switchEdit"
+        ).add__form.add__form--group
           .add__form-wrap
             .add__form-field
               CustomInput(
-                v-model="tmpGroup.title"
+                v-model="tmpGroup.category"
+                :noSidePaddings="true"
                 placeholder="Название новой группы"
-                :errorText="validationMessage('tmpGroup', 'title')"
+                :errorText="validationMessage('tmpGroup', 'category')"
               )
             .add__form-btns.add__form-btns--colored
               CardBtn(
@@ -24,14 +34,13 @@
               ).btn
               CardBtn(
                 icon="delete"
-                type="button"
-                @click="switchEdit"
+                type="reset"
               ).btn 
       hr.divider
     .skill-group__content
       ul.skill-group__list
         li(
-          v-for="skill in tmpGroup.skills"
+          v-for="skill in skillGroup.skills"
           :key="skill.id"
         ).skill-group__item
           Skill(
@@ -55,10 +64,11 @@
           AddBtn(type="submit")
 </template>
 <script>
-import Skill from "./Skill"
-import AddBtn from "../AddBtn"
-import CardBtn from "../CardBtn"
-import CustomInput from "../CustomInput"
+import Skill from './Skill'
+import { mapActions } from 'vuex';
+import AddBtn from '../partial/AddBtn'
+import CardBtn from '../partial/CardBtn'
+import CustomInput from '../partial/CustomInput'
 import { required, minLength, numeric, maxValue } from 'vuelidate/lib/validators'
 export default {
   components: {
@@ -69,7 +79,12 @@ export default {
   },
 
   props: {
-    value: Object
+    skillGroup: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    }
   },
 
   data () {
@@ -78,7 +93,8 @@ export default {
       tmpGroup: {...this.value},
       newSkill: {
         title: '',
-        percent: ''
+        percent: '',
+        category: 0
       }
     }
   },
@@ -86,7 +102,7 @@ export default {
   validations () {
     let rules = {
       tmpGroup:{
-        title: {
+        category: {
           required,
           minLength: minLength(6)
         }
@@ -118,14 +134,27 @@ export default {
   },
 
   created() {
+    Object.assign(this.tmpGroup, this.skillGroup)
+
     if (!this.tmpGroup.id) {
       this.editMode=true
     }
   },
 
   methods: {
+    ...mapActions(
+      'categories',
+      [
+        'saveSkill',
+        'saveCategory',
+        'updateCategory',
+        'deleteCategory'
+      ]
+    ),
+
     switchEdit () {
       this.editMode = !this.editMode
+      this.$emit('hide');
       this.$v.tmpGroup.$reset()
     },
     
@@ -156,26 +185,30 @@ export default {
       }
     },
 
-    saveGroup () {
+    async saveGroup () {
       this.$v.tmpGroup.$touch()
       if (!this.$v.tmpGroup.$error) {
+        if (this.tmpGroup.category !== this.skillGroup.category) {
+          this.tmpGroup.id
+            ? await this.updateCategory(this.tmpGroup)
+            : await this.saveCategory(this.tmpGroup.category)
+        }
+
         this.switchEdit()
-        this.tmpGroup.id =  Math.floor(Math.random() * Math.floor(100))
-        console.log("All is ok: ", this.tmpGroup)
       }
     },
 
-    addSkill () {
+    async addSkill () {
       this.$v.newSkill.$touch()
       if (!this.$v.newSkill.$error) {
-        this.newSkill.id =  Math.floor(Math.random() * Math.floor(100))
-        this.tmpGroup.skills = [...this.tmpGroup.skills, this.newSkill]
+        this.newSkill.category = this.tmpGroup.id;
+        await this.saveSkill(this.newSkill);
         this.newSkill = {
           title: '',
-          percent: ''
+          percent: '',
+          category: 0
         }
         this.$v.newSkill.$reset()
-        console.log("All is ok: ", this.newSkill)
       }
     }
   }
@@ -225,6 +258,12 @@ export default {
     @include phones {
       font-size: 16px;
     }
+  }
+
+  .skill-group__header-btns {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
   }
 
   .skill-group__content {
@@ -333,7 +372,7 @@ export default {
     }
 
     &:first-child  {
-      margin-right: 20px;
+      margin-right: 15px;
     }
   }
 </style>

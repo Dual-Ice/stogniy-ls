@@ -13,9 +13,12 @@
         CardBtn(
           icon="trash"
           type="button"
-          @click="delSkill"
+          @click="deleteSkill(skill)"
         ).skill__btn
-    form(@submit.prevent="saveSkill")(v-else)
+    form(
+      v-else 
+      @submit.prevent="saveSkill"
+    )
       .skill__data
         .skill__field 
           CustomInput(
@@ -41,8 +44,9 @@
           ).skill__btn
 </template>
 <script>
-import CardBtn from "../CardBtn"
-import CustomInput from "../CustomInput"
+import { mapActions } from 'vuex';
+import CardBtn from '../partial/CardBtn'
+import CustomInput from '../partial/CustomInput'
 import { required, minLength, numeric, maxValue } from 'vuelidate/lib/validators'
 
 export default {
@@ -52,7 +56,12 @@ export default {
   },
   
   props: {
-    skill: Object
+    skill: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    }
   },
 
   data () {
@@ -77,12 +86,18 @@ export default {
   },
 
   methods: {
+    ...mapActions(
+      'categories',
+      ['deleteSkill', 'updateSkill']
+    ),
+
     switchEdit () {
+      this.editMode = !this.editMode
+
       if (this.editMode) {
         this.tmpSkill = {...this.skill}
+        this.$v.tmpSkill.$reset()
       }
-      this.editMode = !this.editMode
-      this.$v.tmpSkill.$reset()
     },
 
     validationMessage (field) {
@@ -112,16 +127,12 @@ export default {
       }
     },
 
-    saveSkill () {
+    async saveSkill () {
       this.$v.tmpSkill.$touch()
       if (!this.$v.tmpSkill.$error) {
+        await this.updateSkill(this.tmpSkill);
         this.switchEdit()
-        console.log("All is ok: ", this.tmpSkill)
       }
-    },
-
-    delSkill () {
-
     }
   }
 }
