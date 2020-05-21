@@ -11,10 +11,6 @@ const router = new VueRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  
-  console.log('to ', to)
-  console.log('from ', from)
-  console.log('next ', next)
   const isAuthRequired = to.matched.some(record => record.meta.auth);
   const isUserLogged = store.getters["auth/isLogged"];
 

@@ -2,12 +2,18 @@ import About from '../components/About/About'
 import Reviews from '../components/Reviews/Reviews'
 import Works from '../components/Works/Works'
 import Login from '../components/Login'
+import Navigation from '../components/Navigation'
+import Header from '../components/Header'
 
 export default [
   {
     path: '/',
     name: 'about',
-    component: About,
+    components: {
+        default: About,
+        nav: Navigation,
+        header: Header
+    },
     meta:
       {
         title: "Блок «Обо мне»",
@@ -17,20 +23,28 @@ export default [
   {
     path: '/reviews',
     name: 'reviews',
-    component: Reviews,
+    components: {
+      default: Reviews,
+      nav: Navigation,
+      header: Header
+  },
     meta:
       {
-        title: "Блок «Работы»",
+        title: "Блок «Отзывы»",
         auth: true
       }
   },
   {
     path: '/works',
     name: 'works',
-    component: Works,
+    components: {
+      default: Works,
+      nav: Navigation,
+      header: Header
+  },
     meta:
       {
-        title: "Блок «Отзывы»",
+        title: "Блок «Работы»",
         auth: true
       }
   },

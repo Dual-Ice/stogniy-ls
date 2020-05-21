@@ -1,9 +1,9 @@
 <template lang="pug">
   .root-container
     header.header-container
-      Header
+      router-view(name="header")
     nav.nav-container
-      Navigation
+      router-view(name="nav")
     main.content-container
       router-view
 
