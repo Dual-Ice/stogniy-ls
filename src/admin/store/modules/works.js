@@ -1,5 +1,5 @@
 import axios from '../../customAxios'
-import formData from '../../utils/formData';
+import formData from '../../utils/formData'
 
 export default {
   namespaced: true,
@@ -17,7 +17,7 @@ export default {
       state.works = [...state.works, work]
     },
 
-    setWork (state, work) {
+    editWork (state, work) {
       state.works = state.works.map(item => item.id === work.id ? work : item)
     },
 
@@ -41,23 +41,28 @@ export default {
         const { data } = await axios.post(
           '/works',
           formData(work),
-          { headers: { 'Content-Type': 'multipart/form-data' }
-        })
-
+          { headers: { 'Content-Type': 'multipart/form-data' } }
+        )
         commit('addWork', data)
       } catch (error) {
         throw new Error(error)
         console.log(error)
       }
     },
-    async updateWork ({ commit }, payload) {
+
+    async updateWork ({ commit }, work) {
       try {
-        const { data } = await axios.post(`/works/${payload.id}`, formData(payload), { headers: { 'Content-Type': 'multipart/form-data' } })
-        commit('setWork', data.work)
+        const { data } = await axios.post(
+          `/works/${work.id}`,
+          formData(work),
+          { headers: { 'Content-Type': 'multipart/form-data' } }
+        )
+        commit('editWork', data.work)
       } catch (error) {
         console.log(error)
       }
     },
+
     async deleteWork ({ commit }, workId) {
       try {
         await axios.delete(`/works/${workId}`)

@@ -22,22 +22,19 @@
           )
             work(
               :work="work"
-              @edit="editWork")
+              @edit="editWork"
+            )
 </template>
 <script>
 import Work from './Work'
-import AddBtn from '../AddBtn'
 import WorkEdit from './WorkEdit'
+import AddBtn from '../partial/AddBtn'
 import { mapState, mapActions } from 'vuex'
 export default {
   components: {
     Work,
     AddBtn,
     WorkEdit
-  },
-
-  created() {
-    this.loadWorks(this.user.id)
   },
 
   data () {
@@ -58,7 +55,16 @@ export default {
     ...mapState('auth', ['user'])
   },
 
-   methods: {
+  beforeRouteLeave (to, from, next) {
+    this.showAddWork = false
+    next()
+  },
+
+  created() {
+    this.loadWorks(this.user.id)
+  },
+
+  methods: {
     ...mapActions('works', ['loadWorks']),
 
     hideAddWork () {
@@ -74,7 +80,7 @@ export default {
 
     editWork (work) {
       Object.assign(this.work, work)
-      this.showAddWork = true;
+      this.showAddWork = true
     }
   }
   

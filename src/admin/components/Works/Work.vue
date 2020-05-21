@@ -28,8 +28,8 @@
       )
 </template>
 <script>
-import CardBtn from '../CardBtn'
 import { mapActions } from 'vuex'
+import CardBtn from '../partial/CardBtn'
 export default {
   props: {
     work: {
@@ -47,12 +47,12 @@ export default {
   computed: {
     tags () {
       if (!this.work) return []
-      return this.work.techs.split(",").map(tag =>tag.trim());
+      return this.work.techs.split(",").map(tag =>tag.trim())
     },
 
     workImage () {
       if (this.work) {
-        return  `https://webdev-api.loftschool.com/${this.work.photo}`;
+        return  `https://webdev-api.loftschool.com/${this.work.photo}`
       }
 
       return null

@@ -2,7 +2,8 @@
   .work-edit.card
     form(
       @submit.prevent="submit"
-      @reset.prevent="hide")
+      @reset.prevent="hide"
+    )
       .form__container
         .form__header {{formTitle}}
         hr.divider
@@ -83,10 +84,10 @@
           ).form__btn.form__btn--big {{btnTitle}}          
 </template>
 <script>
-import Icon from '../Icon'
 import { mapActions } from 'vuex'
-import CustomInput from '../CustomInput'
-import InputTooltip  from '../InputTooltip'
+import Icon from '../partial/Icon'
+import CustomInput from '../partial/CustomInput'
+import InputTooltip  from '../partial/InputTooltip'
 import { required, minLength, url } from 'vuelidate/lib/validators'
 export default {
   props: {
@@ -159,7 +160,7 @@ export default {
   
   watch: {
     'tmpWork.techs'() {
-      this.tags = this.tmpWork.techs.split(',')
+      this.tags = this.tmpWork.techs.split(',').map(tag =>tag.trim())
     }
   },
   
@@ -171,7 +172,7 @@ export default {
     }
 
     if (this.tmpWork.techs.length > 0) {
-      this.tags =  this.tmpWork.techs.split(',')
+      this.tags = this.tmpWork.techs.split(',').map(tag =>tag.trim())
     }
   },
 
@@ -207,7 +208,7 @@ export default {
         try {
           this.isBlocked = true
 
-          const isWorkChanged = Object.keys(this.tmpWork).some((key, value) => this.work[key] !== value);
+          const isWorkChanged = Object.keys(this.tmpWork).some((key, value) => this.work[key] !== value)
 
           if (isWorkChanged) {
             this.tmpWork.id
