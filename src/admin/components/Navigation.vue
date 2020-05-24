@@ -1,13 +1,14 @@
 <template lang="pug">
-  .container
-    ul.nav__list
-      li.nav__item(
-        v-for="(tab, ndx) in tabs"
-      ) 
-        router-link(
-          :to="tab.href"
-          exact-active-class="active"
-        ).nav__link {{tab.title}}
+  nav.nav-container
+    .container
+      ul.nav__list
+        li.nav__item(
+          v-for="(tab, ndx) in tabs"
+        ) 
+          router-link(
+            :to="tab.href"
+            exact-active-class="active"
+          ).nav__link {{tab.title}}
 </template>
 <script>
 export default {
@@ -33,6 +34,10 @@ export default {
 </script>
 <style lang="postcss" scooped>
   @import url("../../styles/mixins.pcss");
+
+  .nav-container {
+    background: $white;
+  }
   
   .nav__list {
     display: flex;
