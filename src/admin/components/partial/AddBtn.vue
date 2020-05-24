@@ -14,6 +14,7 @@
 </template>
 <script>
 export default {
+  inheritAttrs: false,
   props: {
     text: {
       type: String,
@@ -27,13 +28,13 @@ export default {
 
   computed: {
     smallClass () {
-       return this.size ? 'add-new-btn--small' : "";
+       return this.size ? 'add-new-btn--small' : ""
     }
   }
 }
 </script>
 <style lang="postcss" scoped>
-  @import "../../styles/mixins.pcss";
+  @import "../../../styles/mixins.pcss";
 
   .add-new-btn {
     display: flex;
@@ -79,9 +80,11 @@ export default {
 
     &--plain {
       flex: 1;
+      min-height: 300px;
       background-image: linear-gradient(to right, #006aed 0%, #3f35cb 100%);
 
       @include phonesLg {
+        min-height: 100px;
         padding: 30px 0 30px 20px;
         justify-content: flex-start;
       }

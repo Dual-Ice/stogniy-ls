@@ -1,35 +1,24 @@
 <template lang="pug">
   .root-container
-    header.header-container
-      Header
-    nav.nav-container
-      Navigation
+    router-view(name="header")
+    router-view(name="nav")
     main.content-container
-      router-view
-
+      keep-alive
+        router-view
+    toast()
 </template>
 <script>
-import Header from "./components/Header"
-import Navigation from "./components/Navigation"
-import About from "./components/About/About"
-import Works from "./components/Works/Works"
-import Reviews from "./components/Reviews/Reviews"
-
 export default {
   components: {
-    Header,
-    Navigation,
-    About,
-    Works,
-    Reviews
-  }  
+    toast: () => import('./components/partial/Toast')
+  }
 }
 </script>
 <style lang="postcss">
-@import "normalize.css";
-@import "../styles/mixins.pcss";
-@import "../styles/layout/base.pcss";
-@import "../styles/layout/fonts.pcss";
+  @import "normalize.css";
+  @import "../styles/mixins.pcss";
+  @import "../styles/layout/base.pcss";
+  @import "../styles/layout/fonts.pcss";
 
   .divider {
     margin: 0;
@@ -60,11 +49,6 @@ export default {
     color: $admin-font;
   }
 
-  .header-container {
-    padding: 17px 0;
-    background-image: linear-gradient(to right, #3e3e59 0%, #454573 100%);
-  }
-
   .page-title {
     font-size: 21px;
     font-weight: 700;
@@ -78,10 +62,6 @@ export default {
       font-size: 18px;
       margin-bottom: 40px;
     }
-  }
-
-  .nav-container {
-    background: $white;
   }
 
   .content-container {

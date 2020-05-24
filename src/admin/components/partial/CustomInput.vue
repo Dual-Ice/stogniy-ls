@@ -36,8 +36,8 @@
 </template>
 
 <script>
-import Icon from "./Icon"
-import InputTooltip  from "./InputTooltip"
+import Icon from './Icon'
+import InputTooltip  from './InputTooltip'
 
 export default {
   inheritAttrs: false,
@@ -66,15 +66,15 @@ export default {
 
   computed: {
     iconClass() {
-      const iconName = this.icon;
-      return iconName.length ? ` input_iconed input_icon-${iconName}` : "";
+      const iconName = this.icon
+      return iconName.length ? ` input_iconed input_icon-${iconName}` : ""
     }
   }
-};
+}
 </script>
 
 <style lang="postcss" scoped>
-  @import url("../../styles/mixins.pcss");
+  @import url("../../../styles/mixins.pcss");
 
   .input {
     display: block;
@@ -87,7 +87,6 @@ export default {
     &.no-side-paddings {
       .input__elem {
         padding-right: 0;
-        padding-left: 0;
       }
     }
 

@@ -4,7 +4,7 @@ include ./works-slider-btns
 script(type="text/x-template" id="slider-images")
   .works-slider__images(:data-slide="currentImageIndex")
     .works-slider__images-wrap
-      img(:src="currentWork.image").works-slider__image
+      img(:src="currentWork.photo").works-slider__image
       div
         sliderPreviews(
           :works="reversedWorks"

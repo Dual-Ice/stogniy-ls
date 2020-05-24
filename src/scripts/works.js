@@ -1,4 +1,5 @@
-import Vue from "vue";
+import Vue from "vue"
+import request from './request'
 
 const sliderBtns = {
   template: "#slider-btns",
@@ -14,7 +15,7 @@ const sliderBtns = {
       return (this.currentIndex + 1) === this.worksCount
     }
   }
-};
+}
 
 const sliderPreviews = {
   template: "#slider-previews",
@@ -22,7 +23,7 @@ const sliderPreviews = {
     works: Array,
     currentWork: Object
   }
-};
+}
 
 const sliderImages = {
   template: "#slider-images",
@@ -44,14 +45,14 @@ const sliderImages = {
       return this.currentIndex + 1
     }
   }
-};
+}
 
 const sliderTags = {
   template: "#slider-tags",
   props: {
     tags: Array
   }
-};
+}
 
 const sliderData = {
   template: "#slider-data",
@@ -64,10 +65,14 @@ const sliderData = {
 
   computed: {
     tagsArray () {
-      return this.currentWork.skills.split(", ");
+      if (this.currentWork.techs) {
+        return this.currentWork.techs.split(',').map(tag =>tag.trim())
+      }
+
+      return []
     }
   }
-};
+}
 
 new Vue({
   el: "#works-component",
@@ -80,71 +85,33 @@ new Vue({
   data() {
     return {
       currentIndex: 0,
-      works: [
-        {
-          "id": 1,
-          "title": "Сайт об экстримальном отдыхе",
-          "skills": "Html, Css, JavaScript",
-          "image": "1.jpg",
-          "link": "//google.com",
-          "desc": "Этот парень проходил обучение веб-разработке не где-то, а в LoftSchool! 2 месяца только самых тяжелых испытаний и бессонных ночей!"
-        },
-        {
-          "id": 2,
-          "title": "Сайт небольшого города",
-          "skills": "Pug, PostCss, VueJS",
-          "image": "2.jpg",
-          "link": "//yandex.ru",
-          "desc": "Повседневная практика показывает, что постоянный количественный рост и сфера нашей активности требует от нас анализа форм воздействия. "
-        },
-        {
-          "id": 3,
-          "title": "Сайт автомобильного журнала",
-          "skills": "Laravel, Saas, React",
-          "image": "3.jpg",
-          "link": "//rambler.ru",
-          "desc": "Дорогие друзья, повышение уровня гражданского сознания играет важную роль в формировании существующих финансовых и административных условий."
-        },
-        {
-          "id": 4,
-          "title": "Сайт уютного дома на озере",
-          "skills": "Php, Less, Angular",
-          "image": "4.jpg",
-          "link": "//mail.ru",
-          "desc": "Равным образом повышение уровня гражданского сознания требует от нас системного анализа существующих финансовых и административных условий?"
-        },
-        {
-          "id": 5,
-          "title": "Сайт школы онлайн образования",
-          "skills": "Html, Css, JQuery",
-          "image": "5.jpg",
-          "link": "//lenta.ru",
-          "desc": "Задача организации, в особенности же консультация с профессионалами из IT играет важную роль в формировании соответствующих условий..."
-        }
-      ]
+      works: []
     }
   },
 
   computed: {
     currentWork () {
       // return this.works[this.currentIndex]
-      return this.works[0]
+      if (this.works.length) {
+        return this.works[0]
+      }
+
+      return {}
     }
   },
 
-  created() {
-    this.works = this.makeArrWithRequireImages(this.works)
+  mounted() {
+    request('get', 'works/320')
+      .then(works => {
+        return works.map(work => {
+          work.photo = 'https://webdev-api.loftschool.com/' + work.photo
+          return work
+        })
+      })
+      .then(works => this.works = works)
   },
 
   methods: {
-    makeArrWithRequireImages(array) {
-      return array.map((item) => {
-        const requirePic = require(`../images/content/works/${item.image}`);
-        item.image = requirePic;
-        return item;
-      });
-    },
-
     changeSlide (direction) {
       // this.currentIndex = direction === "next"
       //   ? this.currentIndex + 1

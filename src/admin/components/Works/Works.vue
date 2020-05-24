@@ -5,7 +5,10 @@
         h1.page-title.works__title Блок «Работы»
     .works__content
       .container.works__container
-        WorkEdit(v-if="showAddWork")
+        WorkEdit(
+          v-if="showAddWork"
+          :work="work"
+          @hide="hideAddWork")
         
         ul.works__list
           li.works__item
@@ -14,16 +17,19 @@
               size="plain"
               @click="showAddWork = true")
           li.works__item(
-            v-for="work in works"
+            v-for="work in modifiedWorks"
             :key="work.id"
           )
             work(
-            :value="work")
+              :work="work"
+              @edit="editWork"
+            )
 </template>
 <script>
-import Work from "./Work"
-import AddBtn from "../AddBtn"
-import WorkEdit from "./WorkEdit"
+import Work from './Work'
+import WorkEdit from './WorkEdit'
+import AddBtn from '../partial/AddBtn'
+import { mapState, mapActions, mapGetters } from 'vuex'
 export default {
   components: {
     Work,
@@ -31,49 +37,50 @@ export default {
     WorkEdit
   },
 
-  created() {
-    this.works = this.makeArrWithRequireImages(this.works)
-  },
-
   data () {
     return {
-      works: [
-        {
-          "id": 1,
-          "title": "Сайт об экстримальном отдыхе",
-          "skills": "Html, Css, JavaScript",
-          "image": "1.jpg",
-          "link": "//google.com",
-          "desc": "Этот парень проходил обучение веб-разработке не где-то, а в LoftSchool! 2 месяца только самых тяжелых испытаний и бессонных ночей!"
-        },
-        {
-          "id": 2,
-          "title": "Сайт небольшого города",
-          "skills": "Pug, PostCss, VueJS",
-          "image": "2.jpg",
-          "link": "//yandex.ru",
-          "desc": "Повседневная практика показывает, что постоянный количественный рост и сфера нашей активности требует от нас анализа форм воздействия. "
-        },
-        {
-          "id": 3,
-          "title": "Сайт автомобильного журнала",
-          "skills": "Laravel, Saas, React",
-          "image": "3.jpg",
-          "link": "//rambler.ru",
-          "desc": "Дорогие друзья, повышение уровня гражданского сознания играет важную роль в формировании существующих финансовых и административных условий."
-        }
-      ],
-      showAddWork: false
+      showAddWork: false,
+      work: {
+        title: '',
+        link: '',
+        description: '',
+        techs: '',
+        photo: null
+      }
     }
   },
 
-   methods: {
-    makeArrWithRequireImages(array) {
-      return array.map((item) => {
-        const requirePic = require(`../../../images/content/works/${item.image}`);
-        item.image = requirePic;
-        return item;
-      });
+  computed: {
+    ...mapGetters('works', ['modifiedWorks']),
+    ...mapState('auth', ['user'])
+  },
+
+  beforeRouteLeave (to, from, next) {
+    this.showAddWork = false
+    next()
+  },
+
+  created() {
+    this.loadWorks(this.user.id)
+  },
+
+  methods: {
+    ...mapActions('works', ['loadWorks']),
+
+    hideAddWork () {
+      this.showAddWork = false
+      this.work = {
+        title: '',
+        link: '',
+        description: '',
+        techs: '',
+        photo: null
+      }
+    },
+
+    editWork (work) {
+      Object.assign(this.work, work)
+      this.showAddWork = true
     }
   }
   

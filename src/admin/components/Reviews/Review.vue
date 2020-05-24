@@ -3,27 +3,49 @@
     .review__author
       .author
         .author__avatar
-            img(:src="value.photo").author__avatar-img
+            img(:src="review.photo").author__avatar-img
         .author__data
-          .author__name {{value.author}}
-          .author__desc {{value.occ}}
+          .author__name {{review.author}}
+          .author__desc {{review.occ}}
       hr.divider
     .review__content
       .review__text
-        p {{value.text}}
+        p {{review.text}}
     .review__btns
-      CardBtn(title="Править" icon="edit")
-      CardBtn(title="Удалить" icon="delete")
+      CardBtn(
+        title="Править"
+        icon="edit"
+        @click="editReview"
+      )
+      CardBtn(
+        title="Удалить"
+        icon="delete"
+        @click="deleteReview(review.id)"
+      )
 </template>
 <script>
-import CardBtn from "../CardBtn"
+import { mapActions } from 'vuex'
+import CardBtn from '../partial/CardBtn'
 export default {
   props: {
-    value: Object
+    review: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    }
   },
 
   components: {
     CardBtn
+  },
+
+  methods: {
+    ...mapActions('reviews', ['deleteReview']),
+
+    editReview () {
+      this.$emit('edit', this.review)
+    }
   }
 }
 </script>
@@ -59,6 +81,13 @@ export default {
     border-radius: 50%;
     margin-right: 20px;
     flex-shrink: 0;
+  }
+
+  .author__avatar-img {
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+    height: 100%;
   }
 
   .author__name {

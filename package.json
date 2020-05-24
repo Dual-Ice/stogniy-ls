@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "webpack-dev-server --mode=development --hot",
     "build": "rm -rf dist && webpack --mode=production --progress",
-    "reg": "node reg-util.js"
+    "reg": "node reg-util.js",
+    "cypress": "cypress open"
   },
   "keywords": [],
   "author": "Maxim Stogniy <i.dual.ce@gmail.com>",
@@ -47,8 +48,8 @@
     "svg-transform-loader": "^2.0.7",
     "svgo-loader": "^2.2.0",
     "terser-webpack-plugin": "^1.2.3",
-    "vue-loader": "^15.6.4",
-    "vue-template-compiler": "^2.6.7",
+    "vue-loader": "^15.9.2",
+    "vue-template-compiler": "^2.6.11",
     "webpack": "^4.29.5",
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.2.0"
@@ -57,14 +58,18 @@
     "last 2 versions"
   ],
   "dependencies": {
+    "axios": "^0.19.2",
+    "babel-polyfill": "^6.26.0",
+    "cypress": "^4.6.0",
     "normalize.css": "^8.0.1",
     "promptly": "^3.0.3",
     "pug": "^2.0.3",
     "request": "^2.88.0",
     "signale": "^1.4.0",
-    "vue": "^2.6.7",
+    "vue": "^2.6.11",
     "vue-carousel": "^0.18.0",
-    "vue-router": "^3.0.2",
-    "vuelidate": "^0.7.5"
+    "vue-router": "^3.2.0",
+    "vuelidate": "^0.7.5",
+    "vuex": "^3.4.0"
   }
 }

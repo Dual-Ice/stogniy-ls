@@ -1,24 +1,39 @@
 <template lang="pug">
-  .header
-    .container.header__container
-      .header__info
-        .user
-          .user__avatar
-              img(src="../../images/userfiles/admin.jpg").user__avatar-img
-          .user__name
-            span Максим Стогний
-            a.exit-btn(href="#") Выйти
-      .header__title Панель Администрирования
-      .header__btn
-        a.exit-btn(href="#") Выйти
+  header.header-container
+    .header
+      .container.header__container
+        .header__info
+          .user
+            .user__avatar
+                img(src="../../images/userfiles/admin.jpg").user__avatar-img
+            .user__name
+              span Максим Стогний
+              a.exit-btn(href="#" @click.prevent="logout") Выйти
+        .header__title Панель Администрирования
+        .header__btn
+          a.exit-btn(href="#" @click.prevent="logout") Выйти
 </template>
 <script>
+import { mapActions } from 'vuex'
 export default {
+  methods: {
+    ...mapActions('auth', ['logoutUser']),
+
+    async logout() {
+      await this.logoutUser()
+      await this.$router.replace('/login')
+    }
+  }
   
 }
 </script>
 <style lang="postcss" scooped>
   @import url("../../styles/mixins.pcss");
+
+  .header-container {
+    padding: 17px 0;
+    background-image: linear-gradient(to right, #3e3e59 0%, #454573 100%);
+  }
 
   .header {
     color: $white;

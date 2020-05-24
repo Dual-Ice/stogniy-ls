@@ -1,6 +1,9 @@
 <template lang="pug">
   .work-edit.card
-    form(@submit.prevent="saveWork")
+    form(
+      @submit.prevent="submit"
+      @reset.prevent="hide"
+    )
       .form__container
         .form__header {{formTitle}}
         hr.divider
@@ -8,13 +11,18 @@
           .form__content-wrap
             .form__col
               .form__image(v-if="tmpWork.photo")
-                img(:src="tmpWork.photo").form__image-pic
+                img(:src="image").form__image-pic
                 .form__image-btn-wrap
                   button(
                     type="button"
                     @click="showInputFile"
                   ).form__image-btn Изменить превью
-              .form__load-area(v-else)(:class="photoError")
+              .form__load-area(
+                v-else
+                :class="[photoError, {'is-dragover': isDragged}]"
+                ref="fileForm"
+                @drop="loadImage($event.dataTransfer.files[0])"
+              )
                 .form__load-text Перетащите либо загрузите изображение
                 .form__load-btn
                   button(
@@ -27,7 +35,8 @@
                   )  
               input(
                 type="file"
-                @change="appendFileAndRenderPhoto"
+                accept=".png, .jpg, .jpeg"
+                @change="loadImage($event.target.files[0])"
               )#upload-pic.form__load-file    
             .form__col
               .form__block
@@ -63,22 +72,27 @@
                     span {{ tag }}
                     button(
                       type="button"
-                      @click="delTag(ndx)").tag__remove-btn
+                      @click="delTag(ndx)"
+                    ).tag__remove-btn
                       Icon(
                         iconName="cross"
                         className="tag__remove-icon"
                       )
-        .form__btns
+        .form__btns(:class="{ 'blocked': isBlocked }")
           button(
-            type="button"
-            @click="cancelAndHide"
+            type="reset"
+            :disabled="isBlocked"
           ).form__btn.form__btn--plain Отмена          
-          button(type="submit").form__btn.form__btn--big Загрузить          
+          button(
+            type="submit"
+            :disabled="isBlocked"            
+          ).form__btn.form__btn--big {{btnTitle}}          
 </template>
 <script>
-import Icon from "../Icon"
-import CustomInput from "../CustomInput"
-import InputTooltip  from "../InputTooltip"
+import Icon from '../partial/Icon'
+import { mapActions, mapMutations } from 'vuex'
+import CustomInput from '../partial/CustomInput'
+import InputTooltip  from '../partial/InputTooltip'
 import { required, minLength, url } from 'vuelidate/lib/validators'
 export default {
   props: {
@@ -99,13 +113,16 @@ export default {
   data() {
     return {
       tags: [],
+      image: null,
       tmpWork: {
         link: "",
         title: "",
         techs: "",
         photo: "",
         description: ""
-      }
+      },
+      isBlocked: false,
+      isDragged: false
     }
   },
 
@@ -149,48 +166,128 @@ export default {
   
   watch: {
     'tmpWork.techs'() {
-      this.tags = this.tmpWork.techs.split(',');
+      this.tags = this.tmpWork.techs.split(',').map(tag =>tag.trim())
     }
   },
   
   created () {
+    Object.assign(this.tmpWork, this.work)
+
+    if (this.tmpWork.photo) {
+      this.image = this.tmpWork.photo
+    }
+
     if (this.tmpWork.techs.length > 0) {
-      this.tags =  this.tmpWork.techs.split(',');
+      this.tags = this.tmpWork.techs.split(',').map(tag =>tag.trim())
+    }
+  },
+
+  mounted() {
+    this.dragAndDropCapable = this.determineDragAndDropCapable()
+    if (this.dragAndDropCapable) {
+      this.dragAndDropInit()
     }
   },
 
   methods: {
+    ...mapActions('works', ['saveWork', 'updateWork']),
+    ...mapMutations('toast', ['showToast']),
+    
+    determineDragAndDropCapable () {
+      let div = document.createElement('div')
+
+      return (( 'draggable' in div ) ||
+        ( 'ondragstart' in div && 'ondrop' in div ) ) &&
+        'FormData' in window &&
+        'FileReader' in window
+    },
+
+    dragAndDropInit () {
+      const dragOn = ['dragover', 'dragenter']
+      const dragOff = ['dragleave', 'drop']
+      const dragAndDropEvents = [
+        ...dragOn,
+        ...dragOff,
+      ]
+      console.log(dragAndDropEvents)
+
+      dragAndDropEvents.forEach( event => {
+        this.$refs.fileForm.addEventListener(event, evt => {
+          evt.preventDefault()
+          evt.stopPropagation()
+        })
+      })
+
+      dragOn.forEach(evt => {
+        this.$refs.fileForm.addEventListener(evt, () => {
+          this.isDragged = true
+        })
+      })
+
+      dragOff.forEach(evt => {
+        this.$refs.fileForm.addEventListener(evt, () => {
+          this.isDragged = false
+        })
+      })
+    },
+
     showInputFile () {
       document.querySelector("#upload-pic").click()
     },
 
-    delTag(index) {
-      this.tags.splice(index, 1);
+    delTag (index) {
+      this.tags.splice(index, 1)
       this.tmpWork.techs = this.tags.join(',')
     },
 
-    appendFileAndRenderPhoto (e) {
-     const test = e.target.files[0];
-      const reader = new FileReader();
+    onDrop (e){
+      console.log(e)
+    },
+
+    loadImage (image) {
+      this.tmpWork.photo = image
+      const reader = new FileReader()
 
       try {
-        reader.readAsDataURL(test);
+        reader.readAsDataURL(image)
         reader.onload = () => {
-          this.tmpWork.photo = reader.result;
-        };
+          this.image = reader.result
+        }
       } catch (error) {
-        console.log(error)
+        this.showToast(
+          {
+            type: 'error',
+            message: 'Ошибка при чтении файла'
+          }
+        )
       }
     },
 
-    saveWork () {
+    async submit () {
       this.$v.$touch()
       if (!this.$v.$error) {
-        console.log("All is ok: ", this.tmpWork)
+        try {
+          this.isBlocked = true
+
+          const isWorkChanged = Object.keys(this.tmpWork).some((key, value) => this.work[key] !== value)
+
+          if (isWorkChanged) {
+            this.tmpWork.id
+              ? await this.updateWork(this.tmpWork)
+              : await this.saveWork(this.tmpWork)
+          }
+
+          this.hide()
+        } catch ({message}) {
+          this.showToast( { type: 'error', message });
+        } finally {
+          this.isBlocked = false
+        }
       }
     },
 
-    cancelAndHide () {
+    hide () {
+      this.$emit('hide')
     },
     
     validationMessage (field) {
@@ -318,6 +415,11 @@ export default {
     &.error {
       border: 2px solid $errors-color;
     }
+
+  }
+
+  .form__load-area.is-dragover {
+    background-color:#b0b1b3;
   }
 
   .form__load-file {

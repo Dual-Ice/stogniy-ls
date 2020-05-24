@@ -1,4 +1,5 @@
-import Vue from "vue";
+import Vue from 'vue'
+import request from './request'
 
 const skill = {
   template: "#skill",
@@ -43,60 +44,12 @@ new Vue({
   
   data() {
     return {
-      skillGroups: [
-        {
-          "id": 1,
-          "title": "Frontend",
-          "skills": [
-            {
-              "id": 1,
-              "title": "HTML5",
-              "percent": 30
-            },
-            {
-              "id": 2,
-              "title": "CSS3",
-              "percent": 50
-            },
-            {
-              "id": 3,
-              "title": "JavaScript",
-              "percent": 25
-            },
-            {
-              "id": 4,
-              "title": "VueJs",
-              "percent": 30
-            }
-          ]
-        },
-        {
-          "id": 2,
-          "title": "Workflow",
-          "skills": [
-            {
-              "id": 1,
-              "title": "GIT",
-              "percent": 45
-            },
-            {
-              "id": 2,
-              "title": "Terminal",
-              "percent": 60
-            },
-            {
-              "id": 3,
-              "title": "Gulp",
-              "percent": 30
-            },
-            {
-              "id": 4,
-              "title": "Webpack",
-              "percent": 75
-            }
-          ]
-        }
-      ]
+      skillGroups: []
     }
+  },
+
+  mounted() {
+    request('get', 'categories/320')
+      .then(skillGroups => this.skillGroups = skillGroups)
   }
 })
