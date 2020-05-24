@@ -65,7 +65,7 @@ const sliderData = {
 
   computed: {
     tagsArray () {
-      if (this.currentWork) {
+      if (this.currentWork.techs) {
         return this.currentWork.techs.split(',').map(tag =>tag.trim())
       }
 
@@ -92,7 +92,11 @@ new Vue({
   computed: {
     currentWork () {
       // return this.works[this.currentIndex]
-      return this.works[0]
+      if (this.works.length) {
+        return this.works[0]
+      }
+
+      return {}
     }
   },
 

@@ -385,6 +385,7 @@ export default {
 
   .btn {
     filter: grayscale(1) brightness(2.5);
+    transition: filter .3s ease-in;
 
     &:hover {
       filter: none;

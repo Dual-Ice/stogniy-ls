@@ -70,6 +70,7 @@ export default {
     height: 100%;
     border-bottom: 3px solid transparent;
     padding: 0 30px;
+    transition: all .3s ease-in;
 
     &:hover,
     &.active {
