@@ -203,18 +203,13 @@ export default {
     },
 
     dragAndDropInit () {
-      const dragAndDropEvents = [
-        'drag',
-        'dragstart',
-        'dragend',
-        'dragover',
-        'dragenter',
-        'dragleave',
-        'drop'
-      ]
-
       const dragOn = ['dragover', 'dragenter']
-      const dragOff = ['dragend', 'dragleave', 'drop']
+      const dragOff = ['dragleave', 'drop']
+      const dragAndDropEvents = [
+        ...dragOn,
+        ...dragOff,
+      ]
+      console.log(dragAndDropEvents)
 
       dragAndDropEvents.forEach( event => {
         this.$refs.fileForm.addEventListener(event, evt => {
