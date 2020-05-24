@@ -8,6 +8,17 @@ export default {
     reviews: []
   },
 
+  getters: {
+    modifiedReviews (state) {
+      return state.reviews.map(review => {
+        if (!review.photo.includes('https://webdev-api.loftschool.com/')) {
+          review.photo = `https://webdev-api.loftschool.com/${review.photo}`
+        }
+        return review
+      })
+    }
+  },
+
   mutations: {
     setReviews (state, reviews) {
       state.reviews = reviews

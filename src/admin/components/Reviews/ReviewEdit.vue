@@ -136,7 +136,7 @@ export default {
     Object.assign(this.tmpReview, this.review)
 
     if (this.tmpReview.photo) {
-      this.image = `https://webdev-api.loftschool.com/${this.tmpReview.photo}`
+      this.image = this.tmpReview.photo
     }
   },
 

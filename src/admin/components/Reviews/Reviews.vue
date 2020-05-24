@@ -18,7 +18,7 @@
               size="plain"
               @click="showAddReview = true")
           li.reviews__item(
-            v-for="review in reviews"
+            v-for="review in modifiedReviews"
             :key="review.id"
           )
             review(
@@ -30,7 +30,7 @@
 import Review from './Review'
 import ReviewEdit from './ReviewEdit'
 import AddBtn from '../partial/AddBtn'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 export default {
   components: {
     AddBtn,
@@ -51,7 +51,7 @@ export default {
   },
 
   computed: {
-    ...mapState('reviews', ['reviews']),
+    ...mapGetters('reviews', ['modifiedReviews']),
     ...mapState('auth', ['user'])
   },
   

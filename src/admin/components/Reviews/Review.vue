@@ -3,7 +3,7 @@
     .review__author
       .author
         .author__avatar
-            img(:src="reviewImage").author__avatar-img
+            img(:src="review.photo").author__avatar-img
         .author__data
           .author__name {{review.author}}
           .author__desc {{review.occ}}
@@ -38,16 +38,6 @@ export default {
 
   components: {
     CardBtn
-  },
-
-  computed: {
-    reviewImage () {
-      if (this.review) {
-        return  `https://webdev-api.loftschool.com/${this.review.photo}`
-      }
-
-      return null
-    }
   },
 
   methods: {

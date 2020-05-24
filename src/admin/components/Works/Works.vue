@@ -17,7 +17,7 @@
               size="plain"
               @click="showAddWork = true")
           li.works__item(
-            v-for="work in works"
+            v-for="work in modifiedWorks"
             :key="work.id"
           )
             work(
@@ -29,7 +29,7 @@
 import Work from './Work'
 import WorkEdit from './WorkEdit'
 import AddBtn from '../partial/AddBtn'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 export default {
   components: {
     Work,
@@ -51,7 +51,7 @@ export default {
   },
 
   computed: {
-    ...mapState('works', ['works']),
+    ...mapGetters('works', ['modifiedWorks']),
     ...mapState('auth', ['user'])
   },
 

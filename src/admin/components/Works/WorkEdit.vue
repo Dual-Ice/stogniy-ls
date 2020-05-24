@@ -168,7 +168,7 @@ export default {
     Object.assign(this.tmpWork, this.work)
 
     if (this.tmpWork.photo) {
-      this.image = `https://webdev-api.loftschool.com/${this.tmpWork.photo}`
+      this.image = this.tmpWork.photo
     }
 
     if (this.tmpWork.techs.length > 0) {

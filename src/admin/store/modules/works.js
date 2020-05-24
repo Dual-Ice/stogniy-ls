@@ -8,6 +8,17 @@ export default {
     works: []
   },
 
+  getters: {
+    modifiedWorks (state) {
+      return state.works.map(work => {
+        if (!work.photo.includes('https://webdev-api.loftschool.com/')) {
+          work.photo = `https://webdev-api.loftschool.com/${work.photo}`
+        }
+        return work
+      })
+    }
+  },
+
   mutations: {
     setWorks (state, works) {
       state.works = works

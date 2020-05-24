@@ -2,7 +2,7 @@
   .work.card
     .work__preview
       .work__image-wrap
-        img(:src="workImage").work__image
+        img(:src="work.photo").work__image
       .work__tags
         ul.work__tags-list
           li.work__tag(
@@ -48,14 +48,6 @@ export default {
     tags () {
       if (!this.work) return []
       return this.work.techs.split(",").map(tag =>tag.trim())
-    },
-
-    workImage () {
-      if (this.work) {
-        return  `https://webdev-api.loftschool.com/${this.work.photo}`
-      }
-
-      return null
     }
   },
 
