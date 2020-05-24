@@ -7,6 +7,7 @@
         .login__form-title Авторизация
         .login__row
           CustomInput(
+            name="login"
             title="Логин"
             icon="user-empty"
             v-model="user.name"
@@ -14,16 +15,18 @@
           )
         .login__row
           CustomInput(
+            name="password"
             title="Пароль"
             icon="key"
             type="password"
             v-model="user.password"
             :errorText="validationMessage('password')"
           )
-        .login__btn
+        .login__btns
           button(
+            :class="{ 'blocked': isBlocked }"
             type="submit"
-          ).login__send-data Отправить
+          ).login__btn Отправить
 </template>
 <script>
 import Icon from './partial/Icon'
@@ -57,6 +60,12 @@ export default {
         required,
         minLength: minLength(6)
       }
+    }
+  },
+
+  computed: {
+    isBlocked () {
+      return Boolean (!this.user.name || !this.user.password)
     }
   },
 
@@ -156,7 +165,7 @@ export default {
     margin-bottom: 35px;
   }
 
-  .login__btn {
+  .login__btns {
     display: flex;
     width: 100%;
     padding: 0 8%;
@@ -167,7 +176,7 @@ export default {
     }
   }
 
-  .login__send-data {
+  .login__btn {
     width: 100%;
     padding: 30px;
     background-image: linear-gradient(to right, #ad00ed, #5500f2);

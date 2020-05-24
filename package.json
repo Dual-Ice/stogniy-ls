@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "webpack-dev-server --mode=development --hot",
     "build": "rm -rf dist && webpack --mode=production --progress",
-    "reg": "node reg-util.js"
+    "reg": "node reg-util.js",
+    "cypress": "cypress open"
   },
   "keywords": [],
   "author": "Maxim Stogniy <i.dual.ce@gmail.com>",
@@ -59,6 +60,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "babel-polyfill": "^6.26.0",
+    "cypress": "^4.6.0",
     "normalize.css": "^8.0.1",
     "promptly": "^3.0.3",
     "pug": "^2.0.3",
