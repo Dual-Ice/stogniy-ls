@@ -14,21 +14,32 @@ router.beforeEach(async (to, from, next) => {
   const isAuthRequired = to.matched.some(record => record.meta.auth)
   const isUserLogged = store.getters["auth/isLogged"]
 
-  if (isAuthRequired && !isUserLogged) {
-    const token = localStorage.getItem('user-token')
-    axios.defaults.headers['Authorization'] = `Bearer ${ token }`
-
-    try {   
-      const response = await axios.get('/user')
-      store.commit("auth/setUser", response.data.user)
+  if (!isUserLogged) {
+    const token = localStorage.getItem('user-token');
+    if (!token && !isAuthRequired) {
       next()
-    } catch (e) {
-      await router.replace('/login')
-      localStorage.removeItem('user-token')
+    } else if (token) {
+      axios.defaults.headers['Authorization'] = `Bearer ${ token }`
+      try {   
+        const response = await axios.get('/user')
+        store.commit("auth/setUser", response.data.user)
+        if (from.path === "/login") {
+          next()
+        } 
+        next({ path: from.path })
+      } catch (e) {
+        localStorage.removeItem('user-token')
+        next('/login')
+      }
+    } else {
+      next('/login')
     }
+  } else if (isUserLogged && !isAuthRequired) {
+    next({ path: from.path })
   } else {
-    next()
+    next ()
   }
+
   document.title = to.meta.title || ''
 })
 
