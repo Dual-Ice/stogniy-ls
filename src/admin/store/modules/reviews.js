@@ -1,5 +1,6 @@
 import axios from '../../customAxios'
 import formData from '../../utils/formData'
+import generateError from '../../utils/generateError'
 
 export default {
   namespaced: true,
@@ -43,21 +44,24 @@ export default {
         const { data } = await axios.get(`/reviews/${userId}`)
         commit('setReviews', data)
       } catch (error) {
-        console.log(error)
+        generateError(error)
       }
     },
 
     async saveReview ({ commit }, review) {
       try {
         const { data } = await axios.post(
-          '/reviews',
+          '/reivews',
           formData(review),
           { headers: { 'Content-Type': 'multipart/form-data' } }
         )
         commit('addReview', data)
+        commit('toast/showToast',
+          { type: 'success', message: 'Отзыв успешно добавлен' },
+          { root: true }
+        )
       } catch (error) {
-        throw new Error(error)
-        console.log(error)
+        generateError(error)
       }
     },
 
@@ -69,8 +73,12 @@ export default {
           { headers: { 'Content-Type': 'multipart/form-data' } }
         )
         commit('editReview', data.review)
+        commit('toast/showToast',
+          { type: 'success', message: 'Отзыв успешно обновлен' },
+          { root: true }
+        )
       } catch (error) {
-        console.log(error)
+        generateError(error)
       }
     },
 
@@ -78,8 +86,12 @@ export default {
       try {
         await axios.delete(`/reviews/${reviewId}`)
         commit('removeReview', reviewId)
+        commit('toast/showToast',
+          { type: 'success', message: 'Отзыв успешно удален' },
+          { root: true }
+        )
       } catch (error) {
-        console.log(error)
+        generateError(error)
       }
     }
   }

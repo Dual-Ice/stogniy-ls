@@ -63,8 +63,8 @@
           ).form__btn.form__btn--big {{btnTitle}}           
 </template>
 <script>
-import { mapActions } from 'vuex'
 import Icon from '../partial/Icon'
+import { mapActions, mapMutations } from 'vuex'
 import CustomInput from '../partial/CustomInput'
 import InputTooltip  from '../partial/InputTooltip'
 import { required, minLength } from 'vuelidate/lib/validators'
@@ -142,6 +142,7 @@ export default {
 
   methods: {
     ...mapActions('reviews', ['saveReview', 'updateReview']),
+    ...mapMutations('toast', ['showToast']),
 
     appendFileAndRenderPhoto (e) {
      this.tmpReview.photo = e.target.files[0]
@@ -153,7 +154,12 @@ export default {
           this.image = reader.result
         }
       } catch (error) {
-        console.log(error)
+        this.showToast(
+          {
+            type: 'error',
+            message: 'Ошибка при чтении файла'
+          }
+        )
       }
     },
 
@@ -177,7 +183,7 @@ export default {
 
           this.hide()
         } catch (error) {
-          console.log(error)
+          this.showToast( { type: 'error', message });
         } finally {
           this.isBlocked = false
         }

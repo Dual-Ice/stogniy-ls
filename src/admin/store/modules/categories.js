@@ -1,4 +1,5 @@
 import axios from '../../customAxios'
+import generateError from '../../utils/generateError'
 
 export default {
   namespaced: true,
@@ -58,7 +59,7 @@ export default {
         const { data } = await axios.get(`/categories/${userId}`)
         commit('setCategories', data)
       } catch (error) {
-        console.log(error)
+        generateError(error)
       }
     },
 
@@ -66,9 +67,12 @@ export default {
       try {
         const { data } = await axios.post('/categories', { title })
         commit('addCategory', data)
+        commit('toast/showToast',
+          { type: 'success', message: 'Категория успешно добавлена' },
+          { root: true }
+        )
       } catch (error) {
-        throw new Error(error)
-        console.log(error)
+        generateError(error)
       }
     },
 
@@ -76,8 +80,12 @@ export default {
       try {
         const { data } = await axios.post(`/categories/${category.id}`, { title: category.category })
         commit('editCategory', data.category)
+        commit('toast/showToast',
+          { type: 'success', message: 'Категория успешно обновлена' },
+          { root: true }
+        )
       } catch (error) {
-        console.log(error)
+        generateError(error)
       }
     },
 
@@ -85,8 +93,12 @@ export default {
       try {
         await axios.delete(`/categories/${categoryId}`)
         commit('removeCategory', categoryId)
+        commit('toast/showToast',
+          { type: 'success', message: 'Категория успешно удалена' },
+          { root: true }
+        )
       } catch (error) {
-        console.log(error)
+        generateError(error)
       }
     },
 
@@ -94,17 +106,12 @@ export default {
       try {
         const { data } = await axios.post('/skills', skill);
         commit('addSkill', data);
+        commit('toast/showToast',
+          { type: 'success', message: 'Скилл успешно добавлен' },
+          { root: true }
+        )
       } catch (error) {
-        console.log(error)
-      }
-    },
-
-    async deleteSkill ({ commit }, skill) {
-      try {
-        await axios.delete(`/skills/${ skill.id }`);
-        commit('removeSkill', skill);
-      } catch (error) {
-        console.log(error)
+        generateError(error)
       }
     },
 
@@ -112,8 +119,25 @@ export default {
       try {
         const { data } = await axios.post(`/skills/${ skill.id }`, skill);
         commit('editSkill', data.skill);
+        commit('toast/showToast',
+          { type: 'success', message: 'Скилл успешно обновлен' },
+          { root: true }
+        )
       } catch (error) {
-        console.log(error)
+        generateError(error)
+      }
+    },
+
+    async deleteSkill ({ commit }, skill) {
+      try {
+        await axios.delete(`/skills/${ skill.id }`);
+        commit('removeSkill', skill);
+        commit('toast/showToast',
+          { type: 'success', message: 'Скилл успешно удален' },
+          { root: true }
+        )
+      } catch (error) {
+        generateError(error)
       }
     }
   }

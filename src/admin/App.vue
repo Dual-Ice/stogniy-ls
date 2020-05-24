@@ -5,10 +5,13 @@
     main.content-container
       keep-alive
         router-view
-
+    toast()
 </template>
 <script>
 export default {
+  components: {
+    toast: () => import('./components/partial/Toast')
+  }
 }
 </script>
 <style lang="postcss">

@@ -43,7 +43,7 @@ export default {
         const { data } = await axios.get(`/works/${userId}`)
         commit('setWorks', data)
       } catch (error) {
-        console.log(error)
+        generateError(error)
       }
     },
 
@@ -55,9 +55,12 @@ export default {
           { headers: { 'Content-Type': 'multipart/form-data' } }
         )
         commit('addWork', data)
+        commit('toast/showToast',
+          { type: 'success', message: 'Работа успешно добавлена' },
+          { root: true }
+        )
       } catch (error) {
-        throw new Error(error)
-        console.log(error)
+        generateError(error)
       }
     },
 
@@ -69,8 +72,12 @@ export default {
           { headers: { 'Content-Type': 'multipart/form-data' } }
         )
         commit('editWork', data.work)
+        commit('toast/showToast',
+          { type: 'success', message: 'Работа успешно обновлена' },
+          { root: true }
+        )
       } catch (error) {
-        console.log(error)
+        generateError(error)
       }
     },
 
@@ -78,8 +85,12 @@ export default {
       try {
         await axios.delete(`/works/${workId}`)
         commit('removeWork', workId)
+        commit('toast/showToast',
+          { type: 'success', message: 'Работа успешно удалена' },
+          { root: true }
+        )
       } catch (error) {
-        console.log(error)
+        generateError(error)
       }
     }
   }

@@ -28,6 +28,7 @@
 <script>
 import Icon from './partial/Icon'
 import axios from '../customAxios'
+import { mapMutations } from 'vuex'
 import CustomInput from './partial/CustomInput'
 import { required, minLength } from 'vuelidate/lib/validators'
 
@@ -60,6 +61,8 @@ export default {
   },
 
   methods: {
+    ...mapMutations('toast', ['showToast']),
+
     async login() {
       this.$v.$touch()
       if (!this.$v.$error) {
@@ -67,9 +70,10 @@ export default {
           const response = await axios.post('/login', this.user)
           const token = response.data.token
           localStorage.setItem('user-token', token)
-          await this.$router.replace('/')
+          this.$router.replace('/')
         } catch (error) {
-          console.log(error)
+          const message = error.response.data.error || error.response.data.message
+          this.showToast( { type: 'error', message });
         }
       }
     },

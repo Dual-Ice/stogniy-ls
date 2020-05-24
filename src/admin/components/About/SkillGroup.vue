@@ -27,7 +27,7 @@
                 placeholder="Название новой группы"
                 :errorText="validationMessage('tmpGroup', 'category')"
               )
-            .add__form-btns.add__form-btns--colored
+            .add__form-btns.add__form-btns--colored(:class="{ 'blocked': isBlocked }")
               CardBtn(
                 icon="confirm"
                 type="submit"
@@ -61,13 +61,16 @@
               placeholder="100 %"
               :errorText="validationMessage('newSkill', 'percent')"
             )
-          AddBtn(type="submit")
+          AddBtn(
+            :class="{ 'blocked': isBlocked }"
+            type="submit"
+          )
 </template>
 <script>
 import Skill from './Skill'
-import { mapActions } from 'vuex';
 import AddBtn from '../partial/AddBtn'
 import CardBtn from '../partial/CardBtn'
+import { mapActions, mapMutations } from 'vuex'
 import CustomInput from '../partial/CustomInput'
 import { required, minLength, numeric, maxValue } from 'vuelidate/lib/validators'
 export default {
@@ -95,7 +98,8 @@ export default {
         title: '',
         percent: '',
         category: 0
-      }
+      },
+      isBlocked: false
     }
   },
 
@@ -152,6 +156,8 @@ export default {
       ]
     ),
 
+    ...mapMutations('toast', ['showToast']),
+
     switchEdit () {
       this.editMode = !this.editMode
       this.$emit('hide');
@@ -188,13 +194,19 @@ export default {
     async saveGroup () {
       this.$v.tmpGroup.$touch()
       if (!this.$v.tmpGroup.$error) {
-        if (this.tmpGroup.category !== this.skillGroup.category) {
-          this.tmpGroup.id
-            ? await this.updateCategory(this.tmpGroup)
-            : await this.saveCategory(this.tmpGroup.category)
+        try {
+          this.isBlocked = true
+          if (this.tmpGroup.category !== this.skillGroup.category) {
+            this.tmpGroup.id
+              ? await this.updateCategory(this.tmpGroup)
+              : await this.saveCategory(this.tmpGroup.category)
+          }
+          this.switchEdit()
+        } catch ({message}) {
+          this.showToast( { type: 'error', message });
+        } finally {
+          this.isBlocked = false
         }
-
-        this.switchEdit()
       }
     },
 
@@ -202,13 +214,20 @@ export default {
       this.$v.newSkill.$touch()
       if (!this.$v.newSkill.$error) {
         this.newSkill.category = this.tmpGroup.id;
-        await this.saveSkill(this.newSkill);
-        this.newSkill = {
-          title: '',
-          percent: '',
-          category: 0
+        try {
+          this.isBlocked = true
+          await this.saveSkill(this.newSkill);
+          this.newSkill = {
+            title: '',
+            percent: '',
+            category: 0
+          }
+          this.$v.newSkill.$reset()
+        } catch ({message}) {          
+          this.showToast( { type: 'error', message });
+        } finally {
+          this.isBlocked = false
         }
-        this.$v.newSkill.$reset()
       }
     }
   }
