@@ -17,7 +17,12 @@
                     type="button"
                     @click="showInputFile"
                   ).form__image-btn Изменить превью
-              .form__load-area(v-else :class="photoError")
+              .form__load-area(
+                v-else
+                :class="[photoError, {'is-dragover': isDragged}]"
+                ref="fileForm"
+                @drop="loadImage($event.dataTransfer.files[0])"
+              )
                 .form__load-text Перетащите либо загрузите изображение
                 .form__load-btn
                   button(
@@ -31,7 +36,7 @@
               input(
                 type="file"
                 accept=".png, .jpg, .jpeg"
-                @change="appendFileAndRenderPhoto"
+                @change="loadImage($event.target.files[0])"
               )#upload-pic.form__load-file    
             .form__col
               .form__block
@@ -116,7 +121,8 @@ export default {
         photo: "",
         description: ""
       },
-      isBlocked: false
+      isBlocked: false,
+      isDragged: false
     }
   },
 
@@ -176,10 +182,60 @@ export default {
     }
   },
 
+  mounted() {
+    this.dragAndDropCapable = this.determineDragAndDropCapable()
+    if (this.dragAndDropCapable) {
+      this.dragAndDropInit()
+    }
+  },
+
   methods: {
     ...mapActions('works', ['saveWork', 'updateWork']),
     ...mapMutations('toast', ['showToast']),
     
+    determineDragAndDropCapable () {
+      let div = document.createElement('div')
+
+      return (( 'draggable' in div ) ||
+        ( 'ondragstart' in div && 'ondrop' in div ) ) &&
+        'FormData' in window &&
+        'FileReader' in window
+    },
+
+    dragAndDropInit () {
+      const dragAndDropEvents = [
+        'drag',
+        'dragstart',
+        'dragend',
+        'dragover',
+        'dragenter',
+        'dragleave',
+        'drop'
+      ]
+
+      const dragOn = ['dragover', 'dragenter']
+      const dragOff = ['dragend', 'dragleave', 'drop']
+
+      dragAndDropEvents.forEach( event => {
+        this.$refs.fileForm.addEventListener(event, evt => {
+          evt.preventDefault()
+          evt.stopPropagation()
+        })
+      })
+
+      dragOn.forEach(evt => {
+        this.$refs.fileForm.addEventListener(evt, () => {
+          this.isDragged = true
+        })
+      })
+
+      dragOff.forEach(evt => {
+        this.$refs.fileForm.addEventListener(evt, () => {
+          this.isDragged = false
+        })
+      })
+    },
+
     showInputFile () {
       document.querySelector("#upload-pic").click()
     },
@@ -189,12 +245,16 @@ export default {
       this.tmpWork.techs = this.tags.join(',')
     },
 
-    appendFileAndRenderPhoto (e) {
-      this.tmpWork.photo = e.target.files[0]
+    onDrop (e){
+      console.log(e)
+    },
+
+    loadImage (image) {
+      this.tmpWork.photo = image
       const reader = new FileReader()
 
       try {
-        reader.readAsDataURL(this.tmpWork.photo)
+        reader.readAsDataURL(image)
         reader.onload = () => {
           this.image = reader.result
         }
@@ -360,6 +420,11 @@ export default {
     &.error {
       border: 2px solid $errors-color;
     }
+
+  }
+
+  .form__load-area.is-dragover {
+    background-color:#b0b1b3;
   }
 
   .form__load-file {
