@@ -5,7 +5,7 @@ script(type="text/x-template" id="slider-previews")
         v-for="work in works"
         :key="work.id"
         :class="{active: currentWork.id === work.id}"
-        @click.prevent="$emit('slide', work.id)"
+        @click.prevent="$emit('slide', work.ndx)"
       )
         button(
           type="button"

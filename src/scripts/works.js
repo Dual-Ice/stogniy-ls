@@ -36,13 +36,35 @@ const sliderImages = {
     currentWork: Object,
     currentIndex: Number
   },
+
+  data () {
+    return {
+      windowWidth: 0
+    }
+  },
   computed: {
     reversedWorks () {
-      return [...this.works].reverse()
+      const width = this.windowWidth
+      if ((width >= 769 && width <= 992) || width >= 1201) {
+        return [...this.works].splice(0, 4).reverse()
+      } else {
+        return [...this.works].splice(0, 3).reverse()
+      }
     },
 
     currentImageIndex () {
       return this.currentIndex + 1
+    }
+  },
+
+  created () {
+    this.getWindowWidth()
+    window.addEventListener('resize', () => this.getWindowWidth())
+  },
+
+  methods: {
+    getWindowWidth () {
+      this.windowWidth = document.querySelector('body').clientWidth;
     }
   }
 }
@@ -103,8 +125,9 @@ new Vue({
   mounted() {
     request('get', 'works/320')
       .then(works => {
-        return works.map(work => {
+        return works.map((work, ndx) => {
           work.photo = 'https://webdev-api.loftschool.com/' + work.photo
+          work.ndx = ndx
           return work
         })
       })
@@ -134,9 +157,9 @@ new Vue({
       this.works.splice(0, 0, removed[0])
     },
 
-    goToSlide (slideId) {
-      this.currentIndex = slideId - 1
-      this.moveElement(this.works.findIndex(work => work.id === slideId))
+    goToSlide (ndx) {
+      this.currentIndex = ndx
+      this.moveElement(this.works.findIndex(work => work.ndx === ndx))
     }
   }
 })
