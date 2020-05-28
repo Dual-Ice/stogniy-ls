@@ -51,7 +51,7 @@ export default {
     async saveReview ({ commit }, review) {
       try {
         const { data } = await axios.post(
-          '/reivews',
+          '/reviews',
           formData(review),
           { headers: { 'Content-Type': 'multipart/form-data' } }
         )

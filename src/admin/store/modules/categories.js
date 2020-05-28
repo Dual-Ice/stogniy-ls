@@ -18,7 +18,12 @@ export default {
     },
 
     editCategory (state, category) {
-      state.categories = state.categories.map(item => item.id === category.id ? category : item)
+      state.categories = state.categories.map(item => {
+        if (item.id === category.id) {
+          item.title = category.title
+        } 
+        return item
+      })
     },
 
     removeCategory (state, categoryId) {
