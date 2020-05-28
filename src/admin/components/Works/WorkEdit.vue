@@ -184,7 +184,7 @@ export default {
 
   mounted() {
     this.dragAndDropCapable = this.determineDragAndDropCapable()
-    if (this.dragAndDropCapable) {
+    if (this.dragAndDropCapable && this.$refs.fileForm) {
       this.dragAndDropInit()
     }
   },
