@@ -237,7 +237,6 @@ export default {
   @import "../../../styles/mixins.pcss";
 
   .skill-group {
-    width: 100%;
     min-height: 390px;
     padding: 20px;
     display: flex;

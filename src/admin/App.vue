@@ -99,6 +99,7 @@ export default {
   .card {
     box-shadow: 4px 3px 20px rgba(0, 0, 0, 0.07);
     background-color: $white;
+    width: 100%;
   }
 
   .blocked {
